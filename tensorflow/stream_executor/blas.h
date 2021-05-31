@@ -43,6 +43,7 @@ limitations under the License.
 #include <complex>
 #include <vector>
 
+#include "tensorflow/stream_executor/dnn.h"
 #include "tensorflow/stream_executor/host_or_device_scalar.h"
 #include "tensorflow/stream_executor/lib/array_slice.h"
 #include "tensorflow/stream_executor/lib/statusor.h"
@@ -101,12 +102,39 @@ enum class ComputationType {
   kI32,         // 32-bit integer
   kComplexF32,  // Complex number comprised of two f32s.
   kComplexF64,  // Complex number comprised of two f64s.
+  // The below values are only supported for BlasLt routines (both real and
+  // complex). They use float32 for accumulation but round the input mantissas
+  // to a smaller number of bits.
+  kTF32AsF32,  // 32-bit floating-point with reduced (>=10-bit) mantissa
+  kBF16AsF32,  // 32-bit floating-point with reduced (7-bit) mantissa
+};
+
+enum class Epilogue {
+  kDefault = 1,                   // No special postprocessing
+  kReLU = 2,                      // Apply ReLU func point-wise to the results
+  kBias = 4,                      // Add broadcasted bias vector to the results
+  kBiasThenReLU = kBias | kReLU,  // Apply bias and then ReLU transform
 };
 
 // Converts a ComputationType to a string.
 string ComputationTypeString(ComputationType ty);
 
 std::ostream &operator<<(std::ostream &os, ComputationType ty);
+
+using dnn::DataType;
+using dnn::ToDataType;
+
+// Describes the type of pointers for the scaling factors alpha and beta in
+// blaslt routines.
+enum class PointerMode {
+  kHost,
+  kDevice,
+};
+
+// Converts a ComputationType to a string.
+std::string DataTypeString(DataType ty);
+
+std::ostream &operator<<(std::ostream &os, DataType ty);
 
 // Opaque identifier for an "algorithm" used by a blas routine.  This functions
 // as a hint to the blas library.
