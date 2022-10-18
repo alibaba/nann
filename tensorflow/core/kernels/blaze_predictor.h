@@ -69,6 +69,8 @@ class BlazePredictor {
   BlazeKernelOptions blaze_run_options_;
   DeviceType device_type_;
   std::vector<DataType> input_types_;
+  std::vector<bool> copyable_;
+
 
   std::string blaze_option_path_;
   std::string graph_def_str_;
@@ -99,6 +101,7 @@ class BlazePredictor {
   void SetDeviceInGraphDef(const std::string device_name, GraphDef* graph_def);
 
   Status SetDeviceInfo(OpKernelConstruction* ctx);
+  Status PrepareCallableOptions(CallableOptions &callable_options);
 
  private:
   const char* const kBlazeRealDevice = "_blaze_real_device";

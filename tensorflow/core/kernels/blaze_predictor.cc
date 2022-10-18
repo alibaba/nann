@@ -11,6 +11,7 @@ using tensorflow::se::Event;
 #endif
 namespace tensorflow {
 const int kBlazeStartStepId = 1024;
+const std::string kCpuDeviceName = "/job:localhost/replica:0/task:0/device:CPU:0";
 
 BlazePredictor::BlazePredictor(OpKernelConstruction* ctx) : device_type_(ctx->device_type().type()) {
   OP_REQUIRES_OK(ctx, ctx->GetAttr("input_names", &input_names_));
@@ -79,9 +80,34 @@ Status BlazePredictor::PrepareGraph(GraphDef& graph_def) {
 
 Status BlazePredictor::MakeCallable() {
   CallableOptions callable_options;
+  TF_RETURN_IF_ERROR(PrepareCallableOptions(callable_options));
+  LOG(INFO) << "create session with callable options " <<
+        callable_options.DebugString();
+  return session_->MakeCallable(callable_options, &handle_);
+}
+
+Status BlazePredictor::PrepareCallableOptions(CallableOptions &callable_options) {
+  std::set<std::string> cpu_inputs;
+  for (const auto& node : graph_def_.node()) {
+    if (node.op() == "Placeholder") {
+      auto it = node.attr().find("dtype");
+      if (it != node.attr().end()) {
+        if (it->second.type() == DT_INT32 || it->second.type() == DT_UINT32) {
+          cpu_inputs.insert(node.name());
+        }
+      }
+    }
+  }
   for (const auto& input : input_names_) {
-    callable_options.add_feed(input);
-    callable_options.mutable_feed_devices()->insert({input, device_});
+    if (cpu_inputs.find(input) == cpu_inputs.end()) {
+      callable_options.add_feed(input);
+      callable_options.mutable_feed_devices()->insert({input, device_});
+      copyable_.push_back(true);
+    } else {
+      callable_options.add_feed(input);
+      callable_options.mutable_feed_devices()->insert({input, kCpuDeviceName});
+      copyable_.push_back(false);
+    }
   }
 
   for (const auto& output : output_names_) {
@@ -89,9 +115,7 @@ Status BlazePredictor::MakeCallable() {
     callable_options.mutable_fetch_devices()->insert({output, device_});
   }
   callable_options.set_fetch_skip_sync(true);
-  LOG(INFO) << "create session with callable options " <<
-      callable_options.DebugString();
-  return session_->MakeCallable(callable_options, &handle_);
+  return Status::OK();
 }
 
 Status BlazePredictor::Warmup() {
@@ -265,8 +289,11 @@ Status BlazePredictor::PrepareInputs(const std::vector<Tensor>& inputs,
 Status BlazePredictor::CopyTensorCPUToGPU(const std::vector<Tensor>& inputs,
     std::vector<Tensor>* real_inputs,
     OpKernelContext* ctx) {
-
   for (int i = 0; i < inputs.size(); ++i) {
+    if (!copyable_[i]) {
+      (*real_inputs)[i] = inputs[i];
+      continue;
+    }
     Tensor copyed_tensor(blaze_allocator_, inputs[i].dtype(), inputs[i].shape());
     (*real_inputs)[i] = copyed_tensor;
 
