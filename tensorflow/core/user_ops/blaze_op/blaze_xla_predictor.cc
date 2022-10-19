@@ -1,5 +1,5 @@
 #include "tensorflow/core/framework/types.h"
-#include "tensorflow/core/kernels/blaze_xla_predictor.h"
+#include "tensorflow/core/user_ops/blaze_op/blaze_xla_predictor.h"
 #include "tensorflow/core/util/env_var.h"
 
 #if GOOGLE_CUDA

@@ -1,7 +1,7 @@
 #ifndef TENSORFLOW_CORE_KERNELS_BLAZE_XLA_PREDICTOR_H_
 #define TENSORFLOW_CORE_KERNELS_BLAZE_XLA_PREDICTOR_H_
 
-#include "tensorflow/core/kernels/blaze_predictor.h"
+#include "tensorflow/core/user_ops/blaze_op/blaze_predictor.h"
 
 namespace tensorflow {
 typedef std::map<std::string, std::vector<NodeDef>> InputNodeMap;

@@ -1,6 +1,6 @@
 #include "tensorflow/core/common_runtime/gpu/gpu_id.h"
 #include "tensorflow/core/common_runtime/gpu/gpu_id_utils.h"
-#include "tensorflow/core/kernels/blaze_predictor.h"
+#include "tensorflow/core/user_ops/blaze_op/blaze_predictor.h"
 #include "tensorflow/core/platform/stream_executor.h"
 #include "tensorflow/core/platform/protobuf.h"
 

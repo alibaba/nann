@@ -14,8 +14,7 @@ limitations under the License.
 ==============================================================================*/
 #include "tensorflow/core/common_runtime/copy_tensor.h"
 #include "tensorflow/core/lib/core/threadpool.h"
-#include "tensorflow/core/kernels/blaze_predictor.h"
-#include "tensorflow/core/kernels/blaze_xla_predictor.h"
+#include "tensorflow/core/user_ops/blaze_op/blaze_xla_predictor.h"
 #include "tensorflow/core/util/env_var.h"
 #include "tensorflow/compiler/jit/flags.h"
 
