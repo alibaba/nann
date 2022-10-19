@@ -1,5 +1,6 @@
 #include "tensorflow/core/framework/types.h"
-#include "./blaze_xla_predictor.h"
+#include "tensorflow/core/kernels/blaze_xla_predictor.h"
+#include "tensorflow/core/util/env_var.h"
 
 #if GOOGLE_CUDA
 #include "tensorflow/core/kernels/gpu_utils.h"
@@ -75,7 +76,6 @@ Status BlazeXlaPredictor::Warmup() {
   return Status::OK();
 }
 
-// attention: not thread-safe
 Status BlazeXlaPredictor::Warmup(OpKernelContext* ctx) {
   if (warmuped_) {
     return Status::OK();
@@ -92,10 +92,6 @@ Status BlazeXlaPredictor::Warmup(OpKernelContext* ctx) {
     return errors::Internal("Cannot infer inputs' batchsize");
   }
   auto max_bs = batch_sizes_[batch_sizes_.size() - 1];
-  if (max_bs < batchsize) {
-    mutex_lock l(batch_size_mu_);
-    max_bs = AddNewBatchSize(batchsize);
-  }
   std::vector<Tensor> padded_inputs(num_inputs);
   Status status;
   if (same_device_) {
@@ -132,11 +128,8 @@ Status BlazeXlaPredictor::Warmup(OpKernelContext* ctx) {
     }
     // Call SessionRun
     std::vector<Tensor> padded_outputs;
-
-    VLOG(0) << "RunCallable handle_ " << handle_ << " session_ " << session_.get();
     status = session_->RunCallable(
          handle_, sliced_inputs, &padded_outputs, nullptr);
-    VLOG(0) << "RunCallable handle_ " << handle_ << " session_ " << session_.get() << " finish";
     if (!status.ok()) {
       return status;
     }
@@ -198,20 +191,8 @@ Status BlazeXlaPredictor::PadToStaticCPUToGPU(const std::vector<Tensor>& inputs,
       first_dim = (first_dim == 1) ? 1 : pad_to_batchsize;
     }
     pad_to_shape.set_dim(0, first_dim);
-    if (!copyable_[i]) {
-      AllocatorAttributes alloc_attrs;
-      alloc_attrs.set_on_host(ctx->input_memory_type(i) == HOST_MEMORY);
-      Status allocate_status =
-          ctx->allocate_temp(inputs[i].dtype(),
-                             pad_to_shape,
-                             &(*padded_inputs)[i], alloc_attrs);
-      if (!allocate_status.ok()) {
-        return allocate_status;
-      }
-    } else {
-      Tensor padded_tensor(blaze_allocator_, inputs[i].dtype(), pad_to_shape);
-      (*padded_inputs)[i] = padded_tensor;
-    }
+    Tensor padded_tensor(blaze_allocator_, inputs[i].dtype(), pad_to_shape);
+    (*padded_inputs)[i] = padded_tensor;
     const uint8* input_ptr = (uint8*)GetTensorAddress(&inputs[i]);
     uint8* padded_ptr = (uint8*)GetTensorAddress(&(*padded_inputs)[i]);
     uint64 input_size = GetTensorSize(&inputs[i]);
@@ -220,31 +201,6 @@ Status BlazeXlaPredictor::PadToStaticCPUToGPU(const std::vector<Tensor>& inputs,
         input_size == 0 || padded_size == 0) {
       return errors::Internal(
           "Error when getting input address or size");
-    }
-    if (!copyable_[i]) {
-      if (device_type_ == DEVICE_GPU && ctx->input_memory_type(i) == DEVICE_MEMORY) {
-#if GOOGLE_CUDA
-        auto* stream = ctx->op_device_context()->stream();
-        auto input_dev_ptr = AsDeviceMemory(input_ptr, input_size);
-        auto padded_dev_ptr = AsDeviceMemory(padded_ptr, padded_size);
-        if (DataTypeIsInteger(inputs[i].dtype())) {
-          bool copy_status =
-              stream->ThenMemZero(&padded_dev_ptr, padded_size).ok();
-          if (!copy_status) {
-            return errors::Internal("MemZero failed.");
-          }
-        }
-        bool copy_status =
-            stream->ThenMemcpyD2D(&padded_dev_ptr, input_dev_ptr, input_size).ok();
-        if (!copy_status) {
-          return errors::Internal("MemcpyD2D for padding inputs failed.");
-        }
-#endif
-      } else {
-        std::memset(padded_ptr, 0, padded_size);
-        std::memcpy(padded_ptr, input_ptr, input_size);
-      }
-      continue;
     }
 #if GOOGLE_CUDA
       auto padded_dev_ptr = AsDeviceMemory(padded_ptr, padded_size);
@@ -397,12 +353,13 @@ Status BlazeXlaPredictor::SliceToDynamicCPU(const std::vector<Tensor>& padded_ou
 
     outputs.push_back(tensor);
   }
-#endif  // GOOGLE_CUDA
+#endif
   return Status::OK();
 }
 
 Status BlazeXlaPredictor::Compute(OpKernelContext* ctx) {
   // Infer inputs' batchsize
+
   if (TF_PREDICT_FALSE(!warmuped_)) {
     if (warmuping_) {
       return errors::Internal("Blaze kernel warmuping");
@@ -466,7 +423,7 @@ Status BlazeXlaPredictor::Compute(OpKernelContext* ctx) {
     // Call SessionRun
     std::vector<Tensor> padded_outputs;
     TF_RETURN_IF_ERROR(session_->RunCallable(
-              handle_, padded_inputs, &padded_outputs, nullptr));
+            handle_, padded_inputs, &padded_outputs, nullptr));
 
     // Unpad outputs
     std::vector<Tensor> outputs;

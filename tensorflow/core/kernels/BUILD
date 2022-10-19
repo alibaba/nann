@@ -4925,8 +4925,6 @@ tf_cc_test(
 cc_library(
     name = "sparse",
     deps = [
-        ":blaze_general_map",
-        ":blaze_xla_op",
         ":deserialize_sparse_string_op",
         ":deserialize_sparse_variant_op",
         ":serialize_sparse_op",
@@ -8076,57 +8074,4 @@ tf_kernel_library(
       "indicator_matmul_op_gpu.cu.cc",
     ],
     deps = MATH_DEPS,
-)
-
-tf_kernel_library(
-    name = "blaze_general_map",
-    prefix = "blaze_general_map",
-    deps = PARSING_DEPS,
-)
-
-tf_kernel_library(
-    name = "blaze_xla_op",
-    srcs = [
-        "blaze_xla_kernel.cc",
-    ],
-    copts = tf_copts(),
-    deps = [
-        "//tensorflow/core/kernels:blaze_predictor",
-    ],
-)
-
-blaze_deps = [
-    "@com_google_absl//absl/memory",
-    "@com_google_absl//absl/strings",
-    "//tensorflow/core:core_cpu_lib_no_ops",
-    "//tensorflow/core:direct_session",
-    "//tensorflow/core:framework",
-    "//tensorflow/core:gpu_headers_lib",
-    "//tensorflow/core:proto_text",
-    "//tensorflow/core:lib",
-    "//tensorflow/core:lib_internal",
-    "//tensorflow/core:lib_proto_parsing",
-    "//tensorflow/core:gpu_runtime",
-    "//tensorflow/core:stream_executor",
-    "//tensorflow/core:stream_executor_headers_lib",
-    "//tensorflow/core/grappler/costs:graph_properties",
-    "//tensorflow/core/kernels:gpu_utils",
-    "//tensorflow/stream_executor/lib",
-    "//tensorflow/core/kernels/data:captured_function",
-    "//tensorflow/compiler/jit:flags",
-]
-
-cc_library(
-    name = "blaze_predictor",
-    srcs = [
-        "blaze_predictor.cc",
-        "blaze_xla_predictor.cc",
-    ],
-    hdrs = [
-        "blaze_predictor.h",
-        "blaze_xla_predictor.h",
-    ],
-    copts = tf_copts(),
-    deps = blaze_deps,
-    alwayslink = 1,
 )

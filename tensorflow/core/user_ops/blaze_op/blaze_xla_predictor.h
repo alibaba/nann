@@ -1,7 +1,7 @@
 #ifndef TENSORFLOW_CORE_KERNELS_BLAZE_XLA_PREDICTOR_H_
 #define TENSORFLOW_CORE_KERNELS_BLAZE_XLA_PREDICTOR_H_
 
-#include "./blaze_predictor.h"
+#include "tensorflow/core/kernels/blaze_predictor.h"
 
 namespace tensorflow {
 typedef std::map<std::string, std::vector<NodeDef>> InputNodeMap;
@@ -19,13 +19,11 @@ class BlazeXlaPredictor : public BlazePredictor {
                           const GraphDef& graph_def, const std::string& device,
                           const BlazeKernelOptions& options, const string& device_string,
                           const std::vector<DataType>& input_types,
-                          OpKernelConstruction* ctx = nullptr,
-			  bool enable_xla_auto_padding=false)
+                          OpKernelConstruction* ctx = nullptr)
       : BlazePredictor(input_names, output_names, graph_def,
                        device, options, device_string, input_types, ctx) {
         warmuped_ = false;
         warmuping_ = false;
-	enable_xla_auto_padding_ = enable_xla_auto_padding;
       }
 
   ~BlazeXlaPredictor() override {}
@@ -57,8 +55,6 @@ class BlazeXlaPredictor : public BlazePredictor {
   int InferBatchSize(const std::vector<Tensor>& tensors);
 
   int AddNewBatchSize(int padded_size);
-  Status ComputeNoPadding(OpKernelContext* ctx,
-                    const std::vector<Tensor>& inputs);
   
   Status InitXlaWarmup();
   Status Warmup() override;
@@ -73,7 +69,6 @@ class BlazeXlaPredictor : public BlazePredictor {
   bool warmuping_;
   mutex warmup_mu_;
   mutex batch_size_mu_;
-  bool enable_xla_auto_padding_;
 };
 }
 #endif

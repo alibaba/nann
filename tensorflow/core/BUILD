@@ -1265,6 +1265,7 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = [":framework",
             ":core",
+            ":direct_session"
             "//tensorflow/compiler/jit:flags"],
     alwayslink = 1,
 )

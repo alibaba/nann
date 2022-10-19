@@ -14,28 +14,12 @@ limitations under the License.
 ==============================================================================*/
 #include "tensorflow/core/common_runtime/copy_tensor.h"
 #include "tensorflow/core/lib/core/threadpool.h"
+#include "tensorflow/core/kernels/blaze_predictor.h"
+#include "tensorflow/core/kernels/blaze_xla_predictor.h"
 #include "tensorflow/core/util/env_var.h"
 #include "tensorflow/compiler/jit/flags.h"
 
-#include "./benchmark_helper.h"
-#include "./blaze_predictor.h"
-#include "./blaze_xla_predictor.h"
-
-
 namespace tensorflow {
-
-
-REGISTER_OP("BlazeXlaOp")
-    .Attr("InT: list({int8,int64,float16,float32,int32})")
-    .Attr("OutT: list({int8,int64,float16,float32,int32})")
-    .Attr("input_names: list(string) >= 0")
-    .Attr("output_names: list(string) >= 0")
-    .Attr("graph_def: string")
-    .Attr("blaze_option_path: string")
-    .Input("in_tensor: InT")
-    .Output("out_tensor: OutT")
-    .SetShapeFn(shape_inference::UnknownShape)
-    .SetIsStateful();
 
 class BlazeXlaOp : public AsyncOpKernel {
  public:
@@ -51,7 +35,6 @@ class BlazeXlaOp : public AsyncOpKernel {
 
   void Schedule(OpKernelContext* ctx, const DoneCallback& done, uint64 begin, bool is_first=true);
   void ComputeNormal(OpKernelContext* context, const DoneCallback& done);
-  void ComputeBenchmark(OpKernelContext* context, const DoneCallback& done);
   void ComputeNull(OpKernelContext* context, const DoneCallback& done);
   int GetBatchSizeUnsafe(OpKernelContext* context);
 
@@ -69,6 +52,7 @@ class BlazeXlaOp : public AsyncOpKernel {
   std::unique_ptr<BlazePredictor> predictor_;
   BlazeKernelOptions blaze_run_options_;
   Env* env_;
+  mutex tracing_mu_;
   mutex benchmark_mu_;
   mutex running_mu_;
   std::atomic<int> benchmark_counter_;
@@ -110,13 +94,6 @@ void BlazeXlaOp::InitPredictor(OpKernelConstruction* context) {
   config->set_allow_soft_placement(true);
   config->mutable_gpu_options()->set_allow_growth(true);
 
-  bool enable_xla_auto_padding = blaze_run_options_.xla_compilation() &&
-	  config->enable_xla_auto_padding();
-  LOG(INFO) << "enable_xla_auto_padding " << enable_xla_auto_padding;
-  if (enable_xla_auto_padding) {
-    // enable_xla_auto_padding requires disable single threaded executor
-    blaze_run_options_.set_use_single_threaded_executor(false);
-  }
   if (blaze_run_options_.use_single_threaded_executor()) {
     config->mutable_experimental()->set_executor_type("SINGLE_THREADED_EXECUTOR");
   }
@@ -126,8 +103,7 @@ void BlazeXlaOp::InitPredictor(OpKernelConstruction* context) {
     {
       tensorflow::BuildXlaOpsPassFlags* flags =
           tensorflow::GetBuildXlaOpsPassFlags();
-      // enable_xla_auto_padding requires lazy compile
-      flags->tf_xla_enable_lazy_compilation = enable_xla_auto_padding;
+      flags->tf_xla_enable_lazy_compilation = false;
     }
     {
       tensorflow::MarkForCompilationPassFlags* flags =
@@ -138,8 +114,7 @@ void BlazeXlaOp::InitPredictor(OpKernelConstruction* context) {
     config->mutable_graph_options()->mutable_optimizer_options()->set_global_jit_level(jitLevel);
     predictor_ = absl::make_unique<BlazeXlaPredictor>(input_names_, output_names_,
                                        graph_def_, device_, blaze_run_options_,
-                                       device_string_, input_types_, context,
-				       enable_xla_auto_padding);
+                                       device_string_, input_types_, context);
   } else {
     predictor_ = absl::make_unique<BlazePredictor>(input_names_, output_names_,
                                     graph_def_, device_, blaze_run_options_,
@@ -198,29 +173,6 @@ void BlazeXlaOp::ComputeNormal(OpKernelContext* ctx, const DoneCallback& done) {
   Schedule(ctx, done, begin);
 }
 
-void BlazeXlaOp::ComputeBenchmark(OpKernelContext* ctx, const DoneCallback& done) {
-  if (benchmark_counter_ < 200) {
-    // out from warmup
-    ComputeNormal(ctx, done);
-    ++benchmark_counter_;
-  } else {
-    auto& helper = BenchmarkHelper::GetInstance();
-    helper.Start();
-    mutex_lock l(benchmark_mu_);
-    while(1) {
-      auto start_ns = env_->NowNanos();
-      predictor_->Compute(ctx);
-      auto end_ns = env_->NowNanos();
-      helper.RecordTM((end_ns - start_ns) / 1000000.0f);
-      helper.Add();
-      for (int i = 0; i < ctx->num_outputs(); ++i) {
-        ctx->release_output(i);
-      }
-    }
-  }
-  done();
-}
-
 void BlazeXlaOp::ComputeNull(OpKernelContext* context, const DoneCallback& done) {
   auto batch_size = GetBatchSizeUnsafe(context);
   Tensor *output;
@@ -234,10 +186,6 @@ void BlazeXlaOp::ComputeAsync(OpKernelContext* ctx, DoneCallback done) {
       ComputeNormal(ctx, std::move(done));
       break;
     }
-    case BlazeKernelOptions::BENCHMARK: {
-      ComputeBenchmark(ctx, std::move(done));
-      break;
-    }
     case BlazeKernelOptions::SKIP: {
       ComputeNull(ctx, std::move(done));
       break;
@@ -247,7 +195,6 @@ void BlazeXlaOp::ComputeAsync(OpKernelContext* ctx, DoneCallback done) {
     }
   }
 }
-
 
 //unsafe func to infer batchsize, just for testing
 int BlazeXlaOp::GetBatchSizeUnsafe(OpKernelContext* context) {
@@ -267,16 +214,10 @@ void BlazeXlaOp::Schedule(OpKernelContext* ctx, const DoneCallback& done, uint64
   if (running_counter_ >= kBlazeRunningCount_) {
     auto schedule_time = env_->NowNanos();
     if (wait_ns_ > 0) {
-      if (TF_PREDICT_FALSE(schedule_time - begin > wait_ns_) && !is_first) {
-        --total_waiting_counter_;
-      }
       OP_REQUIRES_ASYNC(ctx, schedule_time - begin <= wait_ns_,
           errors::Internal("blaze wait too long ", schedule_time - begin),
           done);
     } else {
-      if (TF_PREDICT_FALSE(waiting_counter_ >= kMaxWaitingCount_) && !is_first) {
-        --total_waiting_counter_;
-      }
       OP_REQUIRES_ASYNC(ctx, waiting_counter_ < kMaxWaitingCount_,
           errors::Internal("waiting pool is full ", waiting_counter_.load()),
           done);
@@ -298,6 +239,7 @@ void BlazeXlaOp::Schedule(OpKernelContext* ctx, const DoneCallback& done, uint64
       Status status = predictor_->Compute(ctx);
       --running_counter_;
       --total_running_counter_;
+      --total_waiting_counter_;
       OP_REQUIRES_ASYNC(ctx, status.ok(), status, done);
       done();
   });
@@ -306,4 +248,5 @@ void BlazeXlaOp::Schedule(OpKernelContext* ctx, const DoneCallback& done, uint64
 
 REGISTER_KERNEL_BUILDER(Name("BlazeXlaOp").Device(DEVICE_CPU), BlazeXlaOp);
 REGISTER_KERNEL_BUILDER(Name("BlazeXlaOp").Device(DEVICE_GPU), BlazeXlaOp);
+
 }  // namespace tensorflow
