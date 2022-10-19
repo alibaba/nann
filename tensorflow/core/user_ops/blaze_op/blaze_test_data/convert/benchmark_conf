@@ -1,0 +1,85 @@
+bench_model_config {
+   name : "gh_search_model_new"
+   frozen_graph : "/home/jingshan.ljs/tensorflow/tensorflow/core/kernels/blaze_test_data/convert/frozen_graph.pb"
+   meta_graph :   "/home/jingshan.ljs/tensorflow/tensorflow/core/kernels/blaze_test_data/convert/0.meta"
+   opt_conf :     "/home/jingshan.ljs/tensorflow/tensorflow/core/kernels/blaze_test_data/convert/opt_default.conf"
+   predictor_num : 4
+   qps : 3000
+   device_option {
+     device_type : 1
+     device_id : 1
+   }
+   switch_interval : 1500
+   warmup_config {
+     input_name : "comm"
+     dim : 1
+     dim : 1760
+   }
+   warmup_config {
+     input_name : "ncomm"
+     dim : 32
+     dim : 2520
+   }
+   warmup_config {
+     input_name : "att_comm"
+     dim : 1
+     dim : 28800
+   }
+   warmup_config {
+     input_name : "att_comm1"
+     dim : 1
+     dim : 4800
+   }
+   warmup_config {
+     input_name : "att_ncomm2"
+     dim : 25
+     dim : 19200
+   }
+   warmup_config {
+     input_name : "att_comm2"
+     dim : 1
+     dim : 10400
+   }
+   warmup_config {
+     input_name : "nick_cate_indicators"
+     dim : 32
+   }
+
+   feed_config {
+     input_name : "comm"
+     dim : 1
+     dim : 1760
+   }
+   feed_config {
+     input_name : "ncomm"
+     dim : 32
+     dim : 2520
+   }
+   feed_config {
+     input_name : "att_comm"
+     dim : 1
+     dim : 28800
+   }
+   feed_config {
+     input_name : "att_comm1"
+     dim : 1
+     dim : 4800
+   }
+   feed_config {
+     input_name : "att_ncomm2"
+     dim : 25
+     dim : 19200
+   }
+   feed_config {
+     input_name : "att_comm2"
+     dim : 1
+     dim : 10400
+   }
+   feed_config {
+     input_name : "nick_cate_indicators"
+     dim : 32
+   }
+}
+
+bench_thread_count : 4
+duration : 20000

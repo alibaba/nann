@@ -1259,15 +1259,13 @@ tf_gen_op_libs(
 # And one for all user ops
 cc_library(
     name = "user_ops_op_lib",
-    srcs = glob(["user_ops/**/*.cc","user_ops/**/*.cpp", "user_ops/**/*.h"]),
-    copts = tf_copts(allow_exceptions = True),
+    srcs = glob(["user_ops/**/*.cc","user_ops/**/*.h"]),
+    copts = tf_copts(),
     linkstatic = 1,
     visibility = ["//visibility:public"],
-    deps = [
-        ":framework",
-        ":core",
-        "@farmhash_archive//:farmhash",
-    ],
+    deps = [":framework",
+            ":core",
+            "//tensorflow/compiler/jit:flags"],
     alwayslink = 1,
 )
 

@@ -1,0 +1,37 @@
+warmup_batchsize: 200
+no_warmup_inputs: "att_ncomm2"
+xla_compilation: true
+config_proto {
+#force_run_in_caller_thread: true
+gpu_options {
+  allow_growth: true
+  force_gpu_compatible: true
+  experimental {
+    virtual_devices {
+      memory_limit_mb: 15079
+      memory_limit_mb: 15079
+      memory_limit_mb: 15079
+      memory_limit_mb: 15079
+    }
+    virtual_devices {
+      memory_limit_mb: 15079
+      memory_limit_mb: 15079
+      memory_limit_mb: 15079
+      memory_limit_mb: 15079
+    }
+  }
+}
+allow_soft_placement: true
+  graph_options {
+    optimizer_options {
+      global_jit_level: ON_1
+    }
+    rewrite_options {
+      auto_mixed_precision: ON
+      gemm_optimization: ON
+    }
+  }
+  experimental {
+    executor_type: "SINGLE_THREADED_EXECUTOR"
+  }
+}

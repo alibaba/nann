@@ -34,7 +34,9 @@
 #include <unordered_map>
 #include <type_traits>
 #include <iterator>
-#include "tensorflow/core/framework/types.h"
+#include "tensorflow/core/lib/core/errors.h"
+
+using namespace tensorflow;
 
 namespace npy {
 
@@ -94,28 +96,29 @@ struct header_t {
   std::vector<ndarray_len_t> shape;
 };
 
+/*
 inline void write_magic(std::ostream& ostream, version_t version) {
   ostream.write(magic_string, magic_string_length);
   ostream.put(version.first);
   ostream.put(version.second);
 }
+*/
 
-inline version_t read_magic(std::istream& istream) {
+inline Status read_magic(std::istream& istream, version_t& version) {
   char buf[magic_string_length+2];
   istream.read(buf, magic_string_length+2);
 
   if(!istream) {
-    throw std::runtime_error("io error: failed reading file");
+    return errors::InvalidArgument("io error: failed reading file");
   }
 
   if (0 != std::memcmp(buf, magic_string, magic_string_length))
-    throw std::runtime_error("this file does not have a valid npy format.");
+    return errors::InvalidArgument("this file does not have a valid npy format.");
 
-  version_t version;
   version.first = buf[magic_string_length];
   version.second = buf[magic_string_length+1];
 
-  return version;
+  return Status::OK();
 }
 
 // typestring magic
@@ -230,9 +233,9 @@ inline bool in_array(T val, const std::array<T,N> & arr) {
   return std::find(std::begin(arr), std::end(arr), val) != std::end(arr);
 }
 
-inline dtype_t parse_descr(std::string typestring){
+inline Status parse_descr(std::string typestring, dtype_t& descr){
   if ( typestring.length() < 3 ) {
-    throw std::runtime_error("invalid typestring (length)");
+    return errors::InvalidArgument("invalid typestring (length)");
   }
 
   char byteorder_c = typestring.at(0);
@@ -240,19 +243,20 @@ inline dtype_t parse_descr(std::string typestring){
   std::string itemsize_s = typestring.substr(2);
 
   if (! in_array(byteorder_c, endian_chars)) {
-    throw std::runtime_error("invalid typestring (byteorder)");
+    return errors::InvalidArgument("invalid typestring (byteorder)");
   }
 
   if (! in_array(kind_c, numtype_chars)) {
-    throw std::runtime_error("invalid typestring (kind)");
+    return errors::InvalidArgument("invalid typestring (kind)");
   }
 
   if(! is_digits(itemsize_s)) {
-    throw std::runtime_error("invalid typestring (itemsize)");
+    return errors::InvalidArgument("invalid typestring (itemsize)");
   }
   unsigned int itemsize = std::stoul(itemsize_s);
 
-  return {byteorder_c, kind_c, itemsize};
+  descr = {byteorder_c, kind_c, itemsize};
+  return Status::OK();
 }
 
 namespace pyparse {
@@ -286,12 +290,13 @@ inline std::string get_value_from_map(const std::string& mapstr) {
    Parses the string representation of a Python dict
    The keys need to be known and may not appear anywhere else in the data.
  */
-inline std::unordered_map<std::string, std::string> parse_dict(std::string in, std::vector<std::string>& keys) {
+inline Status parse_dict(std::string in, std::vector<std::string>& keys,
+                         std::unordered_map<std::string, std::string>& map) {
 
-  std::unordered_map<std::string, std::string> map;
-
-  if (keys.size() == 0)
-    return map;
+  if (keys.size() == 0) {
+    map.clear();
+    return Status::OK();
+  }
 
   in = trim(in);
 
@@ -299,7 +304,7 @@ inline std::unordered_map<std::string, std::string> parse_dict(std::string in, s
   if ((in.front() == '{') && (in.back() == '}'))
     in = in.substr(1, in.length()-2);
   else
-    throw std::runtime_error("Not a Python dictionary.");
+    return errors::InvalidArgument("Not a Python dictionary.");
 
   std::vector<std::pair<size_t, std::string>> positions;
 
@@ -307,7 +312,7 @@ inline std::unordered_map<std::string, std::string> parse_dict(std::string in, s
     size_t pos = in.find( "'" + value + "'" );
 
     if (pos == std::string::npos)
-      throw std::runtime_error("Missing '"+value+"' key.");
+      return errors::InvalidArgument("Missing '"+value+"' key.");
 
     std::pair<size_t, std::string> position_pair { pos, value };
     positions.push_back(position_pair);
@@ -336,36 +341,41 @@ inline std::unordered_map<std::string, std::string> parse_dict(std::string in, s
     map[key] = get_value_from_map(raw_value);
   }
 
-  return map;
+  return Status::OK();
 }
 
 /**
   Parses the string representation of a Python boolean
   */
-inline bool parse_bool(const std::string& in) {
-  if (in == "True")
-    return true;
-  if (in == "False")
-    return false;
-
-  throw std::runtime_error("Invalid python boolan.");
+inline Status parse_bool(const std::string& in, bool& out) {
+  if (in == "True") {
+    out = true;
+    return Status::OK();
+  }
+  if (in == "False") {
+    out = false;
+    return Status::OK();
+  }
+  return errors::InvalidArgument("Invalid python boolan.");
 }
 
 /**
   Parses the string representation of a Python str
   */
-inline std::string parse_str(const std::string& in) {
-  if ((in.front() == '\'') && (in.back() == '\''))
-    return in.substr(1, in.length()-2);
+inline Status parse_str(const std::string& in, std::string& out) {
+  if ((in.front() == '\'') && (in.back() == '\'')) {
+    out = in.substr(1, in.length()-2);
+    return Status::OK();
+  }
 
-  throw std::runtime_error("Invalid python string.");
+  return errors::InvalidArgument("Invalid python string.");
 }
 
 /**
   Parses the string represenatation of a Python tuple into a vector of its items
  */
-inline std::vector<std::string> parse_tuple(std::string in) {
-  std::vector<std::string> v;
+inline Status parse_tuple(std::string in, std::vector<std::string>& out) {
+  out.clear();
   const char seperator = ',';
 
   in = trim(in);
@@ -373,17 +383,18 @@ inline std::vector<std::string> parse_tuple(std::string in) {
   if ((in.front() == '(') && (in.back() == ')'))
     in = in.substr(1, in.length()-2);
   else
-    throw std::runtime_error("Invalid Python tuple.");
+    return errors::InvalidArgument("Invalid Python tuple.");
 
   std::istringstream iss(in);
 
   for (std::string token; std::getline(iss, token, seperator);) {
-      v.push_back(token);
+      out.push_back(token);
   }
 
-  return v;
+  return Status::OK();
 }
 
+/*
 template <typename T>
 inline std::string write_tuple(const std::vector<T>& v) {
   if (v.size() == 0)
@@ -411,12 +422,13 @@ inline std::string write_boolean(bool b) {
   else
     return "False";
 }
+*/
 
 } // namespace pyparse
 
 
 
-inline header_t parse_header(std::string header) {
+inline Status parse_header(std::string header, header_t& out) {
   /*
      The first 6 bytes are a magic string: exactly "x93NUMPY".
      The next 1 byte is an unsigned byte: the major version number of the file format, e.g. x01.
@@ -432,44 +444,53 @@ inline header_t parse_header(std::string header) {
      The shape of the array.
      For repeatability and readability, this dictionary is formatted using pprint.pformat() so the keys are in alphabetic order.
    */
+  Status s;
 
   // remove trailing newline
   if (header.back() != '\n')
-    throw std::runtime_error("invalid header");
+    return errors::InvalidArgument("invalid header");
   header.pop_back();
 
   // parse the dictionary
   std::vector<std::string> keys { "descr", "fortran_order", "shape" };
-  auto dict_map = npy::pyparse::parse_dict(header, keys);
+  std::unordered_map<std::string, std::string> dict_map; 
+  s = npy::pyparse::parse_dict(header, keys, dict_map);
+  if (!s.ok()) return s;
 
   if (dict_map.size() == 0)
-    throw std::runtime_error("invalid dictionary in header");
+    return errors::InvalidArgument("invalid dictionary in header");
 
   std::string descr_s = dict_map["descr"];
   std::string fortran_s = dict_map["fortran_order"];
   std::string shape_s = dict_map["shape"];
 
-  std::string descr = npy::pyparse::parse_str(descr_s);
-  dtype_t dtype = parse_descr(descr);
+  std::string descr;
+  s = npy::pyparse::parse_str(descr_s, descr);
+  if (!s.ok()) return s;
+  s = parse_descr(descr, out.dtype);
+  if (!s.ok()) return s;
 
   // convert literal Python bool to C++ bool
-  bool fortran_order = npy::pyparse::parse_bool(fortran_s);
+  s = npy::pyparse::parse_bool(fortran_s, out.fortran_order);
+  if (!s.ok()) return s;
 
   // parse the shape tuple
-  auto shape_v = npy::pyparse::parse_tuple(shape_s);
+  std::vector<std::string> shape_v;
+  s = npy::pyparse::parse_tuple(shape_s, shape_v);
+  if (!s.ok()) return s;
   if (shape_v.size() == 0)
-    throw std::runtime_error("invalid shape tuple in header");
+    return errors::InvalidArgument("invalid shape tuple in header");
 
-  std::vector<ndarray_len_t> shape;
+  out.shape.clear();
   for ( auto item : shape_v ) {
     ndarray_len_t dim = static_cast<ndarray_len_t>(std::stoul(item));
-    shape.push_back(dim);
+    out.shape.push_back(dim);
   }
 
-  return {dtype, fortran_order, shape};
+  return s;
 }
 
-
+/*
 inline std::string write_header_dict(const std::string& descr, bool fortran_order, const std::vector<ndarray_len_t>& shape) {
     std::string s_fortran_order = npy::pyparse::write_boolean(fortran_order);
     std::string shape_s = npy::pyparse::write_tuple(shape);
@@ -515,10 +536,15 @@ inline void write_header(std::ostream& out, const header_t& header)
 
     out << header_dict << padding << '\n';
 }
+*/
 
-inline std::string read_header(std::istream& istream) {
+inline Status read_header(std::istream& istream, std::string& header_s) {
     // check magic bytes an version number
-    version_t version = read_magic(istream);
+    Status s;
+
+    version_t version;
+    s = read_magic(istream, version);
+    if (!s.ok()) return s;
 
     uint32_t header_length;
     if( version == version_t{1, 0}){
@@ -528,7 +554,7 @@ inline std::string read_header(std::istream& istream) {
       header_length = (header_len_le16[0] << 0) | (header_len_le16[1] << 8);
 
       if((magic_string_length + 2 + 2 + header_length) % 16 != 0) {
-          // TODO: display warning
+          LOG(WARNING) << "(magic_string_length + 2 + 2 + header_length) % 16 != 0";
       }
     }else if( version == version_t{2, 0}) {
       char header_len_le32[4];
@@ -538,20 +564,20 @@ inline std::string read_header(std::istream& istream) {
                     | (header_len_le32[2] << 16) | (header_len_le32[3] <<  24);
 
       if((magic_string_length + 2 + 4 + header_length) % 16 != 0) {
-        // TODO: display warning
+        LOG(WARNING) << "(magic_string_length + 2 + 4 + header_length) % 16 != 0";
       }
     }else{
-       throw std::runtime_error("unsupported file format version");
+       return errors::InvalidArgument("unsupported file format version");
     }
 
-    auto buf_v = std::vector<char>();
-    buf_v.reserve(header_length);
-    istream.read(buf_v.data(), header_length);
-    std::string header(buf_v.data(), header_length);
+    header_s.clear();
+    header_s.resize(header_length);
+    istream.read(&header_s[0], header_length);
 
-    return header;
+    return s;
 }
 
+/*
 inline ndarray_len_t comp_size(const std::vector<ndarray_len_t>& shape) {
     ndarray_len_t size = 1;
     for (ndarray_len_t i : shape )
@@ -561,14 +587,14 @@ inline ndarray_len_t comp_size(const std::vector<ndarray_len_t>& shape) {
 }
 
 template<typename Scalar>
-inline void SaveArrayAsNumpy( const std::string& filename, bool fortran_order, unsigned int n_dims, const unsigned long shape[], const std::vector<Scalar>& data)
+inline Status SaveArrayAsNumpy( const std::string& filename, bool fortran_order, unsigned int n_dims, const unsigned long shape[], const std::vector<Scalar>& data)
 {
     static_assert(has_typestring<Scalar>::value, "scalar type not understood");
     dtype_t dtype = has_typestring<Scalar>::dtype;
 
     std::ofstream stream( filename, std::ofstream::binary);
     if(!stream) {
-        throw std::runtime_error("io error: failed to open a file.");
+      return errors::InvalidArgument("io error: failed to open a file.");
     }
 
     std::vector<ndarray_len_t> shape_v(shape, shape+n_dims);
@@ -578,6 +604,7 @@ inline void SaveArrayAsNumpy( const std::string& filename, bool fortran_order, u
     auto size = static_cast<size_t>(comp_size(shape_v));
 
     stream.write(reinterpret_cast<const char*>(data.data()), sizeof(Scalar) * size);
+    return Status::OK();
 }
 
 
@@ -589,17 +616,23 @@ inline void LoadArrayFromNumpy(const std::string& filename, std::vector<unsigned
 }
 
 template<typename Scalar>
-inline void LoadArrayFromNumpy(const std::string& filename, std::vector<unsigned long>& shape, bool& fortran_order, std::vector<Scalar>& data)
+inline Status LoadArrayFromNumpy(const std::string& filename, std::vector<unsigned long>& shape, bool& fortran_order, std::vector<Scalar>& data)
 {
+    Status s;
+
     std::ifstream stream(filename, std::ifstream::binary);
     if(!stream) {
-        throw std::runtime_error("io error: failed to open a file.");
+      return errors::InvalidArgument("io error: failed to open a file.");
     }
 
-    std::string header_s = read_header(stream);
+    std::string header_s;
+    s = read_header(stream);
+    if (!s.ok()) return s;
 
     // parse header
-    header_t header = parse_header(header_s);
+    header_t header;
+    s = parse_header(header_s);
+    if (!s.ok()) return s;
 
     // check if the typestring matches the given one
     static_assert(has_typestring<Scalar>::value, "scalar type not understood");
@@ -607,7 +640,7 @@ inline void LoadArrayFromNumpy(const std::string& filename, std::vector<unsigned
 
     // TODO: implement != and == for dtype_t
     if (header.dtype.str() != expect_descr) {
-      throw std::runtime_error("formatting error: typestrings not matching");
+      return errors::InvalidArgument("formatting error: typestrings not matching");
     }
 
     shape = header.shape;
@@ -619,27 +652,10 @@ inline void LoadArrayFromNumpy(const std::string& filename, std::vector<unsigned
 
     // read the data
     stream.read(reinterpret_cast<char*>(data.data()), sizeof(Scalar)*size);
+    
+    return s;
 }
-
-
-
-//==============================================================================
-
-
-
-inline void LoadMetaFromNumpy(std::ifstream& stream, std::string& dtype_str, std::vector<unsigned long>& shape, bool& fortran_order)
-{
-    std::string header_s = read_header(stream);
-
-    // parse header
-    header_t header = parse_header(header_s);
-
-    dtype_str = header.dtype.str();
-    shape = header.shape;
-    fortran_order = header.fortran_order;
-}
-
-
+*/
 
 } // namespace npy
 
