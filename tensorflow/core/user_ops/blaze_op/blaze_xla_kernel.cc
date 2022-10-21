@@ -14,11 +14,23 @@ limitations under the License.
 ==============================================================================*/
 #include "tensorflow/core/common_runtime/copy_tensor.h"
 #include "tensorflow/core/lib/core/threadpool.h"
+#include "tensorflow/core/framework/common_shape_fns.h"
 #include "tensorflow/core/user_ops/blaze_op/blaze_xla_predictor.h"
 #include "tensorflow/core/util/env_var.h"
 #include "tensorflow/compiler/jit/flags.h"
 
 namespace tensorflow {
+
+REGISTER_OP("BlazeXlaOp")
+    .Attr("InT: list({int8,int64,float16,float32,int32})")
+    .Attr("OutT: list({int8,int64,float16,float32,int32})")
+    .Attr("input_names: list(string) >= 0")
+    .Attr("output_names: list(string) >= 0")
+    .Attr("graph_def: string")
+    .Attr("blaze_option_path: string")
+    .Input("in_tensor: InT")
+    .Output("out_tensor: OutT")
+    .SetShapeFn(shape_inference::UnknownShape);
 
 class BlazeXlaOp : public AsyncOpKernel {
  public:

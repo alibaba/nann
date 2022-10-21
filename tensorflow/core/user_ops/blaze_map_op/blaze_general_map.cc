@@ -2,8 +2,20 @@
 #include <vector>
 #include "tensorflow/core/framework/op_kernel.h"
 #include "tensorflow/core/framework/tensor.h"
+#include "tensorflow/core/framework/common_shape_fns.h"
 #include "tensorflow/core/lib/strings/numbers.h"
 namespace tensorflow {
+
+REGISTER_OP("BlazeGeneralMap")
+    .Input("key: Tin")
+    .Output("output: Tout")
+    .Attr("Tin: {int32, int64} = DT_INT64")
+    .Attr("Tout:{int32, int64} = DT_INT32")
+    .Attr("keys: list(string) >= 0")
+    .Attr("values: list(string) >= 0")
+    .Attr("default_val: int >= 0")
+    .SetShapeFn(shape_inference::UnchangedShape);
+
 template<typename IN, typename OUT>
 class BlazeGeneralMap : public OpKernel {
  public:
