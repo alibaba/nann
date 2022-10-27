@@ -595,6 +595,8 @@ cc_library(
         ":dependency_optimizer",
         ":function_optimizer",
         ":gemm_optimizer",
+        ":multi_dnn_switch_optimizer",
+        ":gemm_compression",
         ":generic_layout_optimizer",
         ":graph_optimizer",
         ":implementation_selector",
@@ -1189,5 +1191,46 @@ cc_library(
         "//tensorflow/core:framework",
         "//tensorflow/core:graph",
         "//tensorflow/core/grappler:grappler_item",
+    ],
+)
+
+cc_library(
+    name = "multi_dnn_switch_optimizer",
+    srcs = ["multi_dnn_switch_optimizer.cc"],
+    hdrs = ["multi_dnn_switch_optimizer.h",],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":original_delivery_common",
+        ":graph_optimizer",
+        "//tensorflow/core:framework",
+        "//tensorflow/core:graph",
+        "//tensorflow/core/grappler:grappler_item",
+    ],
+)
+
+cc_library(
+    name = "gemm_compression",
+    srcs = ["gemm_compression.cc"],
+    hdrs = ["gemm_compression.h",],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":original_delivery_common",
+        ":graph_optimizer",
+        "//tensorflow/core:framework",
+        "//tensorflow/core:graph",
+        "//tensorflow/core/grappler:grappler_item",
+        "//tensorflow/tools/graph_transforms:transform_utils",
+    ],
+)
+
+cc_library(
+    name = "original_delivery_common",
+    srcs = ["original_delivery_common.cc"],
+    hdrs = ["original_delivery_common.h"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":graph_optimizer",
+        "//tensorflow/core:framework",
+        "//tensorflow/core:graph",
     ],
 )

@@ -186,4 +186,9 @@ message RewriterConfig {
   // VerifierConfig specifying the verifiers to be run at the end, after all
   // optimizers have run.
   VerifierConfig post_optimization_verifier_config = 301;
+
+  // custom optimization
+  Toggle multi_dnn_switch_optimization = 501;
+  string multi_dnn_skip_branchs = 502;
+  Toggle gemm_compression_optimization = 503;
 }

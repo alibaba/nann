@@ -42,6 +42,8 @@ limitations under the License.
 #include "tensorflow/core/grappler/optimizers/remapper.h"
 #include "tensorflow/core/grappler/optimizers/scoped_allocator_optimizer.h"
 #include "tensorflow/core/grappler/optimizers/shape_optimizer.h"
+#include "tensorflow/core/grappler/optimizers/multi_dnn_switch_optimizer.h"
+#include "tensorflow/core/grappler/optimizers/gemm_compression.h"
 #include "tensorflow/core/grappler/utils/canonicalizer.h"
 #include "tensorflow/core/grappler/utils/colocation.h"
 #include "tensorflow/core/grappler/utils/functions.h"
@@ -155,6 +157,10 @@ std::unique_ptr<GraphOptimizer> MetaOptimizer::MakeNewOptimizer(
   MK_OPT("pin_to_host",
          new PinToHostOptimizer(cfg_.pin_to_host_optimization()));
 
+  MK_OPT("gemm_compression", new GemmCompressionOptimizer());
+  MK_OPT("multi_dnn_switch", new MultiDNNSwitchOptimizer());
+
+
   return std::unique_ptr<GraphOptimizer>();
 }
 
@@ -240,6 +246,15 @@ Status MetaOptimizer::InitializeOptimizers(
     optimizers->push_back(MakeUnique<ScopedAllocatorOptimizer>(
         cfg_.scoped_allocator_optimization(), cfg_.scoped_allocator_opts()));
   }
+
+  if (cfg_.multi_dnn_switch_optimization() != RewriterConfig::OFF) {
+    optimizers->push_back(MakeUnique<MultiDNNSwitchOptimizer>(
+      cfg_.multi_dnn_skip_branchs()));
+  }
+  if (cfg_.gemm_compression_optimization() != RewriterConfig::OFF) {
+    optimizers->push_back(MakeUnique<GemmCompressionOptimizer>());
+  }
+
   return InitializeCustomGraphOptimizers(std::set<string>(), optimizers);
 }
 
