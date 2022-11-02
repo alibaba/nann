@@ -191,4 +191,5 @@ message RewriterConfig {
   Toggle multi_dnn_switch_optimization = 501;
   string multi_dnn_skip_branchs = 502;
   Toggle gemm_compression_optimization = 503;
+  Toggle memory_access_optimization = 504;
 }

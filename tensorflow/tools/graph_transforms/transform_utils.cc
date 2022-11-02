@@ -342,8 +342,17 @@ bool GraphMatcher::DoesOpTypeMatch(
     return true;
   }
   if (non_control_inputs.size() != pattern.inputs.size()) {
-    VLOG(1) << "non_control_inputs.size() != pattern.inputs.size()";
-    return false;
+    // match the first few inputs for ConcatV2,
+    // because we cant ensure the input count of ConcatV2
+    if (node.op() == "ConcatV2") {
+      if (non_control_inputs.size() < pattern.inputs.size()) {
+        VLOG(1) << "non_control_inputs.size() less than pattern.inputs.size()";
+        return false;
+      }
+    } else {
+      VLOG(1) << "non_control_inputs.size() != pattern.inputs.size()";
+      return false;
+    }
   }
   for (int i = 0; i < pattern.inputs.size(); ++i) {
     const string& input_node_name = NodeNameFromInput(non_control_inputs[i]);

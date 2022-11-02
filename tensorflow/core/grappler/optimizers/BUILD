@@ -597,6 +597,7 @@ cc_library(
         ":gemm_optimizer",
         ":multi_dnn_switch_optimizer",
         ":gemm_compression",
+        ":memory_access",
         ":generic_layout_optimizer",
         ":graph_optimizer",
         ":implementation_selector",
@@ -1215,6 +1216,20 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = [
         ":original_delivery_common",
+        ":graph_optimizer",
+        "//tensorflow/core:framework",
+        "//tensorflow/core:graph",
+        "//tensorflow/core/grappler:grappler_item",
+        "//tensorflow/tools/graph_transforms:transform_utils",
+    ],
+)
+
+cc_library(
+    name = "memory_access",
+    srcs = ["memory_access_optimizer.cc"],
+    hdrs = ["memory_access_optimizer.h",],
+    visibility = ["//visibility:public"],
+    deps = [
         ":graph_optimizer",
         "//tensorflow/core:framework",
         "//tensorflow/core:graph",

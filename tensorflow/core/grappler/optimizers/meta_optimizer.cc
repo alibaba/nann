@@ -29,6 +29,7 @@ limitations under the License.
 #include "tensorflow/core/grappler/optimizers/auto_parallel.h"
 #include "tensorflow/core/grappler/optimizers/constant_folding.h"
 #include "tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.h"
+#include "tensorflow/core/grappler/optimizers/memory_access_optimizer.h"
 #include "tensorflow/core/grappler/optimizers/debug_stripper.h"
 #include "tensorflow/core/grappler/optimizers/dependency_optimizer.h"
 #include "tensorflow/core/grappler/optimizers/function_optimizer.h"
@@ -157,9 +158,9 @@ std::unique_ptr<GraphOptimizer> MetaOptimizer::MakeNewOptimizer(
   MK_OPT("pin_to_host",
          new PinToHostOptimizer(cfg_.pin_to_host_optimization()));
 
-  MK_OPT("gemm_compression", new GemmCompressionOptimizer());
   MK_OPT("multi_dnn_switch", new MultiDNNSwitchOptimizer());
-
+  MK_OPT("gemm_compression", new GemmCompressionOptimizer());
+  MK_OPT("memory_access", new MemoryAccessOptimizer());
 
   return std::unique_ptr<GraphOptimizer>();
 }
@@ -217,6 +218,16 @@ Status MetaOptimizer::InitializeOptimizers(
     optimizers->push_back(
         MakeUnique<DependencyOptimizer>(cfg_.dependency_optimization()));
   }
+  if (cfg_.multi_dnn_switch_optimization() != RewriterConfig::OFF) {
+    optimizers->push_back(MakeUnique<MultiDNNSwitchOptimizer>(
+      cfg_.multi_dnn_skip_branchs()));
+  }
+  if (cfg_.gemm_compression_optimization() != RewriterConfig::OFF) {
+    optimizers->push_back(MakeUnique<GemmCompressionOptimizer>());
+  }
+  if (cfg_.memory_access_optimization() != RewriterConfig::OFF) {
+    optimizers->push_back(MakeUnique<MemoryAccessOptimizer>());
+  }
   if (cfg_.gemm_optimization() == RewriterConfig::ON) {
     optimizers->push_back(MakeUnique<GemmOptimizer>());
   }
@@ -247,13 +258,6 @@ Status MetaOptimizer::InitializeOptimizers(
         cfg_.scoped_allocator_optimization(), cfg_.scoped_allocator_opts()));
   }
 
-  if (cfg_.multi_dnn_switch_optimization() != RewriterConfig::OFF) {
-    optimizers->push_back(MakeUnique<MultiDNNSwitchOptimizer>(
-      cfg_.multi_dnn_skip_branchs()));
-  }
-  if (cfg_.gemm_compression_optimization() != RewriterConfig::OFF) {
-    optimizers->push_back(MakeUnique<GemmCompressionOptimizer>());
-  }
 
   return InitializeCustomGraphOptimizers(std::set<string>(), optimizers);
 }
