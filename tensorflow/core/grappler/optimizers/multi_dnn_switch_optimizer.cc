@@ -1039,8 +1039,6 @@ bool SwitchSubGraphToSwitchWeight(Graph* graph, const string& skip_branchs_str,
                 std::vector<std::shared_ptr<SubGraphCollection>>& sub_graph_group) {
   Status status;
   VLOG(0) << "skip branchs " << skip_branchs_str;
-  if (skip_branchs_str.empty())
-    return true;
   for (std::shared_ptr<SubGraphCollection>& collection : sub_graph_group) {
     // 1.先将_SwitchN到Merge之间的branch子图遍历，收集到计算节点和Const信息
     if (!collection->CollecteBranchNodes(skip_branchs_str)) {
