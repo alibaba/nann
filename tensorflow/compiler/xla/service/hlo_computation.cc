@@ -20,6 +20,7 @@ limitations under the License.
 #include <functional>
 #include <list>
 #include <queue>
+#include <regex>
 #include <set>
 #include <sstream>
 
@@ -532,7 +533,13 @@ string HloComputation::ToString(
     if (options.print_percent()) {
       s << "%";
     }
-    s << PrintName(name(), options.print_ids()) << " ";
+    std::string hlo_computation_name = name();
+    if (!options.print_cluster_id()) {
+      std::regex pattern("(cluster_)(\\d+)(__)");
+      hlo_computation_name =
+          std::regex_replace(hlo_computation_name, pattern, "cluster__");
+    }
+    s << PrintName(hlo_computation_name, options.print_ids()) << " ";
   }
 
   if (options.print_program_shape()) {

@@ -16,6 +16,7 @@ limitations under the License.
 #include "tensorflow/compiler/xla/service/hlo_module.h"
 
 #include <iterator>
+#include <regex>
 #include <set>
 #include <sstream>
 #include <unordered_map>
@@ -215,7 +216,13 @@ void HloModule::ReplaceComputations(
 
 string HloModule::ToString(const HloPrintOptions& options) const {
   std::ostringstream s;
-  s << "HloModule " << PrintName(name(), options.print_ids());
+  std::string hlo_module_name = name();
+  if (!options.print_cluster_id()) {
+    std::regex pattern("(cluster_)(\\d+)(__)");
+    hlo_module_name = std::regex_replace(hlo_module_name, pattern, "cluster__");
+  }
+  VLOG(2) << "HloModel to print: " << hlo_module_name;
+  s << "HloModule " << PrintName(hlo_module_name, options.print_ids());
   if (has_schedule()) {
     TF_CHECK_OK(schedule().Verify());
     s << ", is_scheduled=true";
