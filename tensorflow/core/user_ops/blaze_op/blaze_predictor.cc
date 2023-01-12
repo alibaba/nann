@@ -129,7 +129,6 @@ Status BlazePredictor::InitSession() {
   *(options.config.mutable_gpu_options()) = BlazeConfSingleton::GetInstance()
       ->GetConfig().gpu_options();
 
-  options.config.MergeFrom(blaze_run_options_.config_proto());
   TF_RETURN_IF_ERROR(GenSessionOptions(options));
   VLOG(0) << "create session with config " << options.config.DebugString();
   session_ = std::move(std::unique_ptr<Session>(NewSession(options)));
