@@ -9,10 +9,12 @@ workspace(name = "tf_serving")
 #    reliable downloads.
 load("//tensorflow_serving:repo.bzl", "tensorflow_http_archive")
 
-tensorflow_http_archive(
+load('@bazel_tools//tools/build_defs/repo:git.bzl', "git_repository")
+
+git_repository(
     name = "org_tensorflow",
-    sha256 = "750186951a699cb73d6b440c7cd06f4b2b80fd3ebb00cbe00f655c7da4ae243e",
-    git_commit = "590d6eef7e91a6a7392c8ffffb7b58f2e0c8bc6b",
+    remote = "git@gitlab.alibaba-inc.com:buting.mbt/tensorflow.git",
+    commit = "7eabdc08e55a07268435edf57f3b12a6cf9fe0aa",
 )
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")

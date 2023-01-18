@@ -3,6 +3,7 @@ build:release --copt=-mavx
 build:release --copt=-msse4.2
 
 # Options used to build with CUDA.
+import /etc/.tf_configure.bazelrc
 build:cuda --crosstool_top=@local_config_cuda//crosstool:toolchain
 build:cuda --define=using_cuda=true --define=using_cuda_nvcc=true
 
@@ -23,8 +24,8 @@ build:nativeopt --copt=-march=native
 build:nativeopt --host_copt=-march=native
 build:nativeopt --copt=-O3
 
-build --action_env PYTHON_BIN_PATH="/usr/bin/python"
-build --define PYTHON_BIN_PATH=/usr/bin/python
+build --action_env PYTHON_BIN_PATH="/opt/conda/bin/python"
+build --define PYTHON_BIN_PATH="/opt/conda/bin/python"
 
 build --spawn_strategy=standalone
 build --genrule_strategy=standalone
