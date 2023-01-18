@@ -11,18 +11,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y automake
 
-RUN /bin/bash -c "source /opt/conda/bin/activate"
-
-ENV LD_LIBRARY_PATH /usr/local/lib/:$LD_LIBRARY_PATH
-
 RUN git clone git@gitlab.alibaba-inc.com:rihan.crh/serving.git\
     && cd serving && cp .tf_configure.bazelrc /etc/\
-    && bazel build -c opt --strip=never --copt=-mavx --copt=-mavx2 --config=cuda @org_tensorflow//tensorflow:libtensorflow_framework.so\
-    && bazel build -c opt --strip=never --copt=-mavx --copt=-mavx2 --config=cuda @org_tensorflow//tensorflow:libtensorflow_cc.so\
-    && cp bazel-bin/external/org_tensorflow/tensorflow/libtensorflow_framework.so.1.15.5 /usr/local/lib/\
-    && cp bazel-bin/external/org_tensorflow/tensorflow/libtensorflow_cc.so.1.15.5 /usr/local/lib/\
-    && ln -s /usr/local/lib/libtensorflow_cc.so.1.15.5 /usr/local/lib/libtensorflow_cc.so.1 && ln -s /usr/local/lib/libtensorflow_cc.so.1.15.5 /usr/local/lib/libtensorflow_cc.so\
-    && ln -s /usr/local/lib/libtensorflow_framework.so.1.15.5 /usr/local/lib/libtensorflow_framework.so.1 && ln -s /usr/local/lib/libtensorflow_framework.so.1.15.5 /usr/local/lib/libtensorflow_framework.so\
     && bazel build --config=cuda --copt=-mavx --copt=-mavx2 \
     --verbose_failures \
     --output_filter=DONT_MATCH_ANYTHING \
@@ -32,5 +22,4 @@ RUN git clone git@gitlab.alibaba-inc.com:rihan.crh/serving.git\
 
 ENV PATH /usr/local/bin:$PATH
 
-RUN rm -rf /root/.cache/*\
-    && cd .. && rm -rf /root/serving 
+RUN cd .. && rm -rf /root/serving 

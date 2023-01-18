@@ -51,5 +51,3 @@ test --test_tag_filters=-gpu
 test --build_tag_filters=-gpu
 build --action_env TF_CONFIGURE_IOS="0"
 
-
-build:v2 --define=tf_api_version=2
