@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM reg.docker.alibaba-inc.com/matching/nann_serving_devel:10.2-cudnn7-devel-ubuntu18.04
+FROM rihan19920210/nann_serving_devel:10.2-cudnn7-devel-ubuntu18.04
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         ca-certificates \
