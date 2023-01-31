@@ -1,0 +1,22 @@
+build --action_env PYTHON_BIN_PATH="/opt/conda/bin/python"
+build --action_env PYTHON_LIB_PATH="/opt/conda/lib/python3.7/site-packages"
+build --python_path="/opt/conda/bin/python"
+build:xla --define with_xla_support=true
+build --config=xla
+build --action_env CUDA_TOOLKIT_PATH="/usr/local/cuda-10.2"
+build --action_env TF_CUDA_COMPUTE_CAPABILITIES="3.5,7.0"
+build --action_env LD_LIBRARY_PATH="/usr/local/nvidia/lib64/:/usr/local/nvidia/lib:/usr/local/nvidia/lib64"
+build --action_env GCC_HOST_COMPILER_PATH="/usr/bin/gcc"
+build --config=cuda
+build:opt --copt=-march=native
+build:opt --copt=-Wno-sign-compare
+build:opt --host_copt=-march=native
+build:opt --define with_default_optimizations=true
+build:v2 --define=tf_api_version=2
+test --flaky_test_attempts=3
+test --test_size_filters=small,medium
+test --test_tag_filters=-benchmark-test,-no_oss,-oss_serial
+test --build_tag_filters=-benchmark-test,-no_oss
+test --test_tag_filters=-gpu
+test --build_tag_filters=-gpu
+build --action_env TF_CONFIGURE_IOS="0"
