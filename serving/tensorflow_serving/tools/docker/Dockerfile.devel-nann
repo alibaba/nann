@@ -1,0 +1,25 @@
+FROM rihan19920210/nann_devel:10.2-cudnn7-devel-ubuntu18.04
+ENV BLAZE_HOME=/root
+
+WORKDIR $BLAZE_HOME
+
+COPY env/* /root/.ssh/ 
+RUN chmod 600 /root/.ssh/id_rsa\
+    && chmod 600 /root/.ssh/id_rsa.pub\
+    && ssh -o StrictHostKeyChecking=no root@gitlab.alibaba-inc.com
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y automake
+
+RUN git clone git@gitlab.alibaba-inc.com:rihan.crh/serving.git\
+    && cd serving && cp .tf_configure.bazelrc /etc/\
+    && bazel build --config=cuda --copt=-mavx --copt=-mavx2 \
+    --verbose_failures \
+    --output_filter=DONT_MATCH_ANYTHING \
+    --config=nativeopt \
+    tensorflow_serving/model_servers:tensorflow_model_server\
+    && cp bazel-bin/tensorflow_serving/model_servers/tensorflow_model_server /usr/local/bin/
+
+ENV PATH /usr/local/bin:$PATH
+
+RUN cd .. && rm -rf /root/serving 

@@ -1,0 +1,53 @@
+# Options used to build with CUDA
+build:cuda --crosstool_top=@local_config_cuda//crosstool:toolchain
+build:cuda --define=using_cuda=true --define=using_cuda_nvcc=true
+build:cuda --action_env CUDA_TOOLKIT_PATH="/usr/local/cuda-10.2/"
+build:cuda --action_env TF_CUDA_VERSION="10.2"
+build:cuda --action_env TF_CUDA_PATHS="/usr/local/cuda-10.2/,/usr/include,/usr/lib/x86_64-linux-gnu"
+build:cuda --action_env NCCL_INSTALL_PATH="/usr/"
+build:cuda --action_env NCCL_HDR_PATH="/usr/include"
+build:cuda --action_env TF_NCCL_VERSION="2"
+build:cuda --action_env TF_CUDA_COMPUTE_CAPABILITIES="6.0,7.0,7.5"
+build:cuda --action_env TF_CUDA_CLANG=0
+build:cuda --action_env TF_NEED_CUDA=1
+build:cuda --action_env TF_NEED_MPI=0
+build:cuda --action_env TF_NEED_ROCM=0
+build:cuda --action_env TF_NEED_OPENCL_SYCL=0
+build:cuda --action_env TF_NEED_OPENCL=0
+build:cuda --action_env TF_CUDA_CLANG=0
+build:cuda --action_env TF_ENABLE_XLA=1
+build:cuda --config=xla
+build:cuda --copt="-DGOOGLE_CUDA=1"
+
+
+# default
+build --action_env CC_OPT_FLAGS="-O2"
+
+
+# default off options
+
+build --action_env PYTHON_BIN_PATH="/opt/conda/bin/python"
+build --action_env PYTHON_LIB_PATH="/opt/conda/lib/python3.7/site-packages"
+build --action_env PYTHON_BIN_PATH="/opt/conda/bin/python"
+build --action_env PYTHON_LIB_PATH="/opt/conda/lib/python3.7/site-packages"
+build --python_path="/opt/conda/bin/python"
+build:xla --define with_xla_support=true
+build --config=xla
+build --action_env CUDA_TOOLKIT_PATH="/usr/local/cuda"
+build --action_env TF_CUDA_COMPUTE_CAPABILITIES="3.5,7.0"
+build --action_env LD_LIBRARY_PATH="/usr/local/nvidia/lib64/:/usr/local/nvidia/lib:/usr/local/nvidia/lib64"
+build --action_env GCC_HOST_COMPILER_PATH="/usr/bin/gcc"
+build --config=cuda
+build:opt --copt=-march=native
+build:opt --copt=-Wno-sign-compare
+build:opt --host_copt=-march=native
+build:opt --define with_default_optimizations=true
+build:v2 --define=tf_api_version=2
+test --flaky_test_attempts=3
+test --test_size_filters=small,medium
+test --test_tag_filters=-benchmark-test,-no_oss,-oss_serial
+test --build_tag_filters=-benchmark-test,-no_oss
+test --test_tag_filters=-gpu
+test --build_tag_filters=-gpu
+build --action_env TF_CONFIGURE_IOS="0"
+
