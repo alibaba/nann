@@ -1,0 +1,5 @@
+FROM reg.docker.alibaba-inc.com/vdl/istio_pyservice:torch131
+
+MAINTAINER AlimamaCV <xinglin.hxl@alibaba-inc.com>
+
+COPY models /home/service/models

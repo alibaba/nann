@@ -1,0 +1,15 @@
+bench_model_config {
+   name: "ad_rtp_wt_ctr_wt_union_v1_turing"
+   frozen_graph: "ad_rtp_wt_ctr_wt_union_v1_turing_measure_parted_search.pbtxt"
+   runmeta: "1656400837458256.runmeta"
+   meta_graph: "meta_graph"
+   config_proto: "config_proto"
+   run_options: "run_options"
+   predictor_num: 4
+   qps: -1
+   switch_interval: 3000
+   flat_blaze_op: false
+}
+bench_thread_count: 4
+duration: 300
+#max_queue_size: 100

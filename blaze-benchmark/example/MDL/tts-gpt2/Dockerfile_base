@@ -1,0 +1,43 @@
+FROM reg.docker.alibaba-inc.com/vdl/istio_pyservice:latest
+
+ENV APP_NAME rttm
+
+# 构建时要做的事，一般是执行shell命令，例如用来安装必要软件，创建文件（夹），修改文件
+RUN rpm -ivh --nodeps "http://yum.corp.taobao.com/taobao/7/x86_64/current/c_tbip/c_tbip-2.0.9-1580249.18bc121.el7.x86_64.rpm" && \
+    rpm -ivh --nodeps "http://yum.corp.taobao.com/taobao/6/x86_64/stable/taobao-cronolog/taobao-cronolog-1.7.0b-2.el6.x86_64.rpm" && \
+    rpm -ivh --nodeps "http://yum.tbsite.net/taobao/7/x86_64/current/tengine-proxy/tengine-proxy-2.1.16-20180517093604.el7u2.x86_64.rpm" && \
+yum install -y libffi-devel && \
+mkdir -p /home/admin/$APP_NAME/bin && \
+mkdir -p /home/admin/$APP_NAME/conf && \
+mkdir -p /home/admin/$APP_NAME/target && \
+mkdir -p /home/admin/logs/app && \
+mkdir -p /home/admin/logs/supervisord  && \
+mkdir -p /home/admin/$APP_NAME/dependencies
+
+
+# 挂载数据卷,指定目录挂载到宿主机上面,为了能够保存（持久化）数据以及共享容器间的数据，为了实现数据共享，例如日志文件共享到宿主机或容器间共享数据.
+VOLUME /home/admin/$APP_NAME/logs \
+/home/admin/logs \
+/home/admin/cai/logs \
+/home/admin/diamond \
+/home/admin/snapshots \
+/home/admin/configclient \
+/home/admin/notify \
+/home/admin/catserver \
+/home/admin/liaoyuan-out \
+/home/a/vipsrv-dns/vipsvr-cache \
+/home/admin/vipsrv-failover \
+/home/admin/vipsrv-cache \
+/home/admin/csp \
+/home/admin/.rocketmq_offsets \
+/home/admin/amsdata \
+/home/admin/amsdata_all
+
+# 启动容器时进入的工作目录
+WORKDIR /home/admin/$APP_NAME/bin
+
+#容器启动时自动执行的脚本，我们一般会将应用启动脚本放在这里，相当于系统自启应用
+ENTRYPOINT ["/home/admin/start.sh"]
+
+RUN chown admin:admin -R /home/admin
+

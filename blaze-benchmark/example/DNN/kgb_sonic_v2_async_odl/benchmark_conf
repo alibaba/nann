@@ -1,0 +1,33 @@
+bench_model_config {
+   name : "kgb_sonic_v2"
+   frozen_graph : "kgb_sonic_v2_async_odl_parted_search.pbtxt"
+   runmeta : "1658211794322816.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211793312963.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211816880022.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211805036009.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211769547322.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211783553560.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211779880603.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211767463656.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211830996460.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211795246510.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211817993823.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211807231523.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211824627744.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211828407363.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211806143491.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211782394168.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211815620263.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211829915191.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211792189543.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211818903193.runmeta"
+   #runmeta : "../runmeta/kgb_sonic_v2_async_odl/1658211768568972.runmeta"
+   meta_graph : "meta_graph"
+   config_proto : "config_proto"
+   run_options : "run_options"
+   predictor_num : 4
+   qps: -1
+   switch_interval : 1500
+}
+bench_thread_count : 4
+duration : 100

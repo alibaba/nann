@@ -1,0 +1,52 @@
+graph_options {
+  rewrite_options {
+    layout_optimizer: OFF
+    #fuse_tile_concat_matmul: ON
+    auto_mixed_precision: OFF
+  }
+}
+#inter_op_parallelism_threads: 96
+#intra_op_parallelism_threads: 1
+#allow_soft_placement: true
+#device_count {key: "CPU" value: 1}
+device_count {key: "GPU" value: 1}
+gpu_options {
+  allow_growth: true
+  visible_device_list: "0"
+  experimental {
+    virtual_devices { memory_limit_mb: 12288 memory_limit_mb: 12288 memory_limit_mb: 12288 memory_limit_mb: 12288}
+  }
+}
+enable_graph_opt_place: true
+blaze_options {
+  xla_compilation: true,
+  auto_mixed_precision: true,
+  warmup_batchsize: [
+    #1,
+    #32,
+    #160
+    200
+    #256,
+    #512
+  ],
+  no_warmup_inputs: [
+    "att_ncomm2",
+    "att_ncomm3",
+    "cross_long1",
+    "cross_long2",
+    "model_route_index"
+  ],
+  config_proto {
+    graph_options {
+      rewrite_options {
+        gemm_optimization: ON,
+        auto_mixed_precision: OFF
+      }
+    },
+    force_run_in_caller_thread: true,
+    enable_graph_opt_place: true
+  },
+  wait_ms: 20,
+  use_single_threaded_executor: false,
+  gemm_optimization: true
+}

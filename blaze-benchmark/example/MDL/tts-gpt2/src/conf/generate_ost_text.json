@@ -1,0 +1,21 @@
+{
+    "components": [
+        {
+            "name": "fetch_item_title",
+            "conf": {}
+        },
+        {
+            "name": "generate_ost_text",
+            "conf": {}
+        },
+        {
+            "name": "risk_control",
+            "conf": {}
+        },
+        {
+            "name": "ost_two_line",
+            "conf": {}
+        }
+    ],
+    "output_keys": ["item_title", "text", "risk_code", "text_two_line"]
+}

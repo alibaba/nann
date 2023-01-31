@@ -1,0 +1,42 @@
+syntax = "proto2";
+
+package benchmark;
+
+message BenchModelConfig {
+    // model name
+    required string name = 1;
+    // tf model frozen graph
+    required string frozen_graph = 2;
+    // tf meta graph contains signatures, and
+    // a signature contains session::run input/output info.
+    required string meta_graph = 3;
+    // if not given, use the first signature
+    optional string signature_key = 4;
+    // tf runmeta consisting of traced tensors, from which inputs can be parsed (may be overwriten by inputs specified in signature)
+    repeated string runmeta = 5;
+    // tf session init options
+    optional string config_proto = 6;
+    // tf session run options
+    optional string run_options = 7;
+    // predictor num: num of requests processed simultaneously 
+    required int32 predictor_num = 8;
+    // qps, negtive represents max qps
+    optional int32 qps = 9 [default = -1];
+    // cold switching
+    optional bool cold_switching = 10 [default = false];
+    // simulate model switch: interval in seconds, 0 represents no switch
+    optional int32 switch_interval = 11 [default = 0];
+    // flat nested graph in BlazeXlaOp
+    optional bool flat_blaze_op = 12 [default = false];
+}
+
+message BenchmarkConfig {
+    // bench model config
+    repeated BenchModelConfig bench_model_config = 1;
+    // bench thread count
+    required int32 bench_thread_count = 2;
+    // bench duration in seconds
+    required int32 duration = 3;
+    // max queue size before dropping requests, if not set do not drop any requests
+    optional int32 max_queue_size = 4 [default = -1];
+}

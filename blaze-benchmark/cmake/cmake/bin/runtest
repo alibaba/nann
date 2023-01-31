@@ -1,0 +1,3 @@
+#!/bin/sh
+#env HEAPCHECK=local
+make test ARGS="-V"

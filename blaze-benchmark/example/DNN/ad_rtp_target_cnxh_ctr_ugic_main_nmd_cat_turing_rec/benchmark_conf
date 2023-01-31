@@ -1,0 +1,14 @@
+bench_model_config {
+   name: "ad_rtp_target_cnxh_ctr_ugic_main_nmd_cat_turing_rec"
+   frozen_graph: "ad_rtp_target_cnxh_ctr_ugic_main_nmd_cat_turing_rec_parted_search.pbtxt"
+   runmeta: "runmeta/1660790887582716.runmeta"
+   meta_graph: "meta_graph"
+   config_proto: "config_proto"
+   run_options: "run_options"
+   predictor_num: 4
+   qps: -1
+   switch_interval: 3000
+}
+bench_thread_count: 4
+duration: 300
+#max_queue_size: 80

@@ -1,0 +1,33 @@
+bench_model_config {
+   name : "kgb_nezha_v3"
+   frozen_graph : "kgb_nezha_v3_odl_parted_search.pbtxt"
+   runmeta : "1658222481552305.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222474897199.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222466001501.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222482154711.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222489483342.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222466554145.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222465448758.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222473378213.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222483126702.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222490432307.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222457553207.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222457030876.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222456578151.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222464979231.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222482654213.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222458048857.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222489939653.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222473941068.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222491016385.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222474439828.runmeta"
+   #runmeta : "../runmeta/kgb_nezha_v3_odl/1658222481552305.runmeta"
+   meta_graph : "meta_graph"
+   config_proto : "config_proto"
+   run_options : "run_options"
+   predictor_num : 4
+   qps: -1
+   switch_interval : 1500
+}
+bench_thread_count : 4
+duration : 100
