@@ -1,0 +1,1266 @@
++ ln -sf ../../runmeta/all_star_newstag_nmd_jrc/frozen_graph.pb user/frozen_graph.pb
++ CUDA_VISIBLE_DEVICES=0
++ LD_LIBRARY_PATH=/usr/local/nvidia/lib64
++ PATH=/usr/local/nvidia/bin/
++ /usr/local/nvidia/bin/nvidia-cuda-mps-control -d
+An instance of this daemon is already running
++ CUDA_VISIBLE_DEVICES=0
++ TF_XLA_PTX_CACHE_DIR=./xla_cache
++ LD_LIBRARY_PATH=/usr/local/nvidia/lib64:/home/admin/hippo/worker/slave/kgb_prod_na630cloud_2_kgb_test_a10-kgb_exp_1role_17_ads_na630-item.kgb_test_a10-kgb_exp_1role_17_ads_na630-item_partition_0_21_101/suez_worker/blaze-benchmark/lib:/usr/local/cuda-11.2/lib64/
++ ../../../build/benchmark/benchmark benchmark_conf
+2022-08-05 14:03:54.750439: I /home/yunlong.xyl/projects/temp/blaze-benchmark/benchmark/core/model.cc:333] 1656993881179967.runmeta, inferred batchsize = 166, star
+2022-08-05 14:03:54.751917: I /home/yunlong.xyl/projects/temp/tensorflow/tensorflow/core/common_runtime/direct_session.h:441] Blaze will use globla_opts : device_count {
+  key: "GPU"
+  value: 1
+}
+gpu_options {
+  allow_growth: true
+  visible_device_list: "0"
+  experimental {
+    virtual_devices {
+      memory_limit_mb: 12288
+      memory_limit_mb: 12288
+      memory_limit_mb: 12288
+      memory_limit_mb: 12288
+    }
+  }
+}
+allow_soft_placement: true
+graph_options {
+  rewrite_options {
+    layout_optimizer: OFF
+    auto_mixed_precision: OFF
+  }
+}
+enable_graph_opt_place: true
+blaze_options {
+  warmup_batchsize: 200
+  xla_compilation: true
+  gemm_optimization: true
+  auto_mixed_precision: true
+  no_warmup_inputs: "att_ncomm2"
+  no_warmup_inputs: "att_ncomm3"
+  no_warmup_inputs: "cross_long1"
+  no_warmup_inputs: "cross_long2"
+  no_warmup_inputs: "model_route_index"
+  config_proto {
+    graph_options {
+      rewrite_options {
+        auto_mixed_precision: OFF
+        gemm_optimization: ON
+      }
+    }
+    force_run_in_caller_thread: true
+    enable_graph_opt_place: true
+  }
+  wait_ms: 20
+}
+
+2022-08-05 14:03:54.751975: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.11.0
+2022-08-05 14:03:54.757467: I /home/yunlong.xyl/projects/temp/blaze-benchmark/benchmark/core/model.cc:166] GetDeviceCount: cpu_count =  1, gpu_count = 4
+2022-08-05 14:03:54.757619: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX512F FMA
+2022-08-05 14:03:54.775801: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcuda.so.1
+2022-08-05 14:03:54.775846: I tensorflow/stream_executor/executor_cache.cc:41] TF_NUM_CONTEXTS_PER_GPU = 4
+2022-08-05 14:03:54.775863: I tensorflow/stream_executor/executor_cache.cc:62] TF_NUM_CONTEXTS_PER_GPU = 4
+2022-08-05 14:03:54.776291: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2900000000 Hz
+2022-08-05 14:03:54.781577: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x1eb2720 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2022-08-05 14:03:54.781604: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2022-08-05 14:03:54.782937: I tensorflow/stream_executor/executor_cache.cc:62] TF_NUM_CONTEXTS_PER_GPU = 4
+2022-08-05 14:03:55.496764: I tensorflow/stream_executor/cuda/cuda_driver.cc:454] cuDevicePrimaryCtxRetain context 0x1456550
+2022-08-05 14:03:55.497674: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x1f15d00 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2022-08-05 14:03:55.497701: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): A10, Compute Capability 8.6
+2022-08-05 14:03:55.498562: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1642] Found device 0 with properties: 
+name: A10 major: 8 minor: 6 memoryClockRate(GHz): 1.695
+pciBusID: 0000:61:00.0
+2022-08-05 14:03:55.498586: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.11.0
+2022-08-05 14:03:55.502171: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcublas.so.11
+2022-08-05 14:03:55.503074: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcufft.so.10
+2022-08-05 14:03:55.503290: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcurand.so.10
+2022-08-05 14:03:55.504051: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusolver.so.11
+2022-08-05 14:03:55.504699: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusparse.so.11
+2022-08-05 14:03:55.504796: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudnn.so.8
+2022-08-05 14:03:55.506199: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1770] Adding visible gpu devices: 0
+2022-08-05 14:03:55.506255: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1180] Device interconnect StreamExecutor with strength 1 edge matrix:
+2022-08-05 14:03:55.506264: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1186]      0 
+2022-08-05 14:03:55.506269: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1199] 0:   N 
+2022-08-05 14:03:55.534087: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:03:55.535593: I tensorflow/stream_executor/executor_cache.cc:62] TF_NUM_CONTEXTS_PER_GPU = 4
+2022-08-05 14:03:56.264007: I tensorflow/stream_executor/cuda/cuda_driver.cc:458] Primary context has been used, cuCtxCreate context 0x2297520
+2022-08-05 14:03:56.264063: W tensorflow/stream_executor/cuda/cuda_driver.cc:472] A non-primary context 0x1456550 for device 0 exists before initializing the StreamExecutor. The primary context is now 0x2297520. We haven't verified StreamExecutor works with that.
+2022-08-05 14:03:56.269048: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:03:56.271130: I tensorflow/stream_executor/executor_cache.cc:62] TF_NUM_CONTEXTS_PER_GPU = 4
+2022-08-05 14:03:57.068443: I tensorflow/stream_executor/cuda/cuda_driver.cc:458] Primary context has been used, cuCtxCreate context 0x26f3810
+2022-08-05 14:03:57.068488: W tensorflow/stream_executor/cuda/cuda_driver.cc:472] A non-primary context 0x2297520 for device 0 exists before initializing the StreamExecutor. The primary context is now 0x26f3810. We haven't verified StreamExecutor works with that.
+2022-08-05 14:03:57.069349: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:2 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:03:57.070325: I tensorflow/stream_executor/executor_cache.cc:62] TF_NUM_CONTEXTS_PER_GPU = 4
+2022-08-05 14:03:57.844046: I tensorflow/stream_executor/cuda/cuda_driver.cc:458] Primary context has been used, cuCtxCreate context 0x2e53c10
+2022-08-05 14:03:57.844089: W tensorflow/stream_executor/cuda/cuda_driver.cc:472] A non-primary context 0x26f3810 for device 0 exists before initializing the StreamExecutor. The primary context is now 0x2e53c10. We haven't verified StreamExecutor works with that.
+2022-08-05 14:03:57.844929: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:3 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:03:57.851051: I tensorflow/core/common_runtime/placer.cc:128] Allow optimize placer
+2022-08-05 14:03:57.851231: I /home/yunlong.xyl/projects/temp/blaze-benchmark/benchmark/core/model.cc:234] Predictor 0 uses session star/CPU:0/GPU:0
+2022-08-05 14:03:57.852186: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1642] Found device 0 with properties: 
+name: A10 major: 8 minor: 6 memoryClockRate(GHz): 1.695
+pciBusID: 0000:61:00.0
+2022-08-05 14:03:57.852213: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.11.0
+2022-08-05 14:03:57.852223: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcublas.so.11
+2022-08-05 14:03:57.852229: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcufft.so.10
+2022-08-05 14:03:57.852237: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcurand.so.10
+2022-08-05 14:03:57.852248: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusolver.so.11
+2022-08-05 14:03:57.852256: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusparse.so.11
+2022-08-05 14:03:57.852266: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudnn.so.8
+2022-08-05 14:03:57.853553: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1770] Adding visible gpu devices: 0
+2022-08-05 14:03:57.853582: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1180] Device interconnect StreamExecutor with strength 1 edge matrix:
+2022-08-05 14:03:57.853589: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1186]      0 
+2022-08-05 14:03:57.853593: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1199] 0:   N 
+2022-08-05 14:03:57.856838: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:03:57.857543: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:03:57.858215: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:2 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:03:57.858935: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:3 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:03:57.859508: I tensorflow/core/common_runtime/placer.cc:128] Allow optimize placer
+2022-08-05 14:03:57.859651: I /home/yunlong.xyl/projects/temp/blaze-benchmark/benchmark/core/model.cc:234] Predictor 1 uses session star/CPU:0/GPU:1
+2022-08-05 14:03:57.860553: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1642] Found device 0 with properties: 
+name: A10 major: 8 minor: 6 memoryClockRate(GHz): 1.695
+pciBusID: 0000:61:00.0
+2022-08-05 14:03:57.860576: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.11.0
+2022-08-05 14:03:57.860583: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcublas.so.11
+2022-08-05 14:03:57.860588: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcufft.so.10
+2022-08-05 14:03:57.860593: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcurand.so.10
+2022-08-05 14:03:57.860597: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusolver.so.11
+2022-08-05 14:03:57.860602: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusparse.so.11
+2022-08-05 14:03:57.860606: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudnn.so.8
+2022-08-05 14:03:57.861917: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1770] Adding visible gpu devices: 0
+2022-08-05 14:03:57.861940: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1180] Device interconnect StreamExecutor with strength 1 edge matrix:
+2022-08-05 14:03:57.861945: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1186]      0 
+2022-08-05 14:03:57.861949: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1199] 0:   N 
+2022-08-05 14:03:57.865432: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:03:57.866454: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:03:57.867425: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:2 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:03:57.868267: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:3 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:03:57.868908: I tensorflow/core/common_runtime/placer.cc:128] Allow optimize placer
+2022-08-05 14:03:57.869146: I /home/yunlong.xyl/projects/temp/blaze-benchmark/benchmark/core/model.cc:234] Predictor 2 uses session star/CPU:0/GPU:2
+2022-08-05 14:03:57.870354: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1642] Found device 0 with properties: 
+name: A10 major: 8 minor: 6 memoryClockRate(GHz): 1.695
+pciBusID: 0000:61:00.0
+2022-08-05 14:03:57.870376: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.11.0
+2022-08-05 14:03:57.870383: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcublas.so.11
+2022-08-05 14:03:57.870394: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcufft.so.10
+2022-08-05 14:03:57.870399: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcurand.so.10
+2022-08-05 14:03:57.870403: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusolver.so.11
+2022-08-05 14:03:57.870408: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusparse.so.11
+2022-08-05 14:03:57.870419: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudnn.so.8
+2022-08-05 14:03:57.871688: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1770] Adding visible gpu devices: 0
+2022-08-05 14:03:57.871707: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1180] Device interconnect StreamExecutor with strength 1 edge matrix:
+2022-08-05 14:03:57.871714: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1186]      0 
+2022-08-05 14:03:57.871718: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1199] 0:   N 
+2022-08-05 14:03:57.875029: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:03:57.875823: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:03:57.876555: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:2 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:03:57.877391: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:3 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:03:57.877908: I tensorflow/core/common_runtime/placer.cc:128] Allow optimize placer
+2022-08-05 14:03:57.878046: I /home/yunlong.xyl/projects/temp/blaze-benchmark/benchmark/core/model.cc:234] Predictor 3 uses session star/CPU:0/GPU:3
+2022-08-05 14:03:57.896822: I tensorflow/core/kernels/blaze_xla_kernel.cc:80] blaze set thread pool size 2
+2022-08-05 14:03:57.897030: I tensorflow/core/kernels/blaze_xla_kernel.cc:80] blaze set thread pool size 2
+2022-08-05 14:03:57.897043: I tensorflow/core/kernels/blaze_xla_kernel.cc:88] blaze max waiting count 10
+2022-08-05 14:03:57.897154: I tensorflow/core/kernels/blaze_xla_kernel.cc:155] Parse blaze options succ warmup_batchsize: 200
+xla_compilation: true
+gemm_optimization: true
+auto_mixed_precision: true
+no_warmup_inputs: "att_ncomm2"
+no_warmup_inputs: "att_ncomm3"
+no_warmup_inputs: "cross_long1"
+no_warmup_inputs: "cross_long2"
+no_warmup_inputs: "model_route_index"
+config_proto {
+  graph_options {
+    rewrite_options {
+      auto_mixed_precision: OFF
+      gemm_optimization: ON
+    }
+  }
+  force_run_in_caller_thread: true
+  enable_graph_opt_place: true
+}
+wait_ms: 20
+
+[libprotobuf ERROR external/com_google_protobuf/src/google/protobuf/text_format.cc:317] Error parsing text-format tensorflow.GraphDef: 2:1: Expected identifier, got: 6
+[libprotobuf ERROR external/com_google_protobuf/src/google/protobuf/io/zero_copy_stream_impl_lite.cc:155] Cannot allocate buffer larger than kint32max for StringOutputStream.
+2022-08-05 14:04:08.118525: I tensorflow/core/kernels/blaze_xla_kernel.cc:100] Blaze create with options warmup_batchsize: 200
+xla_compilation: true
+gemm_optimization: true
+auto_mixed_precision: true
+no_warmup_inputs: "att_ncomm2"
+no_warmup_inputs: "att_ncomm3"
+no_warmup_inputs: "cross_long1"
+no_warmup_inputs: "cross_long2"
+no_warmup_inputs: "model_route_index"
+config_proto {
+  gpu_options {
+    allow_growth: true
+  }
+  allow_soft_placement: true
+  graph_options {
+    rewrite_options {
+      auto_mixed_precision: OFF
+      gemm_optimization: ON
+    }
+  }
+  force_run_in_caller_thread: true
+  enable_graph_opt_place: true
+}
+wait_ms: 20
+
+2022-08-05 14:04:08.631640: I tensorflow/core/kernels/blaze_predictor.cc:110] create session with config gpu_options {
+  allow_growth: true
+  visible_device_list: "0"
+  experimental {
+    virtual_devices {
+      memory_limit_mb: 12288
+      memory_limit_mb: 12288
+      memory_limit_mb: 12288
+      memory_limit_mb: 12288
+    }
+  }
+}
+allow_soft_placement: true
+graph_options {
+  optimizer_options {
+    global_jit_level: ON_1
+  }
+  rewrite_options {
+    auto_mixed_precision: OFF
+    gemm_optimization: ON
+  }
+}
+enable_graph_opt_place: true
+is_blaze: true
+
+2022-08-05 14:04:08.633405: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1642] Found device 0 with properties: 
+name: A10 major: 8 minor: 6 memoryClockRate(GHz): 1.695
+pciBusID: 0000:61:00.0
+2022-08-05 14:04:08.633486: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.11.0
+2022-08-05 14:04:08.633504: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcublas.so.11
+2022-08-05 14:04:08.633510: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcufft.so.10
+2022-08-05 14:04:08.633515: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcurand.so.10
+2022-08-05 14:04:08.633521: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusolver.so.11
+2022-08-05 14:04:08.633527: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusparse.so.11
+2022-08-05 14:04:08.633533: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudnn.so.8
+2022-08-05 14:04:08.634829: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1770] Adding visible gpu devices: 0
+2022-08-05 14:04:08.634873: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1180] Device interconnect StreamExecutor with strength 1 edge matrix:
+2022-08-05 14:04:08.634884: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1186]      0 
+2022-08-05 14:04:08.634889: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1199] 0:   N 
+2022-08-05 14:04:08.638142: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:04:08.638840: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:04:08.639506: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:2 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:04:08.640193: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:3 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:04:08.640256: I tensorflow/core/kernels/blaze_predictor.cc:119] Blaze start with step id 1024
+2022-08-05 14:04:08.640264: I tensorflow/core/kernels/blaze_predictor.cc:120] Creat session succ 0x3822930
+2022-08-05 14:04:08.640275: I tensorflow/core/kernels/blaze_predictor.cc:73] BlazePredictor will use device /job:localhost/replica:0/task:0/device:GPU:0
+2022-08-05 14:04:11.613392: I tensorflow/core/common_runtime/placer.cc:128] Allow optimize placer
+2022-08-05 14:04:11.622837: I tensorflow/core/kernels/blaze_predictor.cc:92] create session with callable options feed: "comm"
+feed: "att_comm2"
+feed: "att_comm3"
+feed: "ncomm"
+feed: "model_route_index"
+feed: "att_ncomm"
+feed: "att_comm"
+feed: "cross_long0"
+feed: "cross_long1"
+feed: "cross_global0"
+feed: "cross_global1"
+feed: "cross_long2"
+feed: "cross_cr"
+feed: "att_ncomm2"
+feed: "nick_cate_indicators"
+fetch: "add"
+feed_devices {
+  key: "att_comm"
+  value: "/job:localhost/replica:0/task:0/device:GPU:0"
+}
+feed_devices {
+  key: "att_comm2"
+  value: "/job:localhost/replica:0/task:0/device:GPU:0"
+}
+feed_devices {
+  key: "att_comm3"
+  value: "/job:localhost/replica:0/task:0/device:GPU:0"
+}
+feed_devices {
+  key: "att_ncomm"
+  value: "/job:localhost/replica:0/task:0/device:GPU:0"
+}
+feed_devices {
+  key: "att_ncomm2"
+  value: "/job:localhost/replica:0/task:0/device:GPU:0"
+}
+feed_devices {
+  key: "comm"
+  value: "/job:localhost/replica:0/task:0/device:GPU:0"
+}
+feed_devices {
+  key: "cross_cr"
+  value: "/job:localhost/replica:0/task:0/device:GPU:0"
+}
+feed_devices {
+  key: "cross_global0"
+  value: "/job:localhost/replica:0/task:0/device:GPU:0"
+}
+feed_devices {
+  key: "cross_global1"
+  value: "/job:localhost/replica:0/task:0/device:GPU:0"
+}
+feed_devices {
+  key: "cross_long0"
+  value: "/job:localhost/replica:0/task:0/device:GPU:0"
+}
+feed_devices {
+  key: "cross_long1"
+  value: "/job:localhost/replica:0/task:0/device:GPU:0"
+}
+feed_devices {
+  key: "cross_long2"
+  value: "/job:localhost/replica:0/task:0/device:GPU:0"
+}
+feed_devices {
+  key: "model_route_index"
+  value: "/job:localhost/replica:0/task:0/device:GPU:0"
+}
+feed_devices {
+  key: "ncomm"
+  value: "/job:localhost/replica:0/task:0/device:GPU:0"
+}
+feed_devices {
+  key: "nick_cate_indicators"
+  value: "/job:localhost/replica:0/task:0/device:GPU:0"
+}
+fetch_devices {
+  key: "add"
+  value: "/job:localhost/replica:0/task:0/device:GPU:0"
+}
+fetch_skip_sync: true
+
+2022-08-05 14:04:20.404552: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:04:20.404600: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:04:20.405367: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:04:20.405384: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:04:20.406084: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:04:20.406098: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:04:20.406798: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:04:20.406813: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:04:20.407488: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:04:20.407505: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:04:20.408164: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:04:20.408186: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:04:20.408811: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:04:20.408822: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:04:20.972684: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcublas.so.11
+2022-08-05 14:04:21.481780: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcublasLt.so.11
+2022-08-05 14:04:21.561484: I tensorflow/core/kernels/blaze_predictor.cc:132] MakeCallable succ 0x3822930
+2022-08-05 14:04:21.561543: I tensorflow/core/kernels/blaze_predictor.cc:205] req_dev: /device:CPU:0; blaze_dev: /device:GPU:0
+2022-08-05 14:04:21.566549: I tensorflow/core/kernels/blaze_xla_predictor.cc:367] Begin warmup
+2022-08-05 14:04:21.566724: I tensorflow/core/kernels/blaze_xla_predictor.cc:109] begin warmup 200
+2022-08-05 14:04:21.875244: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_2[_XlaCompiledKernel=true,_XlaNumConstantArgs=9,_XlaNumResourceArgs=0],half [1,1000],half [1,18000],half [1,4500]; Tensor<type: int32 shape: [4] values: 6 150 4...>; Tensor<type: int32 shape: [4] values: 1 50 4...>; Tensor<type: int32 shape: [4] values: 3 150 2...>; Tensor<type: int32 shape: [4] values: 2 0 1...>; Tensor<type: int32 shape: [3] values: 24 150 5>; Tensor<type: int32 shape: [4] values: 1 4 50...>; Tensor<type: int32 shape: [3] values: 6 150 5>; Tensor<type: int32 shape: [] values: 0>; Tensor<type: int32 shape: [4] values: 1 30 150...> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:04:21.881292: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:268] Cache XLA PTXs in ./xla_cache. This line is logged at most once for the lifetime of the process.
+2022-08-05 14:04:21.881316: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:285] Will not cache XLA CUBINs. This line is logged at most once for the lifetime of the process.
+2022-08-05 14:04:21.881466: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:329] RunBackend() - Will load PTX from file: ./xla_cache/4695837893004515636.ptx
+2022-08-05 14:04:22.859455: I tensorflow/compiler/jit/xla_compilation_cache.cc:292] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+2022-08-05 14:04:22.860163: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_1[_XlaCompiledKernel=true,_XlaNumConstantArgs=32,_XlaNumResourceArgs=0],half [200,1852],half [200,1040]; Tensor<type: int32 shape: [2] values: 0 0>; Tensor<type: int32 shape: [2] values: 0 800>; Tensor<type: int32 shape: [2] values: 1 1>; Tensor<type: int32 shape: [2] values: 0 1040>; Tensor<type: int32 shape: [2] values: 0 48>; Tensor<type: int32 shape: [2] values: 0 64>; Tensor<type: int32 shape: [2] values: 0 80>; Tensor<type: int32 shape: [2] values: 0 96>; Tensor<type: int32 shape: [2] values: 0 112>; Tensor<type: int32 shape: [2] values: 0 160>; Tensor<type: int32 shape: [2] values: 0 176>; Tensor<type: int32 shape: [2] values: 0 144>; Tensor<type: int32 shape: [3] values: -1 4 200>; Tensor<type: int32 shape: [5] values: -1 2 6...>; Tensor<type: int32 shape: [] values: 1>; Tensor<type: int32 shape: [3] values: 0 0 0>; Tensor<type: int32 shape: [3] values: 0 0 180>; Tensor<type: int32 shape: [3] values: 1 1 1>; Tensor<type: int32 shape: [5] values: 0 0 0...>; Tensor<type: int32 shape: [5] values: 0 0 3...>; Tensor<type: int32 shape: [5] values: 1 1 1...>; Tensor<type: int32 shape: [5] values: 0 0 6...>; Tensor<type: int32 shape: [5] values: -1 4 9...>; Tensor<type: int32 shape: [4] values: -1 6 5...>; Tensor<type: int32 shape: [5] values: 0 0 7...>; Tensor<type: int32 shape: [5] values: 0 0 9...>; Tensor<type: int32 shape: [3] values: 8 0 0>; Tensor<type: int32 shape: [3] values: 12 0 0>; Tensor<type: int32 shape: [4] values: -1 24 5...>; Tensor<type: int32 shape: [4] values: -1 4 5...>; Tensor<type: int32 shape: [4] values: -1 8 5...>; Tensor<type: int32 shape: [4] values: 4 -1 1...> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:04:22.882085: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:329] RunBackend() - Will load PTX from file: ./xla_cache/10153300373092785533.ptx
+2022-08-05 14:04:23.412392: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_4[_XlaCompiledKernel=true,_XlaNumConstantArgs=1,_XlaNumResourceArgs=0],float [4,200,200,1]; Tensor<type: int32 shape: [4] values: 0 1 3...> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:04:23.985326: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_0[_XlaCompiledKernel=true,_XlaNumConstantArgs=52,_XlaNumResourceArgs=0],float [200,96],float [16,200,24],float [200,4,2,4],float [200,30,2,4],float [200,14,2,4],float [4,200,24,1],float [200,1852],float [200,96],half [1,1728],half [1,4800],half [1,19200],half [1,4800],half [1,38400]; Tensor<type: int32 shape: [4] values: 2 8 150...>; Tensor<type: int32 shape: [3] values: 6 50 16>; Tensor<type: int32 shape: [3] values: 6 200 16>; Tensor<type: int32 shape: [4] values: 0 2 1...>; Tensor<type: int32 shape: [3] values: 1 0 2>; Tensor<type: int32 shape: [3] values: 2 150 128>; Tensor<type: int32 shape: [3] values: 1 50 96>; Tensor<type: int32 shape: [3] values: 1 200 96>; Tensor<type: int32 shape: [1] values: 0>; Tensor<type: int32 shape: [1] values: 1>; Tensor<type: int32 shape: [1] values: 2>; Tensor<type: int32 shape: [3] values: 16 0 0>; Tensor<type: int32 shape: [4] values: 1 200 4...>; Tensor<type: int32 shape: [2] values: 200 1>; Tensor<type: int32 shape: [4] values: 2 50 4...>; Tensor<type: int32 shape: [3] values: 4 200 24>; Tensor<type: int32 shape: [3] values: -1 4 8>; Tensor<type: int32 shape: [4] values: 2 150 4...>; Tensor<type: int32 shape: [3] values: 8 50 24>; Tensor<type: int32 shape: [3] values: -1 30 8>; Tensor<type: int32 shape: [3] values: 0 1 0>; Tensor<type: int32 shape: [3] values: 0 2 0>; Tensor<type: int32 shape: [3] values: 0 3 0>; Tensor<type: int32 shape: [3] values: -1 14 8>; Tensor<type: int32 shape: [3] values: 0 6 0>; Tensor<type: int32 shape: [3] values: 0 12 0>; Tensor<type: int32 shape: [3] values: 0 18 0>; Tensor<type: int32 shape: [3] values: 0 24 0>; Tensor<type: int32 shape: [3] values: 0 27 0>; Tensor<type: int32 shape: [3] values: 0 4 0>; Tensor<type: int32 shape: [3] values: 0 8 0>; Tensor<type: int32 shape: [3] values: 0 11 0>; Tensor<type: int32 shape: [3] values: 8 150 32>; Tensor<type: int32 shape: [2] values: -1 384>; Tensor<type: int32 shape: [4] values: 1 4 -1...>; Tensor<type: int32 shape: [4] values: 1 0 2...>; Tensor<type: int32 shape: [4] values: 2 4 -1...>; Tensor<type: int32 shape: [2] values: -1 96>; Tensor<type: int32 shape: [4] values: 2 4 -1...>; Tensor<type: int32 shape: [2] values: -1 192>; Tensor<type: int32 shape: [2] values: 0 -96>; Tensor<type: int32 shape: [2] values: -1 256>; Tensor<type: int32 shape: [2] values: 0 0>; Tensor<type: int32 shape: [2] values: 0 96>; Tensor<type: int32 shape: [2] values: 1 1>; Tensor<type: int32 shape: [3] values: 1 1 1>; Tensor<type: int32 shape: [3] values: 8 0 0>; Tensor<type: int32 shape: [3] values: 0 0 0>; Tensor<type: int32 shape: [] values: 0>; Tensor<type: int32 shape: [4] values: 2 0 1...>; Tensor<type: int32 shape: [] values: 1>; Tensor<type: int32 shape: [3] values: 12 0 0> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:04:25.212542: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_5[_XlaCompiledKernel=true,_XlaNumConstantArgs=1,_XlaNumResourceArgs=0],float [200,5244],float [1,5244],half [5244,1024],float [1024],float [1,1024],float [],float [],float [1024,512],float [512],float [1,512],float [512,256],float [256],float [1,256],float [256,128],float [128],float [1,128],float [128,64],float [64],float [1,64],float [64,2],float [2]; Tensor<type: int32 shape: [1] values: 1> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:04:25.985855: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_6[_XlaCompiledKernel=true,_XlaNumConstantArgs=1,_XlaNumResourceArgs=0],float [200,5244],float [1,5244],half [5244,1024],float [1024],float [1,1024],float [],float [],float [1024,512],float [512],float [1,512],float [512,256],float [256],float [1,256],float [256,128],float [128],float [1,128],float [128,64],float [64],float [1,64],float [64,2],float [2]; Tensor<type: int32 shape: [1] values: 1> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:04:26.744271: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_7[_XlaCompiledKernel=true,_XlaNumConstantArgs=1,_XlaNumResourceArgs=0],float [200,2],float [200,2],float []; Tensor<type: int32 shape: [] values: 1> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:04:27.322956: I tensorflow/core/kernels/blaze_xla_predictor.cc:137] batch 200 has warmuped; cost us: 5756202
+2022-08-05 14:04:27.340904: I tensorflow/core/kernels/blaze_xla_kernel.cc:80] blaze set thread pool size 2
+2022-08-05 14:04:27.341147: I tensorflow/core/kernels/blaze_xla_kernel.cc:80] blaze set thread pool size 2
+2022-08-05 14:04:27.341161: I tensorflow/core/kernels/blaze_xla_kernel.cc:88] blaze max waiting count 10
+2022-08-05 14:04:27.341266: I tensorflow/core/kernels/blaze_xla_kernel.cc:155] Parse blaze options succ warmup_batchsize: 200
+xla_compilation: true
+gemm_optimization: true
+auto_mixed_precision: true
+no_warmup_inputs: "att_ncomm2"
+no_warmup_inputs: "att_ncomm3"
+no_warmup_inputs: "cross_long1"
+no_warmup_inputs: "cross_long2"
+no_warmup_inputs: "model_route_index"
+config_proto {
+  graph_options {
+    rewrite_options {
+      auto_mixed_precision: OFF
+      gemm_optimization: ON
+    }
+  }
+  force_run_in_caller_thread: true
+  enable_graph_opt_place: true
+}
+wait_ms: 20
+
+[libprotobuf ERROR external/com_google_protobuf/src/google/protobuf/text_format.cc:317] Error parsing text-format tensorflow.GraphDef: 2:1: Expected identifier, got: 6
+[libprotobuf ERROR external/com_google_protobuf/src/google/protobuf/io/zero_copy_stream_impl_lite.cc:155] Cannot allocate buffer larger than kint32max for StringOutputStream.
+2022-08-05 14:04:36.373728: I tensorflow/core/kernels/blaze_xla_kernel.cc:100] Blaze create with options warmup_batchsize: 200
+xla_compilation: true
+gemm_optimization: true
+auto_mixed_precision: true
+no_warmup_inputs: "att_ncomm2"
+no_warmup_inputs: "att_ncomm3"
+no_warmup_inputs: "cross_long1"
+no_warmup_inputs: "cross_long2"
+no_warmup_inputs: "model_route_index"
+config_proto {
+  gpu_options {
+    allow_growth: true
+  }
+  allow_soft_placement: true
+  graph_options {
+    rewrite_options {
+      auto_mixed_precision: OFF
+      gemm_optimization: ON
+    }
+  }
+  force_run_in_caller_thread: true
+  enable_graph_opt_place: true
+}
+wait_ms: 20
+
+2022-08-05 14:04:36.583749: I tensorflow/core/kernels/blaze_predictor.cc:110] create session with config gpu_options {
+  allow_growth: true
+  visible_device_list: "0"
+  experimental {
+    virtual_devices {
+      memory_limit_mb: 12288
+      memory_limit_mb: 12288
+      memory_limit_mb: 12288
+      memory_limit_mb: 12288
+    }
+  }
+}
+allow_soft_placement: true
+graph_options {
+  optimizer_options {
+    global_jit_level: ON_1
+  }
+  rewrite_options {
+    auto_mixed_precision: OFF
+    gemm_optimization: ON
+  }
+}
+enable_graph_opt_place: true
+is_blaze: true
+
+2022-08-05 14:04:36.585320: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1642] Found device 0 with properties: 
+name: A10 major: 8 minor: 6 memoryClockRate(GHz): 1.695
+pciBusID: 0000:61:00.0
+2022-08-05 14:04:36.585352: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.11.0
+2022-08-05 14:04:36.585364: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcublas.so.11
+2022-08-05 14:04:36.585371: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcufft.so.10
+2022-08-05 14:04:36.585381: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcurand.so.10
+2022-08-05 14:04:36.585387: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusolver.so.11
+2022-08-05 14:04:36.585393: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusparse.so.11
+2022-08-05 14:04:36.585402: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudnn.so.8
+2022-08-05 14:04:36.586683: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1770] Adding visible gpu devices: 0
+2022-08-05 14:04:36.586719: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1180] Device interconnect StreamExecutor with strength 1 edge matrix:
+2022-08-05 14:04:36.586728: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1186]      0 
+2022-08-05 14:04:36.586733: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1199] 0:   N 
+2022-08-05 14:04:36.589877: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:04:36.590525: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:04:36.591181: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:2 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:04:36.591839: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:3 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:04:36.591896: I tensorflow/core/kernels/blaze_predictor.cc:119] Blaze start with step id 1024
+2022-08-05 14:04:36.591904: I tensorflow/core/kernels/blaze_predictor.cc:120] Creat session succ 0x7f244cf6e100
+2022-08-05 14:04:36.591913: I tensorflow/core/kernels/blaze_predictor.cc:73] BlazePredictor will use device /job:localhost/replica:0/task:0/device:GPU:1
+2022-08-05 14:04:38.367431: I tensorflow/core/common_runtime/placer.cc:128] Allow optimize placer
+2022-08-05 14:04:38.377187: I tensorflow/core/kernels/blaze_predictor.cc:92] create session with callable options feed: "comm"
+feed: "att_comm2"
+feed: "att_comm3"
+feed: "ncomm"
+feed: "model_route_index"
+feed: "att_ncomm"
+feed: "att_comm"
+feed: "cross_long0"
+feed: "cross_long1"
+feed: "cross_global0"
+feed: "cross_global1"
+feed: "cross_long2"
+feed: "cross_cr"
+feed: "att_ncomm2"
+feed: "nick_cate_indicators"
+fetch: "add"
+feed_devices {
+  key: "att_comm"
+  value: "/job:localhost/replica:0/task:0/device:GPU:1"
+}
+feed_devices {
+  key: "att_comm2"
+  value: "/job:localhost/replica:0/task:0/device:GPU:1"
+}
+feed_devices {
+  key: "att_comm3"
+  value: "/job:localhost/replica:0/task:0/device:GPU:1"
+}
+feed_devices {
+  key: "att_ncomm"
+  value: "/job:localhost/replica:0/task:0/device:GPU:1"
+}
+feed_devices {
+  key: "att_ncomm2"
+  value: "/job:localhost/replica:0/task:0/device:GPU:1"
+}
+feed_devices {
+  key: "comm"
+  value: "/job:localhost/replica:0/task:0/device:GPU:1"
+}
+feed_devices {
+  key: "cross_cr"
+  value: "/job:localhost/replica:0/task:0/device:GPU:1"
+}
+feed_devices {
+  key: "cross_global0"
+  value: "/job:localhost/replica:0/task:0/device:GPU:1"
+}
+feed_devices {
+  key: "cross_global1"
+  value: "/job:localhost/replica:0/task:0/device:GPU:1"
+}
+feed_devices {
+  key: "cross_long0"
+  value: "/job:localhost/replica:0/task:0/device:GPU:1"
+}
+feed_devices {
+  key: "cross_long1"
+  value: "/job:localhost/replica:0/task:0/device:GPU:1"
+}
+feed_devices {
+  key: "cross_long2"
+  value: "/job:localhost/replica:0/task:0/device:GPU:1"
+}
+feed_devices {
+  key: "model_route_index"
+  value: "/job:localhost/replica:0/task:0/device:GPU:1"
+}
+feed_devices {
+  key: "ncomm"
+  value: "/job:localhost/replica:0/task:0/device:GPU:1"
+}
+feed_devices {
+  key: "nick_cate_indicators"
+  value: "/job:localhost/replica:0/task:0/device:GPU:1"
+}
+fetch_devices {
+  key: "add"
+  value: "/job:localhost/replica:0/task:0/device:GPU:1"
+}
+fetch_skip_sync: true
+
+2022-08-05 14:04:46.865763: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:04:46.865814: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:04:46.866611: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:04:46.866630: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:04:46.867358: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:04:46.867374: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:04:46.868050: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:04:46.868063: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:04:46.868782: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:04:46.868797: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:04:46.869444: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:04:46.869454: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:04:46.870055: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:04:46.870065: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:04:47.626883: I tensorflow/core/kernels/blaze_predictor.cc:132] MakeCallable succ 0x7f244cf6e100
+2022-08-05 14:04:47.626942: I tensorflow/core/kernels/blaze_predictor.cc:205] req_dev: /device:CPU:0; blaze_dev: /device:GPU:1
+2022-08-05 14:04:47.629192: I tensorflow/core/kernels/blaze_xla_predictor.cc:367] Begin warmup
+2022-08-05 14:04:47.629379: I tensorflow/core/kernels/blaze_xla_predictor.cc:109] begin warmup 200
+2022-08-05 14:04:47.962371: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_2[_XlaCompiledKernel=true,_XlaNumConstantArgs=9,_XlaNumResourceArgs=0],half [1,1000],half [1,18000],half [1,4500]; Tensor<type: int32 shape: [4] values: 6 150 4...>; Tensor<type: int32 shape: [4] values: 1 50 4...>; Tensor<type: int32 shape: [4] values: 3 150 2...>; Tensor<type: int32 shape: [4] values: 2 0 1...>; Tensor<type: int32 shape: [3] values: 24 150 5>; Tensor<type: int32 shape: [4] values: 1 4 50...>; Tensor<type: int32 shape: [3] values: 6 150 5>; Tensor<type: int32 shape: [] values: 0>; Tensor<type: int32 shape: [4] values: 1 30 150...> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:04:47.967516: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:329] RunBackend() - Will load PTX from file: ./xla_cache/4695837893004515636.ptx
+2022-08-05 14:04:47.967605: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:605] Compile ptx to cubin: found in cache
+2022-08-05 14:04:47.968078: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_1[_XlaCompiledKernel=true,_XlaNumConstantArgs=32,_XlaNumResourceArgs=0],half [200,1852],half [200,1040]; Tensor<type: int32 shape: [2] values: 0 0>; Tensor<type: int32 shape: [2] values: 0 800>; Tensor<type: int32 shape: [2] values: 1 1>; Tensor<type: int32 shape: [2] values: 0 1040>; Tensor<type: int32 shape: [2] values: 0 48>; Tensor<type: int32 shape: [2] values: 0 64>; Tensor<type: int32 shape: [2] values: 0 80>; Tensor<type: int32 shape: [2] values: 0 96>; Tensor<type: int32 shape: [2] values: 0 112>; Tensor<type: int32 shape: [2] values: 0 160>; Tensor<type: int32 shape: [2] values: 0 176>; Tensor<type: int32 shape: [2] values: 0 144>; Tensor<type: int32 shape: [3] values: -1 4 200>; Tensor<type: int32 shape: [5] values: -1 2 6...>; Tensor<type: int32 shape: [] values: 1>; Tensor<type: int32 shape: [3] values: 0 0 0>; Tensor<type: int32 shape: [3] values: 0 0 180>; Tensor<type: int32 shape: [3] values: 1 1 1>; Tensor<type: int32 shape: [5] values: 0 0 0...>; Tensor<type: int32 shape: [5] values: 0 0 3...>; Tensor<type: int32 shape: [5] values: 1 1 1...>; Tensor<type: int32 shape: [5] values: 0 0 6...>; Tensor<type: int32 shape: [5] values: -1 4 9...>; Tensor<type: int32 shape: [4] values: -1 6 5...>; Tensor<type: int32 shape: [5] values: 0 0 7...>; Tensor<type: int32 shape: [5] values: 0 0 9...>; Tensor<type: int32 shape: [3] values: 8 0 0>; Tensor<type: int32 shape: [3] values: 12 0 0>; Tensor<type: int32 shape: [4] values: -1 24 5...>; Tensor<type: int32 shape: [4] values: -1 4 5...>; Tensor<type: int32 shape: [4] values: -1 8 5...>; Tensor<type: int32 shape: [4] values: 4 -1 1...> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:04:47.987248: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:329] RunBackend() - Will load PTX from file: ./xla_cache/10153300373092785533.ptx
+2022-08-05 14:04:47.987392: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:605] Compile ptx to cubin: found in cache
+2022-08-05 14:04:48.542827: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_4[_XlaCompiledKernel=true,_XlaNumConstantArgs=1,_XlaNumResourceArgs=0],float [4,200,200,1]; Tensor<type: int32 shape: [4] values: 0 1 3...> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:04:48.604241: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:605] Compile ptx to cubin: found in cache
+2022-08-05 14:04:48.605262: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_0[_XlaCompiledKernel=true,_XlaNumConstantArgs=52,_XlaNumResourceArgs=0],float [200,96],float [16,200,24],float [200,4,2,4],float [200,30,2,4],float [200,14,2,4],float [4,200,24,1],float [200,1852],float [200,96],half [1,1728],half [1,4800],half [1,19200],half [1,4800],half [1,38400]; Tensor<type: int32 shape: [4] values: 2 8 150...>; Tensor<type: int32 shape: [3] values: 6 50 16>; Tensor<type: int32 shape: [3] values: 6 200 16>; Tensor<type: int32 shape: [4] values: 0 2 1...>; Tensor<type: int32 shape: [3] values: 1 0 2>; Tensor<type: int32 shape: [3] values: 2 150 128>; Tensor<type: int32 shape: [3] values: 1 50 96>; Tensor<type: int32 shape: [3] values: 1 200 96>; Tensor<type: int32 shape: [1] values: 0>; Tensor<type: int32 shape: [1] values: 1>; Tensor<type: int32 shape: [1] values: 2>; Tensor<type: int32 shape: [3] values: 16 0 0>; Tensor<type: int32 shape: [4] values: 1 200 4...>; Tensor<type: int32 shape: [2] values: 200 1>; Tensor<type: int32 shape: [4] values: 2 50 4...>; Tensor<type: int32 shape: [3] values: 4 200 24>; Tensor<type: int32 shape: [3] values: -1 4 8>; Tensor<type: int32 shape: [4] values: 2 150 4...>; Tensor<type: int32 shape: [3] values: 8 50 24>; Tensor<type: int32 shape: [3] values: -1 30 8>; Tensor<type: int32 shape: [3] values: 0 1 0>; Tensor<type: int32 shape: [3] values: 0 2 0>; Tensor<type: int32 shape: [3] values: 0 3 0>; Tensor<type: int32 shape: [3] values: -1 14 8>; Tensor<type: int32 shape: [3] values: 0 6 0>; Tensor<type: int32 shape: [3] values: 0 12 0>; Tensor<type: int32 shape: [3] values: 0 18 0>; Tensor<type: int32 shape: [3] values: 0 24 0>; Tensor<type: int32 shape: [3] values: 0 27 0>; Tensor<type: int32 shape: [3] values: 0 4 0>; Tensor<type: int32 shape: [3] values: 0 8 0>; Tensor<type: int32 shape: [3] values: 0 11 0>; Tensor<type: int32 shape: [3] values: 8 150 32>; Tensor<type: int32 shape: [2] values: -1 384>; Tensor<type: int32 shape: [4] values: 1 4 -1...>; Tensor<type: int32 shape: [4] values: 1 0 2...>; Tensor<type: int32 shape: [4] values: 2 4 -1...>; Tensor<type: int32 shape: [2] values: -1 96>; Tensor<type: int32 shape: [4] values: 2 4 -1...>; Tensor<type: int32 shape: [2] values: -1 192>; Tensor<type: int32 shape: [2] values: 0 -96>; Tensor<type: int32 shape: [2] values: -1 256>; Tensor<type: int32 shape: [2] values: 0 0>; Tensor<type: int32 shape: [2] values: 0 96>; Tensor<type: int32 shape: [2] values: 1 1>; Tensor<type: int32 shape: [3] values: 1 1 1>; Tensor<type: int32 shape: [3] values: 8 0 0>; Tensor<type: int32 shape: [3] values: 0 0 0>; Tensor<type: int32 shape: [] values: 0>; Tensor<type: int32 shape: [4] values: 2 0 1...>; Tensor<type: int32 shape: [] values: 1>; Tensor<type: int32 shape: [3] values: 12 0 0> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:04:50.063951: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_5[_XlaCompiledKernel=true,_XlaNumConstantArgs=1,_XlaNumResourceArgs=0],float [200,5244],float [1,5244],half [5244,1024],float [1024],float [1,1024],float [],float [],float [1024,512],float [512],float [1,512],float [512,256],float [256],float [1,256],float [256,128],float [128],float [1,128],float [128,64],float [64],float [1,64],float [64,2],float [2]; Tensor<type: int32 shape: [1] values: 1> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:04:50.256494: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:605] Compile ptx to cubin: found in cache
+2022-08-05 14:04:50.259582: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_6[_XlaCompiledKernel=true,_XlaNumConstantArgs=1,_XlaNumResourceArgs=0],float [200,5244],float [1,5244],half [5244,1024],float [1024],float [1,1024],float [],float [],float [1024,512],float [512],float [1,512],float [512,256],float [256],float [1,256],float [256,128],float [128],float [1,128],float [128,64],float [64],float [1,64],float [64,2],float [2]; Tensor<type: int32 shape: [1] values: 1> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:04:50.448507: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:605] Compile ptx to cubin: found in cache
+2022-08-05 14:04:50.451056: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_7[_XlaCompiledKernel=true,_XlaNumConstantArgs=1,_XlaNumResourceArgs=0],float [200,2],float [200,2],float []; Tensor<type: int32 shape: [] values: 1> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:04:50.499689: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:605] Compile ptx to cubin: found in cache
+2022-08-05 14:04:50.500665: I tensorflow/core/kernels/blaze_xla_predictor.cc:137] batch 200 has warmuped; cost us: 2871267
+2022-08-05 14:04:50.518475: I tensorflow/core/kernels/blaze_xla_kernel.cc:80] blaze set thread pool size 2
+2022-08-05 14:04:50.518724: I tensorflow/core/kernels/blaze_xla_kernel.cc:80] blaze set thread pool size 2
+2022-08-05 14:04:50.518739: I tensorflow/core/kernels/blaze_xla_kernel.cc:88] blaze max waiting count 10
+2022-08-05 14:04:50.518836: I tensorflow/core/kernels/blaze_xla_kernel.cc:155] Parse blaze options succ warmup_batchsize: 200
+xla_compilation: true
+gemm_optimization: true
+auto_mixed_precision: true
+no_warmup_inputs: "att_ncomm2"
+no_warmup_inputs: "att_ncomm3"
+no_warmup_inputs: "cross_long1"
+no_warmup_inputs: "cross_long2"
+no_warmup_inputs: "model_route_index"
+config_proto {
+  graph_options {
+    rewrite_options {
+      auto_mixed_precision: OFF
+      gemm_optimization: ON
+    }
+  }
+  force_run_in_caller_thread: true
+  enable_graph_opt_place: true
+}
+wait_ms: 20
+
+[libprotobuf ERROR external/com_google_protobuf/src/google/protobuf/text_format.cc:317] Error parsing text-format tensorflow.GraphDef: 2:1: Expected identifier, got: 6
+[libprotobuf ERROR external/com_google_protobuf/src/google/protobuf/io/zero_copy_stream_impl_lite.cc:155] Cannot allocate buffer larger than kint32max for StringOutputStream.
+2022-08-05 14:04:59.713230: I tensorflow/core/kernels/blaze_xla_kernel.cc:100] Blaze create with options warmup_batchsize: 200
+xla_compilation: true
+gemm_optimization: true
+auto_mixed_precision: true
+no_warmup_inputs: "att_ncomm2"
+no_warmup_inputs: "att_ncomm3"
+no_warmup_inputs: "cross_long1"
+no_warmup_inputs: "cross_long2"
+no_warmup_inputs: "model_route_index"
+config_proto {
+  gpu_options {
+    allow_growth: true
+  }
+  allow_soft_placement: true
+  graph_options {
+    rewrite_options {
+      auto_mixed_precision: OFF
+      gemm_optimization: ON
+    }
+  }
+  force_run_in_caller_thread: true
+  enable_graph_opt_place: true
+}
+wait_ms: 20
+
+2022-08-05 14:04:59.948751: I tensorflow/core/kernels/blaze_predictor.cc:110] create session with config gpu_options {
+  allow_growth: true
+  visible_device_list: "0"
+  experimental {
+    virtual_devices {
+      memory_limit_mb: 12288
+      memory_limit_mb: 12288
+      memory_limit_mb: 12288
+      memory_limit_mb: 12288
+    }
+  }
+}
+allow_soft_placement: true
+graph_options {
+  optimizer_options {
+    global_jit_level: ON_1
+  }
+  rewrite_options {
+    auto_mixed_precision: OFF
+    gemm_optimization: ON
+  }
+}
+enable_graph_opt_place: true
+is_blaze: true
+
+2022-08-05 14:04:59.950607: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1642] Found device 0 with properties: 
+name: A10 major: 8 minor: 6 memoryClockRate(GHz): 1.695
+pciBusID: 0000:61:00.0
+2022-08-05 14:04:59.950641: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.11.0
+2022-08-05 14:04:59.950654: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcublas.so.11
+2022-08-05 14:04:59.950660: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcufft.so.10
+2022-08-05 14:04:59.950667: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcurand.so.10
+2022-08-05 14:04:59.950679: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusolver.so.11
+2022-08-05 14:04:59.950685: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusparse.so.11
+2022-08-05 14:04:59.950690: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudnn.so.8
+2022-08-05 14:04:59.951878: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1770] Adding visible gpu devices: 0
+2022-08-05 14:04:59.951910: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1180] Device interconnect StreamExecutor with strength 1 edge matrix:
+2022-08-05 14:04:59.951918: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1186]      0 
+2022-08-05 14:04:59.951922: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1199] 0:   N 
+2022-08-05 14:04:59.954923: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:04:59.955547: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:04:59.956160: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:2 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:04:59.956805: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:3 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:04:59.956861: I tensorflow/core/kernels/blaze_predictor.cc:119] Blaze start with step id 1024
+2022-08-05 14:04:59.956869: I tensorflow/core/kernels/blaze_predictor.cc:120] Creat session succ 0x7f2507823050
+2022-08-05 14:04:59.956880: I tensorflow/core/kernels/blaze_predictor.cc:73] BlazePredictor will use device /job:localhost/replica:0/task:0/device:GPU:2
+2022-08-05 14:05:01.762724: I tensorflow/core/common_runtime/placer.cc:128] Allow optimize placer
+2022-08-05 14:05:01.772322: I tensorflow/core/kernels/blaze_predictor.cc:92] create session with callable options feed: "comm"
+feed: "att_comm2"
+feed: "att_comm3"
+feed: "ncomm"
+feed: "model_route_index"
+feed: "att_ncomm"
+feed: "att_comm"
+feed: "cross_long0"
+feed: "cross_long1"
+feed: "cross_global0"
+feed: "cross_global1"
+feed: "cross_long2"
+feed: "cross_cr"
+feed: "att_ncomm2"
+feed: "nick_cate_indicators"
+fetch: "add"
+feed_devices {
+  key: "att_comm"
+  value: "/job:localhost/replica:0/task:0/device:GPU:2"
+}
+feed_devices {
+  key: "att_comm2"
+  value: "/job:localhost/replica:0/task:0/device:GPU:2"
+}
+feed_devices {
+  key: "att_comm3"
+  value: "/job:localhost/replica:0/task:0/device:GPU:2"
+}
+feed_devices {
+  key: "att_ncomm"
+  value: "/job:localhost/replica:0/task:0/device:GPU:2"
+}
+feed_devices {
+  key: "att_ncomm2"
+  value: "/job:localhost/replica:0/task:0/device:GPU:2"
+}
+feed_devices {
+  key: "comm"
+  value: "/job:localhost/replica:0/task:0/device:GPU:2"
+}
+feed_devices {
+  key: "cross_cr"
+  value: "/job:localhost/replica:0/task:0/device:GPU:2"
+}
+feed_devices {
+  key: "cross_global0"
+  value: "/job:localhost/replica:0/task:0/device:GPU:2"
+}
+feed_devices {
+  key: "cross_global1"
+  value: "/job:localhost/replica:0/task:0/device:GPU:2"
+}
+feed_devices {
+  key: "cross_long0"
+  value: "/job:localhost/replica:0/task:0/device:GPU:2"
+}
+feed_devices {
+  key: "cross_long1"
+  value: "/job:localhost/replica:0/task:0/device:GPU:2"
+}
+feed_devices {
+  key: "cross_long2"
+  value: "/job:localhost/replica:0/task:0/device:GPU:2"
+}
+feed_devices {
+  key: "model_route_index"
+  value: "/job:localhost/replica:0/task:0/device:GPU:2"
+}
+feed_devices {
+  key: "ncomm"
+  value: "/job:localhost/replica:0/task:0/device:GPU:2"
+}
+feed_devices {
+  key: "nick_cate_indicators"
+  value: "/job:localhost/replica:0/task:0/device:GPU:2"
+}
+fetch_devices {
+  key: "add"
+  value: "/job:localhost/replica:0/task:0/device:GPU:2"
+}
+fetch_skip_sync: true
+
+2022-08-05 14:05:09.777509: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:05:09.777568: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:05:09.778534: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:05:09.778558: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:05:09.779393: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:05:09.779415: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:05:09.780219: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:05:09.780234: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:05:09.781009: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:05:09.781027: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:05:09.781803: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:05:09.781820: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:05:09.782589: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:05:09.782603: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:05:10.565259: I tensorflow/core/kernels/blaze_predictor.cc:132] MakeCallable succ 0x7f2507823050
+2022-08-05 14:05:10.565311: I tensorflow/core/kernels/blaze_predictor.cc:205] req_dev: /device:CPU:0; blaze_dev: /device:GPU:2
+2022-08-05 14:05:10.567571: I tensorflow/core/kernels/blaze_xla_predictor.cc:367] Begin warmup
+2022-08-05 14:05:10.567733: I tensorflow/core/kernels/blaze_xla_predictor.cc:109] begin warmup 200
+2022-08-05 14:05:10.858781: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_2[_XlaCompiledKernel=true,_XlaNumConstantArgs=9,_XlaNumResourceArgs=0],half [1,1000],half [1,18000],half [1,4500]; Tensor<type: int32 shape: [4] values: 6 150 4...>; Tensor<type: int32 shape: [4] values: 1 50 4...>; Tensor<type: int32 shape: [4] values: 3 150 2...>; Tensor<type: int32 shape: [4] values: 2 0 1...>; Tensor<type: int32 shape: [3] values: 24 150 5>; Tensor<type: int32 shape: [4] values: 1 4 50...>; Tensor<type: int32 shape: [3] values: 6 150 5>; Tensor<type: int32 shape: [] values: 0>; Tensor<type: int32 shape: [4] values: 1 30 150...> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:05:10.864273: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:329] RunBackend() - Will load PTX from file: ./xla_cache/4695837893004515636.ptx
+2022-08-05 14:05:10.864367: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:605] Compile ptx to cubin: found in cache
+2022-08-05 14:05:10.864866: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_1[_XlaCompiledKernel=true,_XlaNumConstantArgs=32,_XlaNumResourceArgs=0],half [200,1852],half [200,1040]; Tensor<type: int32 shape: [2] values: 0 0>; Tensor<type: int32 shape: [2] values: 0 800>; Tensor<type: int32 shape: [2] values: 1 1>; Tensor<type: int32 shape: [2] values: 0 1040>; Tensor<type: int32 shape: [2] values: 0 48>; Tensor<type: int32 shape: [2] values: 0 64>; Tensor<type: int32 shape: [2] values: 0 80>; Tensor<type: int32 shape: [2] values: 0 96>; Tensor<type: int32 shape: [2] values: 0 112>; Tensor<type: int32 shape: [2] values: 0 160>; Tensor<type: int32 shape: [2] values: 0 176>; Tensor<type: int32 shape: [2] values: 0 144>; Tensor<type: int32 shape: [3] values: -1 4 200>; Tensor<type: int32 shape: [5] values: -1 2 6...>; Tensor<type: int32 shape: [] values: 1>; Tensor<type: int32 shape: [3] values: 0 0 0>; Tensor<type: int32 shape: [3] values: 0 0 180>; Tensor<type: int32 shape: [3] values: 1 1 1>; Tensor<type: int32 shape: [5] values: 0 0 0...>; Tensor<type: int32 shape: [5] values: 0 0 3...>; Tensor<type: int32 shape: [5] values: 1 1 1...>; Tensor<type: int32 shape: [5] values: 0 0 6...>; Tensor<type: int32 shape: [5] values: -1 4 9...>; Tensor<type: int32 shape: [4] values: -1 6 5...>; Tensor<type: int32 shape: [5] values: 0 0 7...>; Tensor<type: int32 shape: [5] values: 0 0 9...>; Tensor<type: int32 shape: [3] values: 8 0 0>; Tensor<type: int32 shape: [3] values: 12 0 0>; Tensor<type: int32 shape: [4] values: -1 24 5...>; Tensor<type: int32 shape: [4] values: -1 4 5...>; Tensor<type: int32 shape: [4] values: -1 8 5...>; Tensor<type: int32 shape: [4] values: 4 -1 1...> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:05:10.883603: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:329] RunBackend() - Will load PTX from file: ./xla_cache/10153300373092785533.ptx
+2022-08-05 14:05:10.883748: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:605] Compile ptx to cubin: found in cache
+2022-08-05 14:05:11.675023: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_4[_XlaCompiledKernel=true,_XlaNumConstantArgs=1,_XlaNumResourceArgs=0],float [4,200,200,1]; Tensor<type: int32 shape: [4] values: 0 1 3...> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:05:11.733226: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:605] Compile ptx to cubin: found in cache
+2022-08-05 14:05:11.734149: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_0[_XlaCompiledKernel=true,_XlaNumConstantArgs=52,_XlaNumResourceArgs=0],float [200,96],float [16,200,24],float [200,4,2,4],float [200,30,2,4],float [200,14,2,4],float [4,200,24,1],float [200,1852],float [200,96],half [1,1728],half [1,4800],half [1,19200],half [1,4800],half [1,38400]; Tensor<type: int32 shape: [4] values: 2 8 150...>; Tensor<type: int32 shape: [3] values: 6 50 16>; Tensor<type: int32 shape: [3] values: 6 200 16>; Tensor<type: int32 shape: [4] values: 0 2 1...>; Tensor<type: int32 shape: [3] values: 1 0 2>; Tensor<type: int32 shape: [3] values: 2 150 128>; Tensor<type: int32 shape: [3] values: 1 50 96>; Tensor<type: int32 shape: [3] values: 1 200 96>; Tensor<type: int32 shape: [1] values: 0>; Tensor<type: int32 shape: [1] values: 1>; Tensor<type: int32 shape: [1] values: 2>; Tensor<type: int32 shape: [3] values: 16 0 0>; Tensor<type: int32 shape: [4] values: 1 200 4...>; Tensor<type: int32 shape: [2] values: 200 1>; Tensor<type: int32 shape: [4] values: 2 50 4...>; Tensor<type: int32 shape: [3] values: 4 200 24>; Tensor<type: int32 shape: [3] values: -1 4 8>; Tensor<type: int32 shape: [4] values: 2 150 4...>; Tensor<type: int32 shape: [3] values: 8 50 24>; Tensor<type: int32 shape: [3] values: -1 30 8>; Tensor<type: int32 shape: [3] values: 0 1 0>; Tensor<type: int32 shape: [3] values: 0 2 0>; Tensor<type: int32 shape: [3] values: 0 3 0>; Tensor<type: int32 shape: [3] values: -1 14 8>; Tensor<type: int32 shape: [3] values: 0 6 0>; Tensor<type: int32 shape: [3] values: 0 12 0>; Tensor<type: int32 shape: [3] values: 0 18 0>; Tensor<type: int32 shape: [3] values: 0 24 0>; Tensor<type: int32 shape: [3] values: 0 27 0>; Tensor<type: int32 shape: [3] values: 0 4 0>; Tensor<type: int32 shape: [3] values: 0 8 0>; Tensor<type: int32 shape: [3] values: 0 11 0>; Tensor<type: int32 shape: [3] values: 8 150 32>; Tensor<type: int32 shape: [2] values: -1 384>; Tensor<type: int32 shape: [4] values: 1 4 -1...>; Tensor<type: int32 shape: [4] values: 1 0 2...>; Tensor<type: int32 shape: [4] values: 2 4 -1...>; Tensor<type: int32 shape: [2] values: -1 96>; Tensor<type: int32 shape: [4] values: 2 4 -1...>; Tensor<type: int32 shape: [2] values: -1 192>; Tensor<type: int32 shape: [2] values: 0 -96>; Tensor<type: int32 shape: [2] values: -1 256>; Tensor<type: int32 shape: [2] values: 0 0>; Tensor<type: int32 shape: [2] values: 0 96>; Tensor<type: int32 shape: [2] values: 1 1>; Tensor<type: int32 shape: [3] values: 1 1 1>; Tensor<type: int32 shape: [3] values: 8 0 0>; Tensor<type: int32 shape: [3] values: 0 0 0>; Tensor<type: int32 shape: [] values: 0>; Tensor<type: int32 shape: [4] values: 2 0 1...>; Tensor<type: int32 shape: [] values: 1>; Tensor<type: int32 shape: [3] values: 12 0 0> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:05:13.386515: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_5[_XlaCompiledKernel=true,_XlaNumConstantArgs=1,_XlaNumResourceArgs=0],float [200,5244],float [1,5244],half [5244,1024],float [1024],float [1,1024],float [],float [],float [1024,512],float [512],float [1,512],float [512,256],float [256],float [1,256],float [256,128],float [128],float [1,128],float [128,64],float [64],float [1,64],float [64,2],float [2]; Tensor<type: int32 shape: [1] values: 1> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:05:14.600769: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_6[_XlaCompiledKernel=true,_XlaNumConstantArgs=1,_XlaNumResourceArgs=0],float [200,5244],float [1,5244],half [5244,1024],float [1024],float [1,1024],float [],float [],float [1024,512],float [512],float [1,512],float [512,256],float [256],float [1,256],float [256,128],float [128],float [1,128],float [128,64],float [64],float [1,64],float [64,2],float [2]; Tensor<type: int32 shape: [1] values: 1> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:05:15.787656: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_7[_XlaCompiledKernel=true,_XlaNumConstantArgs=1,_XlaNumResourceArgs=0],float [200,2],float [200,2],float []; Tensor<type: int32 shape: [] values: 1> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:05:15.839632: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:605] Compile ptx to cubin: found in cache
+2022-08-05 14:05:15.840720: I tensorflow/core/kernels/blaze_xla_predictor.cc:137] batch 200 has warmuped; cost us: 5272969
+2022-08-05 14:05:15.859046: I tensorflow/core/kernels/blaze_xla_kernel.cc:80] blaze set thread pool size 2
+2022-08-05 14:05:15.859307: I tensorflow/core/kernels/blaze_xla_kernel.cc:80] blaze set thread pool size 2
+2022-08-05 14:05:15.859320: I tensorflow/core/kernels/blaze_xla_kernel.cc:88] blaze max waiting count 10
+2022-08-05 14:05:15.859423: I tensorflow/core/kernels/blaze_xla_kernel.cc:155] Parse blaze options succ warmup_batchsize: 200
+xla_compilation: true
+gemm_optimization: true
+auto_mixed_precision: true
+no_warmup_inputs: "att_ncomm2"
+no_warmup_inputs: "att_ncomm3"
+no_warmup_inputs: "cross_long1"
+no_warmup_inputs: "cross_long2"
+no_warmup_inputs: "model_route_index"
+config_proto {
+  graph_options {
+    rewrite_options {
+      auto_mixed_precision: OFF
+      gemm_optimization: ON
+    }
+  }
+  force_run_in_caller_thread: true
+  enable_graph_opt_place: true
+}
+wait_ms: 20
+
+[libprotobuf ERROR external/com_google_protobuf/src/google/protobuf/text_format.cc:317] Error parsing text-format tensorflow.GraphDef: 2:1: Expected identifier, got: 6
+[libprotobuf ERROR external/com_google_protobuf/src/google/protobuf/io/zero_copy_stream_impl_lite.cc:155] Cannot allocate buffer larger than kint32max for StringOutputStream.
+2022-08-05 14:05:25.407338: I tensorflow/core/kernels/blaze_xla_kernel.cc:100] Blaze create with options warmup_batchsize: 200
+xla_compilation: true
+gemm_optimization: true
+auto_mixed_precision: true
+no_warmup_inputs: "att_ncomm2"
+no_warmup_inputs: "att_ncomm3"
+no_warmup_inputs: "cross_long1"
+no_warmup_inputs: "cross_long2"
+no_warmup_inputs: "model_route_index"
+config_proto {
+  gpu_options {
+    allow_growth: true
+  }
+  allow_soft_placement: true
+  graph_options {
+    rewrite_options {
+      auto_mixed_precision: OFF
+      gemm_optimization: ON
+    }
+  }
+  force_run_in_caller_thread: true
+  enable_graph_opt_place: true
+}
+wait_ms: 20
+
+2022-08-05 14:05:25.627521: I tensorflow/core/kernels/blaze_predictor.cc:110] create session with config gpu_options {
+  allow_growth: true
+  visible_device_list: "0"
+  experimental {
+    virtual_devices {
+      memory_limit_mb: 12288
+      memory_limit_mb: 12288
+      memory_limit_mb: 12288
+      memory_limit_mb: 12288
+    }
+  }
+}
+allow_soft_placement: true
+graph_options {
+  optimizer_options {
+    global_jit_level: ON_1
+  }
+  rewrite_options {
+    auto_mixed_precision: OFF
+    gemm_optimization: ON
+  }
+}
+enable_graph_opt_place: true
+is_blaze: true
+
+2022-08-05 14:05:25.629213: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1642] Found device 0 with properties: 
+name: A10 major: 8 minor: 6 memoryClockRate(GHz): 1.695
+pciBusID: 0000:61:00.0
+2022-08-05 14:05:25.629250: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.11.0
+2022-08-05 14:05:25.629264: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcublas.so.11
+2022-08-05 14:05:25.629271: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcufft.so.10
+2022-08-05 14:05:25.629277: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcurand.so.10
+2022-08-05 14:05:25.629284: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusolver.so.11
+2022-08-05 14:05:25.629290: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusparse.so.11
+2022-08-05 14:05:25.629297: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudnn.so.8
+2022-08-05 14:05:25.630454: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1770] Adding visible gpu devices: 0
+2022-08-05 14:05:25.630494: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1180] Device interconnect StreamExecutor with strength 1 edge matrix:
+2022-08-05 14:05:25.630502: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1186]      0 
+2022-08-05 14:05:25.630506: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1199] 0:   N 
+2022-08-05 14:05:25.633466: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:05:25.634077: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:05:25.634690: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:2 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:05:25.635300: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1328] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:3 with 12288 MB memory) -> physical GPU (device: 0, name: A10, pci bus id: 0000:61:00.0, compute capability: 8.6)
+2022-08-05 14:05:25.635366: I tensorflow/core/kernels/blaze_predictor.cc:119] Blaze start with step id 1024
+2022-08-05 14:05:25.635374: I tensorflow/core/kernels/blaze_predictor.cc:120] Creat session succ 0x7f20970a5600
+2022-08-05 14:05:25.635383: I tensorflow/core/kernels/blaze_predictor.cc:73] BlazePredictor will use device /job:localhost/replica:0/task:0/device:GPU:3
+2022-08-05 14:05:27.429869: I tensorflow/core/common_runtime/placer.cc:128] Allow optimize placer
+2022-08-05 14:05:27.439728: I tensorflow/core/kernels/blaze_predictor.cc:92] create session with callable options feed: "comm"
+feed: "att_comm2"
+feed: "att_comm3"
+feed: "ncomm"
+feed: "model_route_index"
+feed: "att_ncomm"
+feed: "att_comm"
+feed: "cross_long0"
+feed: "cross_long1"
+feed: "cross_global0"
+feed: "cross_global1"
+feed: "cross_long2"
+feed: "cross_cr"
+feed: "att_ncomm2"
+feed: "nick_cate_indicators"
+fetch: "add"
+feed_devices {
+  key: "att_comm"
+  value: "/job:localhost/replica:0/task:0/device:GPU:3"
+}
+feed_devices {
+  key: "att_comm2"
+  value: "/job:localhost/replica:0/task:0/device:GPU:3"
+}
+feed_devices {
+  key: "att_comm3"
+  value: "/job:localhost/replica:0/task:0/device:GPU:3"
+}
+feed_devices {
+  key: "att_ncomm"
+  value: "/job:localhost/replica:0/task:0/device:GPU:3"
+}
+feed_devices {
+  key: "att_ncomm2"
+  value: "/job:localhost/replica:0/task:0/device:GPU:3"
+}
+feed_devices {
+  key: "comm"
+  value: "/job:localhost/replica:0/task:0/device:GPU:3"
+}
+feed_devices {
+  key: "cross_cr"
+  value: "/job:localhost/replica:0/task:0/device:GPU:3"
+}
+feed_devices {
+  key: "cross_global0"
+  value: "/job:localhost/replica:0/task:0/device:GPU:3"
+}
+feed_devices {
+  key: "cross_global1"
+  value: "/job:localhost/replica:0/task:0/device:GPU:3"
+}
+feed_devices {
+  key: "cross_long0"
+  value: "/job:localhost/replica:0/task:0/device:GPU:3"
+}
+feed_devices {
+  key: "cross_long1"
+  value: "/job:localhost/replica:0/task:0/device:GPU:3"
+}
+feed_devices {
+  key: "cross_long2"
+  value: "/job:localhost/replica:0/task:0/device:GPU:3"
+}
+feed_devices {
+  key: "model_route_index"
+  value: "/job:localhost/replica:0/task:0/device:GPU:3"
+}
+feed_devices {
+  key: "ncomm"
+  value: "/job:localhost/replica:0/task:0/device:GPU:3"
+}
+feed_devices {
+  key: "nick_cate_indicators"
+  value: "/job:localhost/replica:0/task:0/device:GPU:3"
+}
+fetch_devices {
+  key: "add"
+  value: "/job:localhost/replica:0/task:0/device:GPU:3"
+}
+fetch_skip_sync: true
+
+2022-08-05 14:05:35.522584: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:05:35.522635: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:05:35.523397: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:05:35.523416: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:05:35.524129: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:05:35.524143: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:05:35.524845: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:05:35.524859: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:05:35.525531: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:05:35.525543: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:05:35.526170: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:05:35.526190: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:05:35.526818: I tensorflow/compiler/jit/build_xla_ops_pass.cc:398] enable_xla_auto_padding=0
+2022-08-05 14:05:35.526830: I tensorflow/compiler/jit/build_xla_ops_pass.cc:404] auto_padding_shape 
+2022-08-05 14:05:36.278118: I tensorflow/core/kernels/blaze_predictor.cc:132] MakeCallable succ 0x7f20970a5600
+2022-08-05 14:05:36.278166: I tensorflow/core/kernels/blaze_predictor.cc:205] req_dev: /device:CPU:0; blaze_dev: /device:GPU:3
+2022-08-05 14:05:36.280756: I tensorflow/core/kernels/blaze_xla_predictor.cc:367] Begin warmup
+2022-08-05 14:05:36.280929: I tensorflow/core/kernels/blaze_xla_predictor.cc:109] begin warmup 200
+2022-08-05 14:05:36.557454: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_2[_XlaCompiledKernel=true,_XlaNumConstantArgs=9,_XlaNumResourceArgs=0],half [1,1000],half [1,18000],half [1,4500]; Tensor<type: int32 shape: [4] values: 6 150 4...>; Tensor<type: int32 shape: [4] values: 1 50 4...>; Tensor<type: int32 shape: [4] values: 3 150 2...>; Tensor<type: int32 shape: [4] values: 2 0 1...>; Tensor<type: int32 shape: [3] values: 24 150 5>; Tensor<type: int32 shape: [4] values: 1 4 50...>; Tensor<type: int32 shape: [3] values: 6 150 5>; Tensor<type: int32 shape: [] values: 0>; Tensor<type: int32 shape: [4] values: 1 30 150...> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:05:36.562473: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:329] RunBackend() - Will load PTX from file: ./xla_cache/4695837893004515636.ptx
+2022-08-05 14:05:36.562557: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:605] Compile ptx to cubin: found in cache
+2022-08-05 14:05:36.563002: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_1[_XlaCompiledKernel=true,_XlaNumConstantArgs=32,_XlaNumResourceArgs=0],half [200,1852],half [200,1040]; Tensor<type: int32 shape: [2] values: 0 0>; Tensor<type: int32 shape: [2] values: 0 800>; Tensor<type: int32 shape: [2] values: 1 1>; Tensor<type: int32 shape: [2] values: 0 1040>; Tensor<type: int32 shape: [2] values: 0 48>; Tensor<type: int32 shape: [2] values: 0 64>; Tensor<type: int32 shape: [2] values: 0 80>; Tensor<type: int32 shape: [2] values: 0 96>; Tensor<type: int32 shape: [2] values: 0 112>; Tensor<type: int32 shape: [2] values: 0 160>; Tensor<type: int32 shape: [2] values: 0 176>; Tensor<type: int32 shape: [2] values: 0 144>; Tensor<type: int32 shape: [3] values: -1 4 200>; Tensor<type: int32 shape: [5] values: -1 2 6...>; Tensor<type: int32 shape: [] values: 1>; Tensor<type: int32 shape: [3] values: 0 0 0>; Tensor<type: int32 shape: [3] values: 0 0 180>; Tensor<type: int32 shape: [3] values: 1 1 1>; Tensor<type: int32 shape: [5] values: 0 0 0...>; Tensor<type: int32 shape: [5] values: 0 0 3...>; Tensor<type: int32 shape: [5] values: 1 1 1...>; Tensor<type: int32 shape: [5] values: 0 0 6...>; Tensor<type: int32 shape: [5] values: -1 4 9...>; Tensor<type: int32 shape: [4] values: -1 6 5...>; Tensor<type: int32 shape: [5] values: 0 0 7...>; Tensor<type: int32 shape: [5] values: 0 0 9...>; Tensor<type: int32 shape: [3] values: 8 0 0>; Tensor<type: int32 shape: [3] values: 12 0 0>; Tensor<type: int32 shape: [4] values: -1 24 5...>; Tensor<type: int32 shape: [4] values: -1 4 5...>; Tensor<type: int32 shape: [4] values: -1 8 5...>; Tensor<type: int32 shape: [4] values: 4 -1 1...> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:05:36.581147: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:329] RunBackend() - Will load PTX from file: ./xla_cache/10153300373092785533.ptx
+2022-08-05 14:05:36.581301: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:605] Compile ptx to cubin: found in cache
+2022-08-05 14:05:37.306231: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_4[_XlaCompiledKernel=true,_XlaNumConstantArgs=1,_XlaNumResourceArgs=0],float [4,200,200,1]; Tensor<type: int32 shape: [4] values: 0 1 3...> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:05:37.364321: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:605] Compile ptx to cubin: found in cache
+2022-08-05 14:05:37.365349: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_0[_XlaCompiledKernel=true,_XlaNumConstantArgs=52,_XlaNumResourceArgs=0],float [200,96],float [16,200,24],float [200,4,2,4],float [200,30,2,4],float [200,14,2,4],float [4,200,24,1],float [200,1852],float [200,96],half [1,1728],half [1,4800],half [1,19200],half [1,4800],half [1,38400]; Tensor<type: int32 shape: [4] values: 2 8 150...>; Tensor<type: int32 shape: [3] values: 6 50 16>; Tensor<type: int32 shape: [3] values: 6 200 16>; Tensor<type: int32 shape: [4] values: 0 2 1...>; Tensor<type: int32 shape: [3] values: 1 0 2>; Tensor<type: int32 shape: [3] values: 2 150 128>; Tensor<type: int32 shape: [3] values: 1 50 96>; Tensor<type: int32 shape: [3] values: 1 200 96>; Tensor<type: int32 shape: [1] values: 0>; Tensor<type: int32 shape: [1] values: 1>; Tensor<type: int32 shape: [1] values: 2>; Tensor<type: int32 shape: [3] values: 16 0 0>; Tensor<type: int32 shape: [4] values: 1 200 4...>; Tensor<type: int32 shape: [2] values: 200 1>; Tensor<type: int32 shape: [4] values: 2 50 4...>; Tensor<type: int32 shape: [3] values: 4 200 24>; Tensor<type: int32 shape: [3] values: -1 4 8>; Tensor<type: int32 shape: [4] values: 2 150 4...>; Tensor<type: int32 shape: [3] values: 8 50 24>; Tensor<type: int32 shape: [3] values: -1 30 8>; Tensor<type: int32 shape: [3] values: 0 1 0>; Tensor<type: int32 shape: [3] values: 0 2 0>; Tensor<type: int32 shape: [3] values: 0 3 0>; Tensor<type: int32 shape: [3] values: -1 14 8>; Tensor<type: int32 shape: [3] values: 0 6 0>; Tensor<type: int32 shape: [3] values: 0 12 0>; Tensor<type: int32 shape: [3] values: 0 18 0>; Tensor<type: int32 shape: [3] values: 0 24 0>; Tensor<type: int32 shape: [3] values: 0 27 0>; Tensor<type: int32 shape: [3] values: 0 4 0>; Tensor<type: int32 shape: [3] values: 0 8 0>; Tensor<type: int32 shape: [3] values: 0 11 0>; Tensor<type: int32 shape: [3] values: 8 150 32>; Tensor<type: int32 shape: [2] values: -1 384>; Tensor<type: int32 shape: [4] values: 1 4 -1...>; Tensor<type: int32 shape: [4] values: 1 0 2...>; Tensor<type: int32 shape: [4] values: 2 4 -1...>; Tensor<type: int32 shape: [2] values: -1 96>; Tensor<type: int32 shape: [4] values: 2 4 -1...>; Tensor<type: int32 shape: [2] values: -1 192>; Tensor<type: int32 shape: [2] values: 0 -96>; Tensor<type: int32 shape: [2] values: -1 256>; Tensor<type: int32 shape: [2] values: 0 0>; Tensor<type: int32 shape: [2] values: 0 96>; Tensor<type: int32 shape: [2] values: 1 1>; Tensor<type: int32 shape: [3] values: 1 1 1>; Tensor<type: int32 shape: [3] values: 8 0 0>; Tensor<type: int32 shape: [3] values: 0 0 0>; Tensor<type: int32 shape: [] values: 0>; Tensor<type: int32 shape: [4] values: 2 0 1...>; Tensor<type: int32 shape: [] values: 1>; Tensor<type: int32 shape: [3] values: 12 0 0> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:05:39.139438: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_5[_XlaCompiledKernel=true,_XlaNumConstantArgs=1,_XlaNumResourceArgs=0],float [200,5244],float [1,5244],half [5244,1024],float [1024],float [1,1024],float [],float [],float [1024,512],float [512],float [1,512],float [512,256],float [256],float [1,256],float [256,128],float [128],float [1,128],float [128,64],float [64],float [1,64],float [64,2],float [2]; Tensor<type: int32 shape: [1] values: 1> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:05:39.335144: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:605] Compile ptx to cubin: found in cache
+2022-08-05 14:05:39.338208: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_6[_XlaCompiledKernel=true,_XlaNumConstantArgs=1,_XlaNumResourceArgs=0],float [200,5244],float [1,5244],half [5244,1024],float [1024],float [1,1024],float [],float [],float [1024,512],float [512],float [1,512],float [512,256],float [256],float [1,256],float [256,128],float [128],float [1,128],float [128,64],float [64],float [1,64],float [64,2],float [2]; Tensor<type: int32 shape: [1] values: 1> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:05:39.533859: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:605] Compile ptx to cubin: found in cache
+2022-08-05 14:05:39.536514: I tensorflow/compiler/jit/xla_compilation_cache.cc:369] Compilation cache entry hit: 0  signature: cluster_7[_XlaCompiledKernel=true,_XlaNumConstantArgs=1,_XlaNumResourceArgs=0],float [200,2],float [200,2],float []; Tensor<type: int32 shape: [] values: 1> with request count 1 and compile threshold 0 shape info=0
+2022-08-05 14:05:39.586844: I tensorflow/compiler/xla/service/gpu/nvptx_compiler.cc:605] Compile ptx to cubin: found in cache
+2022-08-05 14:05:39.587786: I tensorflow/core/kernels/blaze_xla_predictor.cc:137] batch 200 has warmuped; cost us: 3306834
+2022-08-05 14:05:39.590770: I /home/yunlong.xyl/projects/temp/blaze-benchmark/benchmark/core/model.cc:435] Init and warmup model complete: star
+2022-Aug-05 06:05:42.594100 ====================================================
+-- Histograms ------------------------------------------------------------------
+star_batchsize
+             count = 3912
+               min = 166
+               max = 166
+              mean = 166.00
+            stddev = 0.00
+            median = 166.00
+              75% <= 166.00
+              95% <= 166.00
+              98% <= 166.00
+              99% <= 166.00
+            99.9% <= 166.00
+star_latency
+             count = 3912
+               min = 2066
+               max = 9772
+              mean = 3052.35
+            stddev = 364.58
+            median = 3016.00
+              75% <= 3140.75
+              95% <= 3419.75
+              98% <= 3580.50
+              99% <= 3903.00
+            99.9% <= 9708.23
+
+-- Meters ----------------------------------------------------------------------
+star_throughput
+             count = 3912
+         mean rate = 1305.99 events per 1 Seconds
+     1-minute rate = 0.00 events per 1 Seconds
+     5-minute rate = 0.00 events per 1 Seconds
+    15-minute rate = 0.00 events per 1 Seconds
+
+
+2022-Aug-05 06:05:45.594459 ====================================================
+-- Histograms ------------------------------------------------------------------
+star_batchsize
+             count = 7811
+               min = 166
+               max = 166
+              mean = 166.00
+            stddev = 0.00
+            median = 166.00
+              75% <= 166.00
+              95% <= 166.00
+              98% <= 166.00
+              99% <= 166.00
+            99.9% <= 166.00
+star_latency
+             count = 7811
+               min = 2049
+               max = 7221
+              mean = 3066.72
+            stddev = 304.03
+            median = 3040.00
+              75% <= 3176.50
+              95% <= 3423.75
+              98% <= 3613.50
+              99% <= 3968.75
+            99.9% <= 7185.83
+
+-- Meters ----------------------------------------------------------------------
+star_throughput
+             count = 7811
+         mean rate = 1302.76 events per 1 Seconds
+     1-minute rate = 1302.60 events per 1 Seconds
+     5-minute rate = 1302.60 events per 1 Seconds
+    15-minute rate = 1302.60 events per 1 Seconds
+
+
+2022-Aug-05 06:05:48.594760 ====================================================
+-- Histograms ------------------------------------------------------------------
+star_batchsize
+             count = 11744
+               min = 166
+               max = 166
+              mean = 166.00
+            stddev = 0.00
+            median = 166.00
+              75% <= 166.00
+              95% <= 166.00
+              98% <= 166.00
+              99% <= 166.00
+            99.9% <= 166.00
+star_latency
+             count = 11744
+               min = 2029
+               max = 7221
+              mean = 3052.68
+            stddev = 272.48
+            median = 3032.50
+              75% <= 3162.75
+              95% <= 3399.00
+              98% <= 3505.00
+              99% <= 3818.25
+            99.9% <= 7171.80
+
+-- Meters ----------------------------------------------------------------------
+star_throughput
+             count = 11745
+         mean rate = 1305.57 events per 1 Seconds
+     1-minute rate = 1302.60 events per 1 Seconds
+     5-minute rate = 1302.60 events per 1 Seconds
+    15-minute rate = 1302.60 events per 1 Seconds
+
+
+2022-Aug-05 06:05:51.595117 ====================================================
+-- Histograms ------------------------------------------------------------------
+star_batchsize
+             count = 15613
+               min = 166
+               max = 166
+              mean = 166.00
+            stddev = 0.00
+            median = 166.00
+              75% <= 166.00
+              95% <= 166.00
+              98% <= 166.00
+              99% <= 166.00
+            99.9% <= 166.00
+star_latency
+             count = 15613
+               min = 2134
+               max = 18546
+              mean = 3072.19
+            stddev = 536.54
+            median = 3040.50
+              75% <= 3167.00
+              95% <= 3395.75
+              98% <= 3489.50
+              99% <= 3713.25
+            99.9% <= 18212.63
+
+-- Meters ----------------------------------------------------------------------
+star_throughput
+             count = 15613
+         mean rate = 1301.47 events per 1 Seconds
+     1-minute rate = 1302.68 events per 1 Seconds
+     5-minute rate = 1302.62 events per 1 Seconds
+    15-minute rate = 1302.61 events per 1 Seconds
+
+
+2022-Aug-05 06:05:54.595511 ====================================================
+-- Histograms ------------------------------------------------------------------
+star_batchsize
+             count = 19533
+               min = 166
+               max = 166
+              mean = 166.00
+            stddev = 0.00
+            median = 166.00
+              75% <= 166.00
+              95% <= 166.00
+              98% <= 166.00
+              99% <= 166.00
+            99.9% <= 166.00
+star_latency
+             count = 19533
+               min = 2134
+               max = 18546
+              mean = 3072.37
+            stddev = 539.84
+            median = 3036.50
+              75% <= 3168.50
+              95% <= 3396.00
+              98% <= 3509.00
+              99% <= 3918.75
+            99.9% <= 18212.63
+
+-- Meters ----------------------------------------------------------------------
+star_throughput
+             count = 19533
+         mean rate = 1302.48 events per 1 Seconds
+     1-minute rate = 1302.68 events per 1 Seconds
+     5-minute rate = 1302.62 events per 1 Seconds
+    15-minute rate = 1302.61 events per 1 Seconds
+
+
+2022-Aug-05 06:05:57.595824 ====================================================
+-- Histograms ------------------------------------------------------------------
+star_batchsize
+             count = 23410
+               min = 166
+               max = 166
+              mean = 166.00
+            stddev = 0.00
+            median = 166.00
+              75% <= 166.00
+              95% <= 166.00
+              98% <= 166.00
+              99% <= 166.00
+            99.9% <= 166.00
+star_latency
+             count = 23410
+               min = 2134
+               max = 18546
+              mean = 3083.25
+            stddev = 575.64
+            median = 3041.00
+              75% <= 3165.75
+              95% <= 3406.75
+              98% <= 3587.50
+              99% <= 3968.75
+            99.9% <= 18275.28
+
+-- Meters ----------------------------------------------------------------------
+star_throughput
+             count = 23411
+         mean rate = 1300.82 events per 1 Seconds
+     1-minute rate = 1302.56 events per 1 Seconds
+     5-minute rate = 1302.59 events per 1 Seconds
+    15-minute rate = 1302.60 events per 1 Seconds
+
+
+2022-Aug-05 06:06:00.596132 ====================================================
+-- Histograms ------------------------------------------------------------------
+star_batchsize
+             count = 27321
+               min = 166
+               max = 166
+              mean = 166.00
+            stddev = 0.00
+            median = 166.00
+              75% <= 166.00
+              95% <= 166.00
+              98% <= 166.00
+              99% <= 166.00
+            99.9% <= 166.00
+star_latency
+             count = 27321
+               min = 2134
+               max = 18546
+              mean = 3091.06
+            stddev = 581.00
+            median = 3046.00
+              75% <= 3166.50
+              95% <= 3410.25
+              98% <= 3619.50
+              99% <= 4137.25
+            99.9% <= 18275.28
+
+-- Meters ----------------------------------------------------------------------
+star_throughput
+             count = 27321
+         mean rate = 1301.15 events per 1 Seconds
+     1-minute rate = 1301.94 events per 1 Seconds
+     5-minute rate = 1302.46 events per 1 Seconds
+    15-minute rate = 1302.55 events per 1 Seconds
+
+

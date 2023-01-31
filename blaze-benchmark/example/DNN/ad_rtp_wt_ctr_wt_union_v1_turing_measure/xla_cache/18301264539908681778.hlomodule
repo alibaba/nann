@@ -1,0 +1,346 @@
+HloModule cluster_0__XlaCompiledKernel_true__XlaNumConstantArgs_2__XlaNumResourceArgs_0_.171
+
+%max_float_.150 (x.151: f32[], y.152: f32[]) -> f32[] {
+  %x.151 = f32[] parameter(0)
+  %y.152 = f32[] parameter(1)
+  ROOT %maximum.153 = f32[] maximum(f32[] %x.151, f32[] %y.152)
+}
+
+%add_float_.160 (x.161: f32[], y.162: f32[]) -> f32[] {
+  %x.161 = f32[] parameter(0)
+  %y.162 = f32[] parameter(1)
+  ROOT %add.163 = f32[] add(f32[] %x.161, f32[] %y.162)
+}
+
+%fused_computation (param_0: f32[1,2], param_1.1: f32[1]) -> f32[1,2] {
+  %param_0 = f32[1,2]{1,0} parameter(0)
+  %param_1.1 = f32[1]{0} parameter(1)
+  %broadcast.13 = f32[1,2]{1,0} broadcast(f32[1]{0} %param_1.1), dimensions={0}
+  ROOT %divide.0 = f32[1,2]{1,0} divide(f32[1,2]{1,0} %param_0, f32[1,2]{1,0} %broadcast.13)
+}
+
+%fused_computation.1 (param_0.2: f32[1,2], param_1.3: f32[1]) -> f32[1,2] {
+  %param_0.2 = f32[1,2]{1,0} parameter(0)
+  %param_1.3 = f32[1]{0} parameter(1)
+  %broadcast.14 = f32[1,2]{1,0} broadcast(f32[1]{0} %param_1.3), dimensions={0}
+  %subtract.1 = f32[1,2]{1,0} subtract(f32[1,2]{1,0} %param_0.2, f32[1,2]{1,0} %broadcast.14)
+  ROOT %exponential.0 = f32[1,2]{1,0} exponential(f32[1,2]{1,0} %subtract.1)
+}
+
+%fused_computation.2 (param_0.5: f32[2], param_1.6: f32[2]) -> f32[1,2] {
+  %param_1.6 = f32[2]{0} parameter(1)
+  %convert.18 = f16[2]{0} convert(f32[2]{0} %param_1.6)
+  %convert.17 = f32[2]{0} convert(f16[2]{0} %convert.18)
+  %param_0.5 = f32[2]{0} parameter(0)
+  %add.21 = f32[2]{0} add(f32[2]{0} %convert.17, f32[2]{0} %param_0.5)
+  ROOT %bitcast.11 = f32[1,2]{1,0} bitcast(f32[2]{0} %add.21)
+}
+
+%scalar_add_computation (scalar_lhs: f32[], scalar_rhs: f32[]) -> f32[] {
+  %scalar_lhs = f32[] parameter(0)
+  %scalar_rhs = f32[] parameter(1)
+  ROOT %add.2 = f32[] add(f32[] %scalar_lhs, f32[] %scalar_rhs)
+}
+
+%fused_computation.3 (param_0.44: f16[2,80], param_1.81: f16[1,80], param_2.71: f16[1,80], param_3.63: f16[80], param_4.44: f32[80]) -> f32[2] {
+  %param_2.71 = f16[1,80]{1,0} parameter(2)
+  %param_4.44 = f32[80]{0} parameter(4)
+  %convert.47 = f16[80]{0} convert(f32[80]{0} %param_4.44)
+  %param_3.63 = f16[80]{0} parameter(3)
+  %add.60 = f16[80]{0} add(f16[80]{0} %convert.47, f16[80]{0} %param_3.63)
+  %bitcast.35 = f16[1,80]{1,0} bitcast(f16[80]{0} %add.60)
+  %multiply.18 = f16[1,80]{1,0} multiply(f16[1,80]{1,0} %param_2.71, f16[1,80]{1,0} %bitcast.35)
+  %constant_61 = f16[] constant(1)
+  %broadcast.17 = f16[1,80]{1,0} broadcast(f16[] %constant_61), dimensions={}
+  %constant_63 = f16[] constant(0.5)
+  %broadcast.33 = f16[1,80]{1,0} broadcast(f16[] %constant_63), dimensions={}
+  %param_1.81 = f16[1,80]{1,0} parameter(1)
+  %multiply.17 = f16[1,80]{1,0} multiply(f16[1,80]{1,0} %broadcast.33, f16[1,80]{1,0} %param_1.81)
+  %add.23 = f16[1,80]{1,0} add(f16[1,80]{1,0} %broadcast.33, f16[1,80]{1,0} %multiply.17)
+  %subtract.2 = f16[1,80]{1,0} subtract(f16[1,80]{1,0} %broadcast.17, f16[1,80]{1,0} %add.23)
+  %multiply.16 = f16[1,80]{1,0} multiply(f16[1,80]{1,0} %multiply.18, f16[1,80]{1,0} %subtract.2)
+  %multiply.15 = f16[1,80]{1,0} multiply(f16[1,80]{1,0} %add.23, f16[1,80]{1,0} %bitcast.35)
+  %add.22 = f16[1,80]{1,0} add(f16[1,80]{1,0} %multiply.16, f16[1,80]{1,0} %multiply.15)
+  %bitcast.12 = f16[80]{0} bitcast(f16[1,80]{1,0} %add.22)
+  %broadcast.15 = f16[2,80]{1,0} broadcast(f16[80]{0} %bitcast.12), dimensions={1}
+  %param_0.44 = f16[2,80]{1,0} parameter(0)
+  %multiply.13 = f16[2,80]{1,0} multiply(f16[2,80]{1,0} %broadcast.15, f16[2,80]{1,0} %param_0.44)
+  %convert.19 = f32[2,80]{1,0} convert(f16[2,80]{1,0} %multiply.13)
+  %constant_65 = f32[] constant(0)
+  ROOT %reduce.7 = f32[2]{0} reduce(f32[2,80]{1,0} %convert.19, f32[] %constant_65), dimensions={1}, to_apply=%scalar_add_computation
+}
+
+%fused_computation.4 (param_0.45: f16[1,80], param_1.83: f16[1,80], param_2.74: f16[80], param_3.65: f32[80]) -> f16[1,80] {
+  %constant_66 = f16[] constant(0.5)
+  %broadcast.34 = f16[1,80]{1,0} broadcast(f16[] %constant_66), dimensions={}
+  %param_0.45 = f16[1,80]{1,0} parameter(0)
+  %param_3.65 = f32[80]{0} parameter(3)
+  %convert.49 = f16[80]{0} convert(f32[80]{0} %param_3.65)
+  %param_2.74 = f16[80]{0} parameter(2)
+  %add.63 = f16[80]{0} add(f16[80]{0} %convert.49, f16[80]{0} %param_2.74)
+  %bitcast.37 = f16[1,80]{1,0} bitcast(f16[80]{0} %add.63)
+  %param_1.83 = f16[1,80]{1,0} parameter(1)
+  %add.24 = f16[1,80]{1,0} add(f16[1,80]{1,0} %bitcast.37, f16[1,80]{1,0} %param_1.83)
+  %multiply.21 = f16[1,80]{1,0} multiply(f16[1,80]{1,0} %param_0.45, f16[1,80]{1,0} %add.24)
+  %multiply.19 = f16[1,80]{1,0} multiply(f16[1,80]{1,0} %broadcast.34, f16[1,80]{1,0} %multiply.21)
+  ROOT %tanh.1 = f16[1,80]{1,0} tanh(f16[1,80]{1,0} %multiply.19)
+}
+
+%fused_computation.6 (param_0.46: f16[80,200], param_1.77: f16[1,200], param_2.67: f16[1,200], param_3.58: f16[200], param_4.42: f32[200]) -> f32[80] {
+  %param_2.67 = f16[1,200]{1,0} parameter(2)
+  %param_4.42 = f32[200]{0} parameter(4)
+  %convert.43 = f16[200]{0} convert(f32[200]{0} %param_4.42)
+  %param_3.58 = f16[200]{0} parameter(3)
+  %add.56 = f16[200]{0} add(f16[200]{0} %convert.43, f16[200]{0} %param_3.58)
+  %bitcast.31 = f16[1,200]{1,0} bitcast(f16[200]{0} %add.56)
+  %multiply.28 = f16[1,200]{1,0} multiply(f16[1,200]{1,0} %param_2.67, f16[1,200]{1,0} %bitcast.31)
+  %constant_68 = f16[] constant(1)
+  %broadcast.20 = f16[1,200]{1,0} broadcast(f16[] %constant_68), dimensions={}
+  %constant_70 = f16[] constant(0.5)
+  %broadcast.35 = f16[1,200]{1,0} broadcast(f16[] %constant_70), dimensions={}
+  %param_1.77 = f16[1,200]{1,0} parameter(1)
+  %multiply.27 = f16[1,200]{1,0} multiply(f16[1,200]{1,0} %broadcast.35, f16[1,200]{1,0} %param_1.77)
+  %add.27 = f16[1,200]{1,0} add(f16[1,200]{1,0} %broadcast.35, f16[1,200]{1,0} %multiply.27)
+  %subtract.3 = f16[1,200]{1,0} subtract(f16[1,200]{1,0} %broadcast.20, f16[1,200]{1,0} %add.27)
+  %multiply.25 = f16[1,200]{1,0} multiply(f16[1,200]{1,0} %multiply.28, f16[1,200]{1,0} %subtract.3)
+  %multiply.24 = f16[1,200]{1,0} multiply(f16[1,200]{1,0} %add.27, f16[1,200]{1,0} %bitcast.31)
+  %add.26 = f16[1,200]{1,0} add(f16[1,200]{1,0} %multiply.25, f16[1,200]{1,0} %multiply.24)
+  %bitcast.14 = f16[200]{0} bitcast(f16[1,200]{1,0} %add.26)
+  %broadcast.18 = f16[80,200]{1,0} broadcast(f16[200]{0} %bitcast.14), dimensions={1}
+  %param_0.46 = f16[80,200]{1,0} parameter(0)
+  %multiply.22 = f16[80,200]{1,0} multiply(f16[80,200]{1,0} %broadcast.18, f16[80,200]{1,0} %param_0.46)
+  %convert.21 = f32[80,200]{1,0} convert(f16[80,200]{1,0} %multiply.22)
+  %constant_71 = f32[] constant(0)
+  ROOT %reduce.8 = f32[80]{0} reduce(f32[80,200]{1,0} %convert.21, f32[] %constant_71), dimensions={1}, to_apply=%scalar_add_computation
+}
+
+%fused_computation.7 (param_0.47: f16[1,200], param_1.79: f16[1,200], param_2.70: f16[200], param_3.60: f32[200]) -> f16[1,200] {
+  %constant_73 = f16[] constant(0.5)
+  %broadcast.36 = f16[1,200]{1,0} broadcast(f16[] %constant_73), dimensions={}
+  %param_0.47 = f16[1,200]{1,0} parameter(0)
+  %param_3.60 = f32[200]{0} parameter(3)
+  %convert.45 = f16[200]{0} convert(f32[200]{0} %param_3.60)
+  %param_2.70 = f16[200]{0} parameter(2)
+  %add.58 = f16[200]{0} add(f16[200]{0} %convert.45, f16[200]{0} %param_2.70)
+  %bitcast.33 = f16[1,200]{1,0} bitcast(f16[200]{0} %add.58)
+  %param_1.79 = f16[1,200]{1,0} parameter(1)
+  %add.29 = f16[1,200]{1,0} add(f16[1,200]{1,0} %bitcast.33, f16[1,200]{1,0} %param_1.79)
+  %multiply.31 = f16[1,200]{1,0} multiply(f16[1,200]{1,0} %param_0.47, f16[1,200]{1,0} %add.29)
+  %multiply.30 = f16[1,200]{1,0} multiply(f16[1,200]{1,0} %broadcast.36, f16[1,200]{1,0} %multiply.31)
+  ROOT %tanh.2 = f16[1,200]{1,0} tanh(f16[1,200]{1,0} %multiply.30)
+}
+
+%fused_computation.9 (param_0.48: f16[200,300], param_1.73: f16[1,300], param_2.63: f16[1,300], param_3.53: f16[300], param_4.40: f32[300]) -> f32[200] {
+  %param_2.63 = f16[1,300]{1,0} parameter(2)
+  %param_4.40 = f32[300]{0} parameter(4)
+  %convert.39 = f16[300]{0} convert(f32[300]{0} %param_4.40)
+  %param_3.53 = f16[300]{0} parameter(3)
+  %add.51 = f16[300]{0} add(f16[300]{0} %convert.39, f16[300]{0} %param_3.53)
+  %bitcast.27 = f16[1,300]{1,0} bitcast(f16[300]{0} %add.51)
+  %multiply.37 = f16[1,300]{1,0} multiply(f16[1,300]{1,0} %param_2.63, f16[1,300]{1,0} %bitcast.27)
+  %constant_74 = f16[] constant(1)
+  %broadcast.23 = f16[1,300]{1,0} broadcast(f16[] %constant_74), dimensions={}
+  %constant_76 = f16[] constant(0.5)
+  %broadcast.37 = f16[1,300]{1,0} broadcast(f16[] %constant_76), dimensions={}
+  %param_1.73 = f16[1,300]{1,0} parameter(1)
+  %multiply.36 = f16[1,300]{1,0} multiply(f16[1,300]{1,0} %broadcast.37, f16[1,300]{1,0} %param_1.73)
+  %add.32 = f16[1,300]{1,0} add(f16[1,300]{1,0} %broadcast.37, f16[1,300]{1,0} %multiply.36)
+  %subtract.4 = f16[1,300]{1,0} subtract(f16[1,300]{1,0} %broadcast.23, f16[1,300]{1,0} %add.32)
+  %multiply.35 = f16[1,300]{1,0} multiply(f16[1,300]{1,0} %multiply.37, f16[1,300]{1,0} %subtract.4)
+  %multiply.34 = f16[1,300]{1,0} multiply(f16[1,300]{1,0} %add.32, f16[1,300]{1,0} %bitcast.27)
+  %add.31 = f16[1,300]{1,0} add(f16[1,300]{1,0} %multiply.35, f16[1,300]{1,0} %multiply.34)
+  %bitcast.16 = f16[300]{0} bitcast(f16[1,300]{1,0} %add.31)
+  %broadcast.21 = f16[200,300]{1,0} broadcast(f16[300]{0} %bitcast.16), dimensions={1}
+  %param_0.48 = f16[200,300]{1,0} parameter(0)
+  %multiply.32 = f16[200,300]{1,0} multiply(f16[200,300]{1,0} %broadcast.21, f16[200,300]{1,0} %param_0.48)
+  %convert.23 = f32[200,300]{1,0} convert(f16[200,300]{1,0} %multiply.32)
+  %constant_77 = f32[] constant(0)
+  ROOT %reduce.9 = f32[200]{0} reduce(f32[200,300]{1,0} %convert.23, f32[] %constant_77), dimensions={1}, to_apply=%scalar_add_computation
+}
+
+%fused_computation.10 (param_0.49: f16[1,300], param_1.75: f16[1,300], param_2.66: f16[300], param_3.55: f32[300]) -> f16[1,300] {
+  %constant_78 = f16[] constant(0.5)
+  %broadcast.39 = f16[1,300]{1,0} broadcast(f16[] %constant_78), dimensions={}
+  %param_0.49 = f16[1,300]{1,0} parameter(0)
+  %param_3.55 = f32[300]{0} parameter(3)
+  %convert.41 = f16[300]{0} convert(f32[300]{0} %param_3.55)
+  %param_2.66 = f16[300]{0} parameter(2)
+  %add.53 = f16[300]{0} add(f16[300]{0} %convert.41, f16[300]{0} %param_2.66)
+  %bitcast.29 = f16[1,300]{1,0} bitcast(f16[300]{0} %add.53)
+  %param_1.75 = f16[1,300]{1,0} parameter(1)
+  %add.33 = f16[1,300]{1,0} add(f16[1,300]{1,0} %bitcast.29, f16[1,300]{1,0} %param_1.75)
+  %multiply.39 = f16[1,300]{1,0} multiply(f16[1,300]{1,0} %param_0.49, f16[1,300]{1,0} %add.33)
+  %multiply.38 = f16[1,300]{1,0} multiply(f16[1,300]{1,0} %broadcast.39, f16[1,300]{1,0} %multiply.39)
+  ROOT %tanh.3 = f16[1,300]{1,0} tanh(f16[1,300]{1,0} %multiply.38)
+}
+
+%fused_computation.12 (param_0.50: f16[300,400], param_1.69: f16[1,400], param_2.59: f16[1,400], param_3.48: f16[400], param_4.38: f32[400]) -> f32[300] {
+  %param_2.59 = f16[1,400]{1,0} parameter(2)
+  %param_4.38 = f32[400]{0} parameter(4)
+  %convert.35 = f16[400]{0} convert(f32[400]{0} %param_4.38)
+  %param_3.48 = f16[400]{0} parameter(3)
+  %add.47 = f16[400]{0} add(f16[400]{0} %convert.35, f16[400]{0} %param_3.48)
+  %bitcast.23 = f16[1,400]{1,0} bitcast(f16[400]{0} %add.47)
+  %multiply.45 = f16[1,400]{1,0} multiply(f16[1,400]{1,0} %param_2.59, f16[1,400]{1,0} %bitcast.23)
+  %constant_79 = f16[] constant(1)
+  %broadcast.26 = f16[1,400]{1,0} broadcast(f16[] %constant_79), dimensions={}
+  %constant_80 = f16[] constant(0.5)
+  %broadcast.40 = f16[1,400]{1,0} broadcast(f16[] %constant_80), dimensions={}
+  %param_1.69 = f16[1,400]{1,0} parameter(1)
+  %multiply.44 = f16[1,400]{1,0} multiply(f16[1,400]{1,0} %broadcast.40, f16[1,400]{1,0} %param_1.69)
+  %add.37 = f16[1,400]{1,0} add(f16[1,400]{1,0} %broadcast.40, f16[1,400]{1,0} %multiply.44)
+  %subtract.5 = f16[1,400]{1,0} subtract(f16[1,400]{1,0} %broadcast.26, f16[1,400]{1,0} %add.37)
+  %multiply.43 = f16[1,400]{1,0} multiply(f16[1,400]{1,0} %multiply.45, f16[1,400]{1,0} %subtract.5)
+  %multiply.42 = f16[1,400]{1,0} multiply(f16[1,400]{1,0} %add.37, f16[1,400]{1,0} %bitcast.23)
+  %add.36 = f16[1,400]{1,0} add(f16[1,400]{1,0} %multiply.43, f16[1,400]{1,0} %multiply.42)
+  %bitcast.18 = f16[400]{0} bitcast(f16[1,400]{1,0} %add.36)
+  %broadcast.24 = f16[300,400]{1,0} broadcast(f16[400]{0} %bitcast.18), dimensions={1}
+  %param_0.50 = f16[300,400]{1,0} parameter(0)
+  %multiply.40 = f16[300,400]{1,0} multiply(f16[300,400]{1,0} %broadcast.24, f16[300,400]{1,0} %param_0.50)
+  %convert.25 = f32[300,400]{1,0} convert(f16[300,400]{1,0} %multiply.40)
+  %constant_81 = f32[] constant(0)
+  ROOT %reduce.10 = f32[300]{0} reduce(f32[300,400]{1,0} %convert.25, f32[] %constant_81), dimensions={1}, to_apply=%scalar_add_computation
+}
+
+%fused_computation.13 (param_0.51: f16[1,400], param_1.71: f16[1,400], param_2.62: f16[400], param_3.50: f32[400]) -> f16[1,400] {
+  %constant_82 = f16[] constant(0.5)
+  %broadcast.41 = f16[1,400]{1,0} broadcast(f16[] %constant_82), dimensions={}
+  %param_0.51 = f16[1,400]{1,0} parameter(0)
+  %param_3.50 = f32[400]{0} parameter(3)
+  %convert.37 = f16[400]{0} convert(f32[400]{0} %param_3.50)
+  %param_2.62 = f16[400]{0} parameter(2)
+  %add.49 = f16[400]{0} add(f16[400]{0} %convert.37, f16[400]{0} %param_2.62)
+  %bitcast.25 = f16[1,400]{1,0} bitcast(f16[400]{0} %add.49)
+  %param_1.71 = f16[1,400]{1,0} parameter(1)
+  %add.38 = f16[1,400]{1,0} add(f16[1,400]{1,0} %bitcast.25, f16[1,400]{1,0} %param_1.71)
+  %multiply.48 = f16[1,400]{1,0} multiply(f16[1,400]{1,0} %param_0.51, f16[1,400]{1,0} %add.38)
+  %multiply.46 = f16[1,400]{1,0} multiply(f16[1,400]{1,0} %broadcast.41, f16[1,400]{1,0} %multiply.48)
+  ROOT %tanh.4 = f16[1,400]{1,0} tanh(f16[1,400]{1,0} %multiply.46)
+}
+
+%fused_computation.15 (param_0.52: f16[400,600], param_1.64: f16[600], param_2.57: f16[600], param_3.44: f16[600], param_4.36: f16[600]) -> f32[400] {
+  %param_2.57 = f16[600]{0} parameter(2)
+  %param_3.44 = f16[600]{0} parameter(3)
+  %param_4.36 = f16[600]{0} parameter(4)
+  %add.43 = f16[600]{0} add(f16[600]{0} %param_3.44, f16[600]{0} %param_4.36)
+  %multiply.55 = f16[600]{0} multiply(f16[600]{0} %param_2.57, f16[600]{0} %add.43)
+  %constant_83 = f16[] constant(1)
+  %broadcast.29 = f16[600]{0} broadcast(f16[] %constant_83), dimensions={}
+  %constant_85 = f16[] constant(0.5)
+  %broadcast.42 = f16[600]{0} broadcast(f16[] %constant_85), dimensions={}
+  %param_1.64 = f16[600]{0} parameter(1)
+  %multiply.54 = f16[600]{0} multiply(f16[600]{0} %broadcast.42, f16[600]{0} %param_1.64)
+  %add.42 = f16[600]{0} add(f16[600]{0} %broadcast.42, f16[600]{0} %multiply.54)
+  %subtract.6 = f16[600]{0} subtract(f16[600]{0} %broadcast.29, f16[600]{0} %add.42)
+  %multiply.52 = f16[600]{0} multiply(f16[600]{0} %multiply.55, f16[600]{0} %subtract.6)
+  %multiply.51 = f16[600]{0} multiply(f16[600]{0} %add.42, f16[600]{0} %add.43)
+  %add.41 = f16[600]{0} add(f16[600]{0} %multiply.52, f16[600]{0} %multiply.51)
+  %broadcast.28 = f16[400,600]{1,0} broadcast(f16[600]{0} %add.41), dimensions={1}
+  %param_0.52 = f16[400,600]{1,0} parameter(0)
+  %multiply.49 = f16[400,600]{1,0} multiply(f16[400,600]{1,0} %broadcast.28, f16[400,600]{1,0} %param_0.52)
+  %convert.27 = f32[400,600]{1,0} convert(f16[400,600]{1,0} %multiply.49)
+  %constant_86 = f32[] constant(0)
+  ROOT %reduce.11 = f32[400]{0} reduce(f32[400,600]{1,0} %convert.27, f32[] %constant_86), dimensions={1}, to_apply=%scalar_add_computation
+}
+
+%fused_computation.16 (param_0.53: f16[600], param_1.84: f16[600], param_2.76: f32[600], param_3.68: f32[600]) -> (f16[600], f16[600]) {
+  %constant_87 = f16[] constant(0.5)
+  %broadcast.44 = f16[600]{0} broadcast(f16[] %constant_87), dimensions={}
+  %param_0.53 = f16[600]{0} parameter(0)
+  %param_3.68 = f32[600]{0} parameter(3)
+  %convert.29.clone.1 = f16[600]{0} convert(f32[600]{0} %param_3.68)
+  %param_2.76 = f32[600]{0} parameter(2)
+  %convert.28.clone.1 = f16[600]{0} convert(f32[600]{0} %param_2.76)
+  %add.45.clone.1 = f16[600]{0} add(f16[600]{0} %convert.29.clone.1, f16[600]{0} %convert.28.clone.1)
+  %param_1.84 = f16[600]{0} parameter(1)
+  %add.44 = f16[600]{0} add(f16[600]{0} %add.45.clone.1, f16[600]{0} %param_1.84)
+  %multiply.58 = f16[600]{0} multiply(f16[600]{0} %param_0.53, f16[600]{0} %add.44)
+  %multiply.57 = f16[600]{0} multiply(f16[600]{0} %broadcast.44, f16[600]{0} %multiply.58)
+  %tanh.5 = f16[600]{0} tanh(f16[600]{0} %multiply.57)
+  ROOT %tuple = (f16[600]{0}, f16[600]{0}) tuple(f16[600]{0} %tanh.5, f16[600]{0} %add.45.clone.1)
+}
+
+%scalar_add_computation.1 (scalar_lhs.1: f32[], scalar_rhs.1: f32[]) -> f32[] {
+  %scalar_lhs.1 = f32[] parameter(0)
+  %scalar_rhs.1 = f32[] parameter(1)
+  ROOT %add.14 = f32[] add(f32[] %scalar_lhs.1, f32[] %scalar_rhs.1)
+}
+
+%fused_computation.18 (param_0.55: f16[600,906], param_1.67: f32[1,906]) -> f32[600] {
+  %param_1.67 = f32[1,906]{1,0} parameter(1)
+  %convert.31 = f16[1,906]{1,0} convert(f32[1,906]{1,0} %param_1.67)
+  %bitcast.20 = f16[906]{0} bitcast(f16[1,906]{1,0} %convert.31)
+  %broadcast.30 = f16[600,906]{1,0} broadcast(f16[906]{0} %bitcast.20), dimensions={1}
+  %param_0.55 = f16[600,906]{1,0} parameter(0)
+  %multiply.59 = f16[600,906]{1,0} multiply(f16[600,906]{1,0} %broadcast.30, f16[600,906]{1,0} %param_0.55)
+  %convert.30 = f32[600,906]{1,0} convert(f16[600,906]{1,0} %multiply.59)
+  %constant_90 = f32[] constant(0)
+  ROOT %reduce.12 = f32[600]{0} reduce(f32[600,906]{1,0} %convert.30, f32[] %constant_90), dimensions={1}, to_apply=%scalar_add_computation.1
+}
+
+%fused_computation.19 (param_0.54: f16[600,975], param_1.66: f32[1,975]) -> f32[600] {
+  %param_1.66 = f32[1,975]{1,0} parameter(1)
+  %convert.33 = f16[1,975]{1,0} convert(f32[1,975]{1,0} %param_1.66)
+  %bitcast.21 = f16[975]{0} bitcast(f16[1,975]{1,0} %convert.33)
+  %broadcast.32 = f16[600,975]{1,0} broadcast(f16[975]{0} %bitcast.21), dimensions={1}
+  %param_0.54 = f16[600,975]{1,0} parameter(0)
+  %multiply.61 = f16[600,975]{1,0} multiply(f16[600,975]{1,0} %broadcast.32, f16[600,975]{1,0} %param_0.54)
+  %convert.32 = f32[600,975]{1,0} convert(f16[600,975]{1,0} %multiply.61)
+  %constant_88 = f32[] constant(0)
+  ROOT %reduce.13 = f32[600]{0} reduce(f32[600,975]{1,0} %convert.32, f32[] %constant_88), dimensions={1}, to_apply=%scalar_add_computation.1
+}
+
+ENTRY %cluster_0__XlaCompiledKernel_true__XlaNumConstantArgs_2__XlaNumResourceArgs_0_.171 (arg0.1: f32[1,906], arg1.2: f32[1,975]) -> f32[1,2] {
+  %constant_50 = f32[2]{0} constant({...})
+  %constant_49 = f16[2,80]{1,0} constant({...})
+  %constant_20 = f16[1,80]{1,0} constant({...})
+  %constant_47 = f16[1,80]{1,0} constant({...})
+  %constant_46 = f16[80]{0} constant({...})
+  %constant_44 = f16[80,200]{1,0} constant({...})
+  %constant_16 = f16[1,200]{1,0} constant({...})
+  %constant_43 = f16[1,200]{1,0} constant({...})
+  %constant_41 = f16[200]{0} constant({...})
+  %constant_39 = f16[200,300]{1,0} constant({...})
+  %constant_11 = f16[1,300]{1,0} constant({...})
+  %constant_38 = f16[1,300]{1,0} constant({...})
+  %constant_36 = f16[300]{0} constant({...})
+  %constant_34 = f16[300,400]{1,0} constant({...})
+  %constant_6 = f16[1,400]{1,0} constant({...})
+  %constant_33 = f16[1,400]{1,0} constant({...})
+  %constant_32 = f16[400]{0} constant({...})
+  %constant_31 = f16[400,600]{1,0} constant({...})
+  %constant_59 = f16[600]{0} constant({...})
+  %constant_58 = f16[600]{0} constant({...})
+  %constant_54 = f16[600,906]{1,0} constant({...})
+  %arg0.1 = f32[1,906]{1,0} parameter(0), parameter_replication={false}
+  %fusion.18 = f32[600]{0} fusion(f16[600,906]{1,0} %constant_54, f32[1,906]{1,0} %arg0.1), kind=kInput, calls=%fused_computation.18
+  %constant_53 = f16[600,975]{1,0} constant({...})
+  %arg1.2 = f32[1,975]{1,0} parameter(1), parameter_replication={false}
+  %fusion.19 = f32[600]{0} fusion(f16[600,975]{1,0} %constant_53, f32[1,975]{1,0} %arg1.2), kind=kInput, calls=%fused_computation.19
+  %fusion.16 = (f16[600]{0}, f16[600]{0}) fusion(f16[600]{0} %constant_59, f16[600]{0} %constant_58, f32[600]{0} %fusion.18, f32[600]{0} %fusion.19), kind=kLoop, calls=%fused_computation.16
+  %get-tuple-element = f16[600]{0} get-tuple-element((f16[600]{0}, f16[600]{0}) %fusion.16), index=0
+  %constant_60 = f16[600]{0} constant({...})
+  %get-tuple-element.1 = f16[600]{0} get-tuple-element((f16[600]{0}, f16[600]{0}) %fusion.16), index=1
+  %constant_56 = f16[600]{0} constant({...})
+  %fusion.15 = f32[400]{0} fusion(f16[400,600]{1,0} %constant_31, f16[600]{0} %get-tuple-element, f16[600]{0} %constant_60, f16[600]{0} %get-tuple-element.1, f16[600]{0} %constant_56), kind=kInput, calls=%fused_computation.15
+  %fusion.13 = f16[1,400]{1,0} fusion(f16[1,400]{1,0} %constant_6, f16[1,400]{1,0} %constant_33, f16[400]{0} %constant_32, f32[400]{0} %fusion.15), kind=kLoop, calls=%fused_computation.13
+  %constant_40 = f16[1,400]{1,0} constant({...})
+  %fusion.12 = f32[300]{0} fusion(f16[300,400]{1,0} %constant_34, f16[1,400]{1,0} %fusion.13, f16[1,400]{1,0} %constant_40, f16[400]{0} %constant_32, f32[400]{0} %fusion.15), kind=kInput, calls=%fused_computation.12
+  %fusion.10 = f16[1,300]{1,0} fusion(f16[1,300]{1,0} %constant_11, f16[1,300]{1,0} %constant_38, f16[300]{0} %constant_36, f32[300]{0} %fusion.12), kind=kLoop, calls=%fused_computation.10
+  %constant_67 = f16[1,300]{1,0} constant({...})
+  %fusion.9 = f32[200]{0} fusion(f16[200,300]{1,0} %constant_39, f16[1,300]{1,0} %fusion.10, f16[1,300]{1,0} %constant_67, f16[300]{0} %constant_36, f32[300]{0} %fusion.12), kind=kInput, calls=%fused_computation.9
+  %fusion.7 = f16[1,200]{1,0} fusion(f16[1,200]{1,0} %constant_16, f16[1,200]{1,0} %constant_43, f16[200]{0} %constant_41, f32[200]{0} %fusion.9), kind=kLoop, calls=%fused_computation.7
+  %constant_94 = f16[1,200]{1,0} constant({...})
+  %fusion.6 = f32[80]{0} fusion(f16[80,200]{1,0} %constant_44, f16[1,200]{1,0} %fusion.7, f16[1,200]{1,0} %constant_94, f16[200]{0} %constant_41, f32[200]{0} %fusion.9), kind=kInput, calls=%fused_computation.6
+  %fusion.4 = f16[1,80]{1,0} fusion(f16[1,80]{1,0} %constant_20, f16[1,80]{1,0} %constant_47, f16[80]{0} %constant_46, f32[80]{0} %fusion.6), kind=kLoop, calls=%fused_computation.4
+  %constant_121 = f16[1,80]{1,0} constant({...})
+  %fusion.3 = f32[2]{0} fusion(f16[2,80]{1,0} %constant_49, f16[1,80]{1,0} %fusion.4, f16[1,80]{1,0} %constant_121, f16[80]{0} %constant_46, f32[80]{0} %fusion.6), kind=kInput, calls=%fused_computation.3
+  %fusion.2 = f32[1,2]{1,0} fusion(f32[2]{0} %constant_50, f32[2]{0} %fusion.3), kind=kLoop, calls=%fused_computation.2
+  %constant_149 = f32[] constant(-inf)
+  %reduce.154 = f32[1]{0} reduce(f32[1,2]{1,0} %fusion.2, f32[] %constant_149), dimensions={1}, to_apply=%max_float_.150
+  %fusion.1 = f32[1,2]{1,0} fusion(f32[1,2]{1,0} %fusion.2, f32[1]{0} %reduce.154), kind=kLoop, calls=%fused_computation.1
+  %constant_159 = f32[] constant(0)
+  %reduce.164 = f32[1]{0} reduce(f32[1,2]{1,0} %fusion.1, f32[] %constant_159), dimensions={1}, to_apply=%add_float_.160
+  ROOT %fusion = f32[1,2]{1,0} fusion(f32[1,2]{1,0} %fusion.1, f32[1]{0} %reduce.164), kind=kLoop, calls=%fused_computation
+}
+

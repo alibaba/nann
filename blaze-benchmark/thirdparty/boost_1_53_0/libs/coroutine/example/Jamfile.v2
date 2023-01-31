@@ -1,0 +1,81 @@
+# Boost.Coroutine Library Examples Jamfile
+
+#          Copyright Oliver Kowalke 2009.
+# Distributed under the Boost Software License, Version 1.0.
+#    (See accompanying file LICENSE_1_0.txt or copy at
+#          http://www.boost.org/LICENSE_1_0.txt)
+
+# For more information, see http://www.boost.org/
+
+import common ;
+import feature ;
+import indirect ;
+import modules ;
+import os ;
+import toolset ;
+
+if [ os.name ] = SOLARIS
+{
+  lib socket ;
+  lib nsl ;
+}
+else if [ os.name ] = NT
+{
+  lib ws2_32 ;
+  lib mswsock ;
+}
+else if [ os.name ] = HPUX
+{
+  lib ipv6 ;
+}
+
+project boost/coroutine/example
+    : requirements
+      <library>/boost/context//boost_context
+      <library>/boost/program_options//boost_program_options
+      <library>/boost/system//boost_system
+      <library>/boost/thread//boost_thread
+      <define>BOOST_ALL_NO_LIB=1
+      <threading>multi
+      <os>SOLARIS:<library>socket
+      <os>SOLARIS:<library>nsl
+      <os>NT:<define>_WIN32_WINNT=0x0501
+      <os>NT,<toolset>gcc:<library>ws2_32
+      <os>NT,<toolset>gcc:<library>mswsock
+      <os>NT,<toolset>gcc-cygwin:<define>__USE_W32_SOCKETS
+      <os>HPUX,<toolset>gcc:<define>_XOPEN_SOURCE_EXTENDED
+      <os>HPUX:<library>ipv6
+      <link>static
+    ;
+
+exe fibonacci
+    : fibonacci.cpp
+    ;
+
+exe echo
+    : echo.cpp
+    ;
+
+exe power
+    : power.cpp
+    ;
+
+exe parallel
+    : parallel.cpp
+    ;
+
+exe unwind
+    : unwind.cpp
+    ;
+
+exe same_fringe
+    : same_fringe.cpp
+    ;
+
+exe asio/stream_client
+    : asio/stream_client.cpp
+    ;
+
+exe asio/stream_server
+    : asio/stream_server.cpp
+    ;

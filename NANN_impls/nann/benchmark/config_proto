@@ -1,0 +1,8 @@
+device_count {key: "GPU" value: 1}
+gpu_options {
+  allow_growth: true
+  visible_device_list: "0"
+  experimental {
+    virtual_devices { memory_limit_mb: 12288 memory_limit_mb: 12288 memory_limit_mb: 12288 memory_limit_mb: 12288}
+  }
+}

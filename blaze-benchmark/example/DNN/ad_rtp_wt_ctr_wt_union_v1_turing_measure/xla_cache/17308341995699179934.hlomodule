@@ -1,0 +1,230 @@
+HloModule cluster_0__XlaCompiledKernel_true__XlaNumConstantArgs_2__XlaNumResourceArgs_0_.186
+
+%max_float_.165 (x.166: f32[], y.167: f32[]) -> f32[] {
+  %x.166 = f32[] parameter(0)
+  %y.167 = f32[] parameter(1)
+  ROOT %maximum.168 = f32[] maximum(f32[] %x.166, f32[] %y.167)
+}
+
+%add_float_.175 (x.176: f32[], y.177: f32[]) -> f32[] {
+  %x.176 = f32[] parameter(0)
+  %y.177 = f32[] parameter(1)
+  ROOT %add.178 = f32[] add(f32[] %x.176, f32[] %y.177)
+}
+
+%fused_computation (param_0: f32[512,2], param_1.1: f32[512]) -> f32[512,2] {
+  %param_0 = f32[512,2]{1,0} parameter(0)
+  %param_1.1 = f32[512]{0} parameter(1)
+  %broadcast.9 = f32[512,2]{1,0} broadcast(f32[512]{0} %param_1.1), dimensions={0}
+  ROOT %divide.0 = f32[512,2]{1,0} divide(f32[512,2]{1,0} %param_0, f32[512,2]{1,0} %broadcast.9)
+}
+
+%fused_computation.1 (param_0.2: f32[512,2], param_1.3: f32[512]) -> f32[512,2] {
+  %param_0.2 = f32[512,2]{1,0} parameter(0)
+  %param_1.3 = f32[512]{0} parameter(1)
+  %broadcast.11 = f32[512,2]{1,0} broadcast(f32[512]{0} %param_1.3), dimensions={0}
+  %subtract.0 = f32[512,2]{1,0} subtract(f32[512,2]{1,0} %param_0.2, f32[512,2]{1,0} %broadcast.11)
+  ROOT %exponential.0 = f32[512,2]{1,0} exponential(f32[512,2]{1,0} %subtract.0)
+}
+
+%fused_computation.2 (param_0.4: f32[2], param_1.6: f16[512,2]) -> f32[512,2] {
+  %param_1.6 = f16[512,2]{1,0} parameter(1)
+  %convert.0 = f32[512,2]{1,0} convert(f16[512,2]{1,0} %param_1.6)
+  %param_0.4 = f32[2]{0} parameter(0)
+  %broadcast.12 = f32[512,2]{1,0} broadcast(f32[2]{0} %param_0.4), dimensions={1}
+  ROOT %add.8 = f32[512,2]{1,0} add(f32[512,2]{1,0} %convert.0, f32[512,2]{1,0} %broadcast.12)
+}
+
+%fused_computation.3 (param_0.7: f16[512,80], param_1.11: f16[80], param_2.4: f16[80], param_3.31: f16[80]) -> f16[512,80] {
+  %param_3.31 = f16[80]{0} parameter(3)
+  %broadcast.18 = f16[512,80]{1,0} broadcast(f16[80]{0} %param_3.31), dimensions={1}
+  %param_0.7 = f16[512,80]{1,0} parameter(0)
+  %multiply.5 = f16[512,80]{1,0} multiply(f16[512,80]{1,0} %broadcast.18, f16[512,80]{1,0} %param_0.7)
+  %constant_14 = f16[] constant(1)
+  %broadcast.17 = f16[512,80]{1,0} broadcast(f16[] %constant_14), dimensions={}
+  %constant_16 = f16[] constant(0.5)
+  %broadcast.15 = f16[512,80]{1,0} broadcast(f16[] %constant_16), dimensions={}
+  %param_2.4 = f16[80]{0} parameter(2)
+  %broadcast.14 = f16[512,80]{1,0} broadcast(f16[80]{0} %param_2.4), dimensions={1}
+  %param_1.11 = f16[80]{0} parameter(1)
+  %broadcast.13 = f16[512,80]{1,0} broadcast(f16[80]{0} %param_1.11), dimensions={1}
+  %add.12 = f16[512,80]{1,0} add(f16[512,80]{1,0} %param_0.7, f16[512,80]{1,0} %broadcast.13)
+  %multiply.4 = f16[512,80]{1,0} multiply(f16[512,80]{1,0} %broadcast.14, f16[512,80]{1,0} %add.12)
+  %multiply.3 = f16[512,80]{1,0} multiply(f16[512,80]{1,0} %broadcast.15, f16[512,80]{1,0} %multiply.4)
+  %tanh.0 = f16[512,80]{1,0} tanh(f16[512,80]{1,0} %multiply.3)
+  %multiply.2 = f16[512,80]{1,0} multiply(f16[512,80]{1,0} %broadcast.15, f16[512,80]{1,0} %tanh.0)
+  %add.10 = f16[512,80]{1,0} add(f16[512,80]{1,0} %broadcast.15, f16[512,80]{1,0} %multiply.2)
+  %subtract.1 = f16[512,80]{1,0} subtract(f16[512,80]{1,0} %broadcast.17, f16[512,80]{1,0} %add.10)
+  %multiply.1 = f16[512,80]{1,0} multiply(f16[512,80]{1,0} %multiply.5, f16[512,80]{1,0} %subtract.1)
+  %multiply.0 = f16[512,80]{1,0} multiply(f16[512,80]{1,0} %add.10, f16[512,80]{1,0} %param_0.7)
+  ROOT %add.9 = f16[512,80]{1,0} add(f16[512,80]{1,0} %multiply.1, f16[512,80]{1,0} %multiply.0)
+}
+
+%fused_computation.4 (param_0.10: f16[512,200], param_1.16: f16[200], param_2.9: f16[200], param_3.32: f16[200]) -> f16[512,200] {
+  %param_3.32 = f16[200]{0} parameter(3)
+  %broadcast.25 = f16[512,200]{1,0} broadcast(f16[200]{0} %param_3.32), dimensions={1}
+  %param_0.10 = f16[512,200]{1,0} parameter(0)
+  %multiply.11 = f16[512,200]{1,0} multiply(f16[512,200]{1,0} %broadcast.25, f16[512,200]{1,0} %param_0.10)
+  %constant_17 = f16[] constant(1)
+  %broadcast.24 = f16[512,200]{1,0} broadcast(f16[] %constant_17), dimensions={}
+  %constant_19 = f16[] constant(0.5)
+  %broadcast.22 = f16[512,200]{1,0} broadcast(f16[] %constant_19), dimensions={}
+  %param_2.9 = f16[200]{0} parameter(2)
+  %broadcast.21 = f16[512,200]{1,0} broadcast(f16[200]{0} %param_2.9), dimensions={1}
+  %param_1.16 = f16[200]{0} parameter(1)
+  %broadcast.19 = f16[512,200]{1,0} broadcast(f16[200]{0} %param_1.16), dimensions={1}
+  %add.15 = f16[512,200]{1,0} add(f16[512,200]{1,0} %param_0.10, f16[512,200]{1,0} %broadcast.19)
+  %multiply.10 = f16[512,200]{1,0} multiply(f16[512,200]{1,0} %broadcast.21, f16[512,200]{1,0} %add.15)
+  %multiply.9 = f16[512,200]{1,0} multiply(f16[512,200]{1,0} %broadcast.22, f16[512,200]{1,0} %multiply.10)
+  %tanh.1 = f16[512,200]{1,0} tanh(f16[512,200]{1,0} %multiply.9)
+  %multiply.8 = f16[512,200]{1,0} multiply(f16[512,200]{1,0} %broadcast.22, f16[512,200]{1,0} %tanh.1)
+  %add.14 = f16[512,200]{1,0} add(f16[512,200]{1,0} %broadcast.22, f16[512,200]{1,0} %multiply.8)
+  %subtract.2 = f16[512,200]{1,0} subtract(f16[512,200]{1,0} %broadcast.24, f16[512,200]{1,0} %add.14)
+  %multiply.7 = f16[512,200]{1,0} multiply(f16[512,200]{1,0} %multiply.11, f16[512,200]{1,0} %subtract.2)
+  %multiply.6 = f16[512,200]{1,0} multiply(f16[512,200]{1,0} %add.14, f16[512,200]{1,0} %param_0.10)
+  ROOT %add.13 = f16[512,200]{1,0} add(f16[512,200]{1,0} %multiply.7, f16[512,200]{1,0} %multiply.6)
+}
+
+%fused_computation.5 (param_0.13: f16[512,300], param_1.21: f16[300], param_2.14: f16[300], param_3.33: f16[300]) -> f16[512,300] {
+  %param_3.33 = f16[300]{0} parameter(3)
+  %broadcast.33 = f16[512,300]{1,0} broadcast(f16[300]{0} %param_3.33), dimensions={1}
+  %param_0.13 = f16[512,300]{1,0} parameter(0)
+  %multiply.17 = f16[512,300]{1,0} multiply(f16[512,300]{1,0} %broadcast.33, f16[512,300]{1,0} %param_0.13)
+  %constant_20 = f16[] constant(1)
+  %broadcast.31 = f16[512,300]{1,0} broadcast(f16[] %constant_20), dimensions={}
+  %constant_21 = f16[] constant(0.5)
+  %broadcast.30 = f16[512,300]{1,0} broadcast(f16[] %constant_21), dimensions={}
+  %param_2.14 = f16[300]{0} parameter(2)
+  %broadcast.28 = f16[512,300]{1,0} broadcast(f16[300]{0} %param_2.14), dimensions={1}
+  %param_1.21 = f16[300]{0} parameter(1)
+  %broadcast.27 = f16[512,300]{1,0} broadcast(f16[300]{0} %param_1.21), dimensions={1}
+  %add.19 = f16[512,300]{1,0} add(f16[512,300]{1,0} %param_0.13, f16[512,300]{1,0} %broadcast.27)
+  %multiply.16 = f16[512,300]{1,0} multiply(f16[512,300]{1,0} %broadcast.28, f16[512,300]{1,0} %add.19)
+  %multiply.15 = f16[512,300]{1,0} multiply(f16[512,300]{1,0} %broadcast.30, f16[512,300]{1,0} %multiply.16)
+  %tanh.2 = f16[512,300]{1,0} tanh(f16[512,300]{1,0} %multiply.15)
+  %multiply.14 = f16[512,300]{1,0} multiply(f16[512,300]{1,0} %broadcast.30, f16[512,300]{1,0} %tanh.2)
+  %add.18 = f16[512,300]{1,0} add(f16[512,300]{1,0} %broadcast.30, f16[512,300]{1,0} %multiply.14)
+  %subtract.3 = f16[512,300]{1,0} subtract(f16[512,300]{1,0} %broadcast.31, f16[512,300]{1,0} %add.18)
+  %multiply.13 = f16[512,300]{1,0} multiply(f16[512,300]{1,0} %multiply.17, f16[512,300]{1,0} %subtract.3)
+  %multiply.12 = f16[512,300]{1,0} multiply(f16[512,300]{1,0} %add.18, f16[512,300]{1,0} %param_0.13)
+  ROOT %add.16 = f16[512,300]{1,0} add(f16[512,300]{1,0} %multiply.13, f16[512,300]{1,0} %multiply.12)
+}
+
+%fused_computation.6 (param_0.16: f16[512,400], param_1.26: f16[400], param_2.19: f16[400], param_3.34: f16[400]) -> f16[512,400] {
+  %param_3.34 = f16[400]{0} parameter(3)
+  %broadcast.40 = f16[512,400]{1,0} broadcast(f16[400]{0} %param_3.34), dimensions={1}
+  %param_0.16 = f16[512,400]{1,0} parameter(0)
+  %multiply.24 = f16[512,400]{1,0} multiply(f16[512,400]{1,0} %broadcast.40, f16[512,400]{1,0} %param_0.16)
+  %constant_23 = f16[] constant(1)
+  %broadcast.39 = f16[512,400]{1,0} broadcast(f16[] %constant_23), dimensions={}
+  %constant_24 = f16[] constant(0.5)
+  %broadcast.37 = f16[512,400]{1,0} broadcast(f16[] %constant_24), dimensions={}
+  %param_2.19 = f16[400]{0} parameter(2)
+  %broadcast.36 = f16[512,400]{1,0} broadcast(f16[400]{0} %param_2.19), dimensions={1}
+  %param_1.26 = f16[400]{0} parameter(1)
+  %broadcast.35 = f16[512,400]{1,0} broadcast(f16[400]{0} %param_1.26), dimensions={1}
+  %add.22 = f16[512,400]{1,0} add(f16[512,400]{1,0} %param_0.16, f16[512,400]{1,0} %broadcast.35)
+  %multiply.23 = f16[512,400]{1,0} multiply(f16[512,400]{1,0} %broadcast.36, f16[512,400]{1,0} %add.22)
+  %multiply.22 = f16[512,400]{1,0} multiply(f16[512,400]{1,0} %broadcast.37, f16[512,400]{1,0} %multiply.23)
+  %tanh.3 = f16[512,400]{1,0} tanh(f16[512,400]{1,0} %multiply.22)
+  %multiply.20 = f16[512,400]{1,0} multiply(f16[512,400]{1,0} %broadcast.37, f16[512,400]{1,0} %tanh.3)
+  %add.21 = f16[512,400]{1,0} add(f16[512,400]{1,0} %broadcast.37, f16[512,400]{1,0} %multiply.20)
+  %subtract.4 = f16[512,400]{1,0} subtract(f16[512,400]{1,0} %broadcast.39, f16[512,400]{1,0} %add.21)
+  %multiply.19 = f16[512,400]{1,0} multiply(f16[512,400]{1,0} %multiply.24, f16[512,400]{1,0} %subtract.4)
+  %multiply.18 = f16[512,400]{1,0} multiply(f16[512,400]{1,0} %add.21, f16[512,400]{1,0} %param_0.16)
+  ROOT %add.20 = f16[512,400]{1,0} add(f16[512,400]{1,0} %multiply.19, f16[512,400]{1,0} %multiply.18)
+}
+
+%fused_computation.7 (param_0.20: f16[600], param_1.32: f16[600], param_2.26: f16[512,600], param_3.36: f16[600], param_4.52: f16[600]) -> f16[512,600] {
+  %param_4.52 = f16[600]{0} parameter(4)
+  %broadcast.47 = f16[512,600]{1,0} broadcast(f16[600]{0} %param_4.52), dimensions={1}
+  %param_2.26 = f16[512,600]{1,0} parameter(2)
+  %param_3.36 = f16[600]{0} parameter(3)
+  %broadcast.46 = f16[512,600]{1,0} broadcast(f16[600]{0} %param_3.36), dimensions={1}
+  %add.26 = f16[512,600]{1,0} add(f16[512,600]{1,0} %param_2.26, f16[512,600]{1,0} %broadcast.46)
+  %multiply.32 = f16[512,600]{1,0} multiply(f16[512,600]{1,0} %broadcast.47, f16[512,600]{1,0} %add.26)
+  %constant_26 = f16[] constant(1)
+  %broadcast.44 = f16[512,600]{1,0} broadcast(f16[] %constant_26), dimensions={}
+  %constant_27 = f16[] constant(0.5)
+  %broadcast.43 = f16[512,600]{1,0} broadcast(f16[] %constant_27), dimensions={}
+  %param_1.32 = f16[600]{0} parameter(1)
+  %broadcast.42 = f16[512,600]{1,0} broadcast(f16[600]{0} %param_1.32), dimensions={1}
+  %param_0.20 = f16[600]{0} parameter(0)
+  %broadcast.41 = f16[512,600]{1,0} broadcast(f16[600]{0} %param_0.20), dimensions={1}
+  %add.25 = f16[512,600]{1,0} add(f16[512,600]{1,0} %add.26, f16[512,600]{1,0} %broadcast.41)
+  %multiply.31 = f16[512,600]{1,0} multiply(f16[512,600]{1,0} %broadcast.42, f16[512,600]{1,0} %add.25)
+  %multiply.29 = f16[512,600]{1,0} multiply(f16[512,600]{1,0} %broadcast.43, f16[512,600]{1,0} %multiply.31)
+  %tanh.4 = f16[512,600]{1,0} tanh(f16[512,600]{1,0} %multiply.29)
+  %multiply.28 = f16[512,600]{1,0} multiply(f16[512,600]{1,0} %broadcast.43, f16[512,600]{1,0} %tanh.4)
+  %add.24 = f16[512,600]{1,0} add(f16[512,600]{1,0} %broadcast.43, f16[512,600]{1,0} %multiply.28)
+  %subtract.5 = f16[512,600]{1,0} subtract(f16[512,600]{1,0} %broadcast.44, f16[512,600]{1,0} %add.24)
+  %multiply.26 = f16[512,600]{1,0} multiply(f16[512,600]{1,0} %multiply.32, f16[512,600]{1,0} %subtract.5)
+  %multiply.25 = f16[512,600]{1,0} multiply(f16[512,600]{1,0} %add.24, f16[512,600]{1,0} %add.26)
+  ROOT %add.23 = f16[512,600]{1,0} add(f16[512,600]{1,0} %multiply.26, f16[512,600]{1,0} %multiply.25)
+}
+
+%fused_computation.8 (param_0.23: f32[1,975]) -> f16[512,975] {
+  %param_0.23 = f32[1,975]{1,0} parameter(0)
+  %convert.1 = f16[1,975]{1,0} convert(f32[1,975]{1,0} %param_0.23)
+  %bitcast.1 = f16[975]{0} bitcast(f16[1,975]{1,0} %convert.1)
+  ROOT %broadcast.48 = f16[512,975]{1,0} broadcast(f16[975]{0} %bitcast.1), dimensions={1}
+}
+
+ENTRY %cluster_0__XlaCompiledKernel_true__XlaNumConstantArgs_2__XlaNumResourceArgs_0_.186 (arg0.1: f32[512,906], arg1.2: f32[1,975]) -> f32[512,2] {
+  %constant_161 = f32[2]{0} constant({...})
+  %constant_8 = f16[600]{0} constant({...})
+  %constant_25 = f16[600]{0} constant({...})
+  %arg1.2 = f32[1,975]{1,0} parameter(1), parameter_replication={false}
+  %fusion.8 = f16[512,975]{1,0} fusion(f32[1,975]{1,0} %arg1.2), kind=kLoop, calls=%fused_computation.8
+  %constant_5 = f16[975,600]{1,0} constant({...})
+  %arg0.1 = f32[512,906]{1,0} parameter(0), parameter_replication={false}
+  %convert.6 = f16[512,906]{1,0} convert(f32[512,906]{1,0} %arg0.1)
+  %constant_6 = f16[906,600]{1,0} constant({...})
+  %custom-call.1 = f16[512,600]{1,0} custom-call(f16[512,906]{1,0} %convert.6, f16[906,600]{1,0} %constant_6), custom_call_target="__cublas$gemm", backend_config="{\"alphaReal\":1,\"dotDimensionNumbers\":{\"lhsContractingDimensions\":[\"1\"],\"rhsContractingDimensions\":[\"0\"]},\"batchSize\":\"1\"}"
+  %custom-call.2 = f16[512,600]{1,0} custom-call(f16[512,975]{1,0} %fusion.8, f16[975,600]{1,0} %constant_5, f16[512,600]{1,0} %custom-call.1), custom_call_target="__cublas$gemm", backend_config="{\"alphaReal\":1,\"beta\":1,\"dotDimensionNumbers\":{\"lhsContractingDimensions\":[\"1\"],\"rhsContractingDimensions\":[\"0\"]},\"batchSize\":\"1\"}"
+  %constant_15 = f16[600]{0} constant({...})
+  %constant_4 = f16[600]{0} constant({...})
+  %fusion.7 = f16[512,600]{1,0} fusion(f16[600]{0} %constant_8, f16[600]{0} %constant_25, f16[512,600]{1,0} %custom-call.2, f16[600]{0} %constant_15, f16[600]{0} %constant_4), kind=kLoop, calls=%fused_computation.7
+  %constant_42 = f16[600,400]{1,0} constant({...})
+  %constant_44 = f16[400]{0} constant({...})
+  %broadcast.45 = f16[512,400]{1,0} broadcast(f16[400]{0} %constant_44), dimensions={1}
+  %custom-call.4 = f16[512,400]{1,0} custom-call(f16[512,600]{1,0} %fusion.7, f16[600,400]{1,0} %constant_42, f16[512,400]{1,0} %broadcast.45), custom_call_target="__cublas$gemm", backend_config="{\"alphaReal\":1,\"beta\":1,\"dotDimensionNumbers\":{\"lhsContractingDimensions\":[\"1\"],\"rhsContractingDimensions\":[\"0\"]},\"batchSize\":\"1\"}"
+  %constant_9 = f16[400]{0} constant({...})
+  %constant_54 = f16[400]{0} constant({...})
+  %constant_3 = f16[400]{0} constant({...})
+  %fusion.6 = f16[512,400]{1,0} fusion(f16[512,400]{1,0} %custom-call.4, f16[400]{0} %constant_9, f16[400]{0} %constant_54, f16[400]{0} %constant_3), kind=kLoop, calls=%fused_computation.6
+  %constant_71 = f16[400,300]{1,0} constant({...})
+  %constant_73 = f16[300]{0} constant({...})
+  %broadcast.74 = f16[512,300]{1,0} broadcast(f16[300]{0} %constant_73), dimensions={1}
+  %custom-call.6 = f16[512,300]{1,0} custom-call(f16[512,400]{1,0} %fusion.6, f16[400,300]{1,0} %constant_71, f16[512,300]{1,0} %broadcast.74), custom_call_target="__cublas$gemm", backend_config="{\"alphaReal\":1,\"beta\":1,\"dotDimensionNumbers\":{\"lhsContractingDimensions\":[\"1\"],\"rhsContractingDimensions\":[\"0\"]},\"batchSize\":\"1\"}"
+  %constant_10 = f16[300]{0} constant({...})
+  %constant_83 = f16[300]{0} constant({...})
+  %constant_2 = f16[300]{0} constant({...})
+  %fusion.5 = f16[512,300]{1,0} fusion(f16[512,300]{1,0} %custom-call.6, f16[300]{0} %constant_10, f16[300]{0} %constant_83, f16[300]{0} %constant_2), kind=kLoop, calls=%fused_computation.5
+  %constant_100 = f16[300,200]{1,0} constant({...})
+  %constant_102 = f16[200]{0} constant({...})
+  %broadcast.103 = f16[512,200]{1,0} broadcast(f16[200]{0} %constant_102), dimensions={1}
+  %custom-call.8 = f16[512,200]{1,0} custom-call(f16[512,300]{1,0} %fusion.5, f16[300,200]{1,0} %constant_100, f16[512,200]{1,0} %broadcast.103), custom_call_target="__cublas$gemm", backend_config="{\"alphaReal\":1,\"beta\":1,\"dotDimensionNumbers\":{\"lhsContractingDimensions\":[\"1\"],\"rhsContractingDimensions\":[\"0\"]},\"batchSize\":\"1\"}"
+  %constant_11 = f16[200]{0} constant({...})
+  %constant_112 = f16[200]{0} constant({...})
+  %constant_1 = f16[200]{0} constant({...})
+  %fusion.4 = f16[512,200]{1,0} fusion(f16[512,200]{1,0} %custom-call.8, f16[200]{0} %constant_11, f16[200]{0} %constant_112, f16[200]{0} %constant_1), kind=kLoop, calls=%fused_computation.4
+  %constant_129 = f16[200,80]{1,0} constant({...})
+  %constant_131 = f16[80]{0} constant({...})
+  %broadcast.132 = f16[512,80]{1,0} broadcast(f16[80]{0} %constant_131), dimensions={1}
+  %custom-call.10 = f16[512,80]{1,0} custom-call(f16[512,200]{1,0} %fusion.4, f16[200,80]{1,0} %constant_129, f16[512,80]{1,0} %broadcast.132), custom_call_target="__cublas$gemm", backend_config="{\"alphaReal\":1,\"beta\":1,\"dotDimensionNumbers\":{\"lhsContractingDimensions\":[\"1\"],\"rhsContractingDimensions\":[\"0\"]},\"batchSize\":\"1\"}"
+  %constant_12 = f16[80]{0} constant({...})
+  %constant_141 = f16[80]{0} constant({...})
+  %constant = f16[80]{0} constant({...})
+  %fusion.3 = f16[512,80]{1,0} fusion(f16[512,80]{1,0} %custom-call.10, f16[80]{0} %constant_12, f16[80]{0} %constant_141, f16[80]{0} %constant), kind=kLoop, calls=%fused_computation.3
+  %constant_158 = f16[80,2]{1,0} constant({...})
+  %custom-call.11 = f16[512,2]{1,0} custom-call(f16[512,80]{1,0} %fusion.3, f16[80,2]{1,0} %constant_158), custom_call_target="__cublas$gemm", backend_config="{\"alphaReal\":1,\"dotDimensionNumbers\":{\"lhsContractingDimensions\":[\"1\"],\"rhsContractingDimensions\":[\"0\"]},\"batchSize\":\"1\"}"
+  %fusion.2 = f32[512,2]{1,0} fusion(f32[2]{0} %constant_161, f16[512,2]{1,0} %custom-call.11), kind=kLoop, calls=%fused_computation.2
+  %constant_164 = f32[] constant(-inf)
+  %reduce.169 = f32[512]{0} reduce(f32[512,2]{1,0} %fusion.2, f32[] %constant_164), dimensions={1}, to_apply=%max_float_.165
+  %fusion.1 = f32[512,2]{1,0} fusion(f32[512,2]{1,0} %fusion.2, f32[512]{0} %reduce.169), kind=kLoop, calls=%fused_computation.1
+  %constant_174 = f32[] constant(0)
+  %reduce.179 = f32[512]{0} reduce(f32[512,2]{1,0} %fusion.1, f32[] %constant_174), dimensions={1}, to_apply=%add_float_.175
+  ROOT %fusion = f32[512,2]{1,0} fusion(f32[512,2]{1,0} %fusion.1, f32[512]{0} %reduce.179), kind=kLoop, calls=%fused_computation
+}
+

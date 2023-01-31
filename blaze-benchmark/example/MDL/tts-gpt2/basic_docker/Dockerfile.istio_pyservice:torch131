@@ -1,0 +1,18 @@
+FROM reg.docker.alibaba-inc.com/vdl/istio_pyservice:latest
+
+MAINTAINER AlimamaCV <xinglin.hxl@alibaba-inc.com>
+
+#RUN pip3 install -i https://pypi.antfin-inc.com/simple/ --upgrade pip && pip3 --no-cache-dir install -i https://pypi.antfin-inc.com/simple/ git+http://gitlab-ci-token:cc3e8d873b62f721e555e7a5185b16@gitlab.alibaba-inc.com/alimamacv/istio_pyservice_utils.git@0.1.7
+
+RUN pip3 install -i https://pypi.antfin-inc.com/simple/ --upgrade pip && \
+    pip3 install -i https://pypi.antfin-inc.com/simple/ \
+    opencv-python==4.4.0.42 \
+    torch==1.3.1 \
+    torchvision==0.4.2 \
+    pillow==7.2.0 \
+    hsfpy3 \
+    eyed3
+
+#COPY ./ /home/service/
+
+#RUN yum install -b current nvidia-x11-drv-418.87.01-2.alios7.x86_64 -y

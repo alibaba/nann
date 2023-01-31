@@ -1,0 +1,3 @@
+#!/bin/bash
+APP_HOME=$(cd $(dirname $0)/..; pwd)
+/bin/bash ${APP_HOME}/bin/appctl.sh "$@"

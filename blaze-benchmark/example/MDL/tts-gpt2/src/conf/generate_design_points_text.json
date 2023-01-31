@@ -1,0 +1,17 @@
+{
+    "components": [
+        {
+            "name": "fetch_item_info",
+            "conf": {}
+        },
+        {
+            "name": "generate_storyline_with_pict",
+            "conf": {}
+        },
+        {
+            "name": "generate_design_points_text",
+            "conf": {}
+        }
+    ],
+    "output_keys": ["text"]
+}

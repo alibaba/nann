@@ -1,0 +1,11 @@
+.idea/
+*.iml
+__pycache__
+*/__pycache__
+*/*/__pycache__
+*/diamond
+*/logs
+*/*log*
+*/*/*.pyc
+*/*/*/*.pyc
+*.un~

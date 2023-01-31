@@ -1,0 +1,406 @@
+HloModule cluster_6__XlaCompiledKernel_true__XlaNumConstantArgs_1__XlaNumResourceArgs_0_.354
+
+%stage_0_fc2_LayerNorm_moments_mean-reduction.117 (x.118: f32[], y.119: f32[]) -> f32[] {
+  %x.118 = f32[] parameter(0)
+  %y.119 = f32[] parameter(1)
+  ROOT %add.120 = f32[] add(f32[] %x.118, f32[] %y.119)
+}
+
+%stage_0_fc3_LayerNorm_moments_mean-reduction.177 (x.178: f32[], y.179: f32[]) -> f32[] {
+  %x.178 = f32[] parameter(0)
+  %y.179 = f32[] parameter(1)
+  ROOT %add.180 = f32[] add(f32[] %x.178, f32[] %y.179)
+}
+
+%stage_0_fc4_LayerNorm_moments_mean-reduction.237 (x.238: f32[], y.239: f32[]) -> f32[] {
+  %x.238 = f32[] parameter(0)
+  %y.239 = f32[] parameter(1)
+  ROOT %add.240 = f32[] add(f32[] %x.238, f32[] %y.239)
+}
+
+%stage_0_fc5_LayerNorm_moments_mean-reduction.297 (x.298: f32[], y.299: f32[]) -> f32[] {
+  %x.298 = f32[] parameter(0)
+  %y.299 = f32[] parameter(1)
+  ROOT %add.300 = f32[] add(f32[] %x.298, f32[] %y.299)
+}
+
+%fused_computation (param_0.2: f32[200,64], param_1.4: f32[200], param_2.52: f32[], param_3.39: f32[1,64], param_4.59: f32[200]) -> f32[200,64] {
+  %param_0.2 = f32[200,64]{1,0} parameter(0)
+  %param_3.39 = f32[1,64]{1,0} parameter(3)
+  %bitcast.6 = f32[64]{0} bitcast(f32[1,64]{1,0} %param_3.39)
+  %broadcast.33 = f32[200,64]{1,0} broadcast(f32[64]{0} %bitcast.6), dimensions={1}
+  %multiply.15 = f32[200,64]{1,0} multiply(f32[200,64]{1,0} %param_0.2, f32[200,64]{1,0} %broadcast.33)
+  %param_2.52 = f32[] parameter(2)
+  %broadcast.32 = f32[200,64]{1,0} broadcast(f32[] %param_2.52), dimensions={}
+  %constant_25 = f32[] constant(0.5)
+  %broadcast.31 = f32[200,64]{1,0} broadcast(f32[] %constant_25), dimensions={}
+  %param_4.59 = f32[200]{0} parameter(4)
+  %constant_63 = f32[] constant(0.015625)
+  %broadcast.122 = f32[200]{0} broadcast(f32[] %constant_63), dimensions={}
+  %multiply.76 = f32[200]{0} multiply(f32[200]{0} %param_4.59, f32[200]{0} %broadcast.122)
+  %broadcast.121 = f32[200,64]{1,0} broadcast(f32[200]{0} %multiply.76), dimensions={0}
+  %subtract.1 = f32[200,64]{1,0} subtract(f32[200,64]{1,0} %param_0.2, f32[200,64]{1,0} %broadcast.121)
+  %param_1.4 = f32[200]{0} parameter(1)
+  %broadcast.30 = f32[200,64]{1,0} broadcast(f32[200]{0} %param_1.4), dimensions={0}
+  %multiply.14 = f32[200,64]{1,0} multiply(f32[200,64]{1,0} %subtract.1, f32[200,64]{1,0} %broadcast.30)
+  %multiply.13 = f32[200,64]{1,0} multiply(f32[200,64]{1,0} %broadcast.31, f32[200,64]{1,0} %multiply.14)
+  %tanh.0 = f32[200,64]{1,0} tanh(f32[200,64]{1,0} %multiply.13)
+  %multiply.12 = f32[200,64]{1,0} multiply(f32[200,64]{1,0} %broadcast.31, f32[200,64]{1,0} %tanh.0)
+  %add.6 = f32[200,64]{1,0} add(f32[200,64]{1,0} %broadcast.31, f32[200,64]{1,0} %multiply.12)
+  %subtract.0 = f32[200,64]{1,0} subtract(f32[200,64]{1,0} %broadcast.32, f32[200,64]{1,0} %add.6)
+  %multiply.11 = f32[200,64]{1,0} multiply(f32[200,64]{1,0} %multiply.15, f32[200,64]{1,0} %subtract.0)
+  %multiply.10 = f32[200,64]{1,0} multiply(f32[200,64]{1,0} %add.6, f32[200,64]{1,0} %param_0.2)
+  ROOT %add.5 = f32[200,64]{1,0} add(f32[200,64]{1,0} %multiply.11, f32[200,64]{1,0} %multiply.10)
+}
+
+%fused_computation.1 (param_0.54: f32[200], param_1.61: f32[]) -> f32[200] {
+  %param_0.54 = f32[200]{0} parameter(0)
+  %constant_26 = f32[] constant(0.015625)
+  %broadcast.60 = f32[200]{0} broadcast(f32[] %constant_26), dimensions={}
+  %multiply.16 = f32[200]{0} multiply(f32[200]{0} %param_0.54, f32[200]{0} %broadcast.60)
+  %param_1.61 = f32[] parameter(1)
+  %broadcast.61 = f32[200]{0} broadcast(f32[] %param_1.61), dimensions={}
+  %add.7 = f32[200]{0} add(f32[200]{0} %multiply.16, f32[200]{0} %broadcast.61)
+  ROOT %rsqrt.5 = f32[200]{0} rsqrt(f32[200]{0} %add.7)
+}
+
+%stage_0_fc5_LayerNorm_moments_variance-reduction.318 (x.319: f32[], y.320: f32[]) -> f32[] {
+  %x.319 = f32[] parameter(0)
+  %y.320 = f32[] parameter(1)
+  ROOT %add.321 = f32[] add(f32[] %x.319, f32[] %y.320)
+}
+
+%fused_computation.2 (param_0.78: f32[200,64], param_1.85: f32[200]) -> f32[200] {
+  %param_1.85 = f32[200]{0} parameter(1)
+  %constant_65 = f32[] constant(0.015625)
+  %broadcast.127 = f32[200]{0} broadcast(f32[] %constant_65), dimensions={}
+  %multiply.78 = f32[200]{0} multiply(f32[200]{0} %param_1.85, f32[200]{0} %broadcast.127)
+  %broadcast.126 = f32[200,64]{1,0} broadcast(f32[200]{0} %multiply.78), dimensions={0}
+  %param_0.78 = f32[200,64]{1,0} parameter(0)
+  %subtract.2 = f32[200,64]{1,0} subtract(f32[200,64]{1,0} %broadcast.126, f32[200,64]{1,0} %param_0.78)
+  %multiply.17 = f32[200,64]{1,0} multiply(f32[200,64]{1,0} %subtract.2, f32[200,64]{1,0} %subtract.2)
+  %constant_27 = f32[] constant(0)
+  ROOT %reduce.0 = f32[200]{0} reduce(f32[200,64]{1,0} %multiply.17, f32[] %constant_27), dimensions={1}, to_apply=%stage_0_fc5_LayerNorm_moments_variance-reduction.318
+}
+
+%fused_computation.4 (param_0.12: f32[200,128], param_1.15: f32[200], param_2.49: f32[], param_3.38: f32[1,128], param_4.57: f32[200]) -> f32[200,128] {
+  %param_0.12 = f32[200,128]{1,0} parameter(0)
+  %param_3.38 = f32[1,128]{1,0} parameter(3)
+  %bitcast.7 = f32[128]{0} bitcast(f32[1,128]{1,0} %param_3.38)
+  %broadcast.38 = f32[200,128]{1,0} broadcast(f32[128]{0} %bitcast.7), dimensions={1}
+  %multiply.24 = f32[200,128]{1,0} multiply(f32[200,128]{1,0} %param_0.12, f32[200,128]{1,0} %broadcast.38)
+  %param_2.49 = f32[] parameter(2)
+  %broadcast.37 = f32[200,128]{1,0} broadcast(f32[] %param_2.49), dimensions={}
+  %constant_29 = f32[] constant(0.5)
+  %broadcast.36 = f32[200,128]{1,0} broadcast(f32[] %constant_29), dimensions={}
+  %param_4.57 = f32[200]{0} parameter(4)
+  %constant_59 = f32[] constant(0.0078125)
+  %broadcast.114 = f32[200]{0} broadcast(f32[] %constant_59), dimensions={}
+  %multiply.71 = f32[200]{0} multiply(f32[200]{0} %param_4.57, f32[200]{0} %broadcast.114)
+  %broadcast.113 = f32[200,128]{1,0} broadcast(f32[200]{0} %multiply.71), dimensions={0}
+  %subtract.4 = f32[200,128]{1,0} subtract(f32[200,128]{1,0} %param_0.12, f32[200,128]{1,0} %broadcast.113)
+  %param_1.15 = f32[200]{0} parameter(1)
+  %broadcast.35 = f32[200,128]{1,0} broadcast(f32[200]{0} %param_1.15), dimensions={0}
+  %multiply.23 = f32[200,128]{1,0} multiply(f32[200,128]{1,0} %subtract.4, f32[200,128]{1,0} %broadcast.35)
+  %multiply.22 = f32[200,128]{1,0} multiply(f32[200,128]{1,0} %broadcast.36, f32[200,128]{1,0} %multiply.23)
+  %tanh.1 = f32[200,128]{1,0} tanh(f32[200,128]{1,0} %multiply.22)
+  %multiply.21 = f32[200,128]{1,0} multiply(f32[200,128]{1,0} %broadcast.36, f32[200,128]{1,0} %tanh.1)
+  %add.9 = f32[200,128]{1,0} add(f32[200,128]{1,0} %broadcast.36, f32[200,128]{1,0} %multiply.21)
+  %subtract.3 = f32[200,128]{1,0} subtract(f32[200,128]{1,0} %broadcast.37, f32[200,128]{1,0} %add.9)
+  %multiply.20 = f32[200,128]{1,0} multiply(f32[200,128]{1,0} %multiply.24, f32[200,128]{1,0} %subtract.3)
+  %multiply.19 = f32[200,128]{1,0} multiply(f32[200,128]{1,0} %add.9, f32[200,128]{1,0} %param_0.12)
+  ROOT %add.8 = f32[200,128]{1,0} add(f32[200,128]{1,0} %multiply.20, f32[200,128]{1,0} %multiply.19)
+}
+
+%fused_computation.5 (param_0.56: f32[200], param_1.64: f32[]) -> f32[200] {
+  %param_0.56 = f32[200]{0} parameter(0)
+  %constant_30 = f32[] constant(0.0078125)
+  %broadcast.63 = f32[200]{0} broadcast(f32[] %constant_30), dimensions={}
+  %multiply.25 = f32[200]{0} multiply(f32[200]{0} %param_0.56, f32[200]{0} %broadcast.63)
+  %param_1.64 = f32[] parameter(1)
+  %broadcast.65 = f32[200]{0} broadcast(f32[] %param_1.64), dimensions={}
+  %add.10 = f32[200]{0} add(f32[200]{0} %multiply.25, f32[200]{0} %broadcast.65)
+  ROOT %rsqrt.6 = f32[200]{0} rsqrt(f32[200]{0} %add.10)
+}
+
+%stage_0_fc4_LayerNorm_moments_variance-reduction.258 (x.259: f32[], y.260: f32[]) -> f32[] {
+  %x.259 = f32[] parameter(0)
+  %y.260 = f32[] parameter(1)
+  ROOT %add.261 = f32[] add(f32[] %x.259, f32[] %y.260)
+}
+
+%fused_computation.6 (param_0.75: f32[200,128], param_1.83: f32[200]) -> f32[200] {
+  %param_1.83 = f32[200]{0} parameter(1)
+  %constant_61 = f32[] constant(0.0078125)
+  %broadcast.118 = f32[200]{0} broadcast(f32[] %constant_61), dimensions={}
+  %multiply.73 = f32[200]{0} multiply(f32[200]{0} %param_1.83, f32[200]{0} %broadcast.118)
+  %broadcast.117 = f32[200,128]{1,0} broadcast(f32[200]{0} %multiply.73), dimensions={0}
+  %param_0.75 = f32[200,128]{1,0} parameter(0)
+  %subtract.5 = f32[200,128]{1,0} subtract(f32[200,128]{1,0} %broadcast.117, f32[200,128]{1,0} %param_0.75)
+  %multiply.26 = f32[200,128]{1,0} multiply(f32[200,128]{1,0} %subtract.5, f32[200,128]{1,0} %subtract.5)
+  %constant_31 = f32[] constant(0)
+  ROOT %reduce.1 = f32[200]{0} reduce(f32[200,128]{1,0} %multiply.26, f32[] %constant_31), dimensions={1}, to_apply=%stage_0_fc4_LayerNorm_moments_variance-reduction.258
+}
+
+%fused_computation.8 (param_0.22: f32[200,256], param_1.26: f32[200], param_2.46: f32[], param_3.37: f32[1,256], param_4.55: f32[200]) -> f32[200,256] {
+  %param_0.22 = f32[200,256]{1,0} parameter(0)
+  %param_3.37 = f32[1,256]{1,0} parameter(3)
+  %bitcast.8 = f32[256]{0} bitcast(f32[1,256]{1,0} %param_3.37)
+  %broadcast.43 = f32[200,256]{1,0} broadcast(f32[256]{0} %bitcast.8), dimensions={1}
+  %multiply.33 = f32[200,256]{1,0} multiply(f32[200,256]{1,0} %param_0.22, f32[200,256]{1,0} %broadcast.43)
+  %param_2.46 = f32[] parameter(2)
+  %broadcast.42 = f32[200,256]{1,0} broadcast(f32[] %param_2.46), dimensions={}
+  %constant_33 = f32[] constant(0.5)
+  %broadcast.41 = f32[200,256]{1,0} broadcast(f32[] %constant_33), dimensions={}
+  %param_4.55 = f32[200]{0} parameter(4)
+  %constant_54 = f32[] constant(0.00390625)
+  %broadcast.103 = f32[200]{0} broadcast(f32[] %constant_54), dimensions={}
+  %multiply.67 = f32[200]{0} multiply(f32[200]{0} %param_4.55, f32[200]{0} %broadcast.103)
+  %broadcast.102 = f32[200,256]{1,0} broadcast(f32[200]{0} %multiply.67), dimensions={0}
+  %subtract.7 = f32[200,256]{1,0} subtract(f32[200,256]{1,0} %param_0.22, f32[200,256]{1,0} %broadcast.102)
+  %param_1.26 = f32[200]{0} parameter(1)
+  %broadcast.40 = f32[200,256]{1,0} broadcast(f32[200]{0} %param_1.26), dimensions={0}
+  %multiply.32 = f32[200,256]{1,0} multiply(f32[200,256]{1,0} %subtract.7, f32[200,256]{1,0} %broadcast.40)
+  %multiply.31 = f32[200,256]{1,0} multiply(f32[200,256]{1,0} %broadcast.41, f32[200,256]{1,0} %multiply.32)
+  %tanh.2 = f32[200,256]{1,0} tanh(f32[200,256]{1,0} %multiply.31)
+  %multiply.30 = f32[200,256]{1,0} multiply(f32[200,256]{1,0} %broadcast.41, f32[200,256]{1,0} %tanh.2)
+  %add.12 = f32[200,256]{1,0} add(f32[200,256]{1,0} %broadcast.41, f32[200,256]{1,0} %multiply.30)
+  %subtract.6 = f32[200,256]{1,0} subtract(f32[200,256]{1,0} %broadcast.42, f32[200,256]{1,0} %add.12)
+  %multiply.29 = f32[200,256]{1,0} multiply(f32[200,256]{1,0} %multiply.33, f32[200,256]{1,0} %subtract.6)
+  %multiply.28 = f32[200,256]{1,0} multiply(f32[200,256]{1,0} %add.12, f32[200,256]{1,0} %param_0.22)
+  ROOT %add.11 = f32[200,256]{1,0} add(f32[200,256]{1,0} %multiply.29, f32[200,256]{1,0} %multiply.28)
+}
+
+%fused_computation.9 (param_0.58: f32[200], param_1.67: f32[]) -> f32[200] {
+  %param_0.58 = f32[200]{0} parameter(0)
+  %constant_34 = f32[] constant(0.00390625)
+  %broadcast.67 = f32[200]{0} broadcast(f32[] %constant_34), dimensions={}
+  %multiply.34 = f32[200]{0} multiply(f32[200]{0} %param_0.58, f32[200]{0} %broadcast.67)
+  %param_1.67 = f32[] parameter(1)
+  %broadcast.68 = f32[200]{0} broadcast(f32[] %param_1.67), dimensions={}
+  %add.13 = f32[200]{0} add(f32[200]{0} %multiply.34, f32[200]{0} %broadcast.68)
+  ROOT %rsqrt.7 = f32[200]{0} rsqrt(f32[200]{0} %add.13)
+}
+
+%stage_0_fc3_LayerNorm_moments_variance-reduction.198 (x.199: f32[], y.200: f32[]) -> f32[] {
+  %x.199 = f32[] parameter(0)
+  %y.200 = f32[] parameter(1)
+  ROOT %add.201 = f32[] add(f32[] %x.199, f32[] %y.200)
+}
+
+%fused_computation.10 (param_0.72: f32[200,256], param_1.81: f32[200]) -> f32[200] {
+  %param_1.81 = f32[200]{0} parameter(1)
+  %constant_57 = f32[] constant(0.00390625)
+  %broadcast.108 = f32[200]{0} broadcast(f32[] %constant_57), dimensions={}
+  %multiply.69 = f32[200]{0} multiply(f32[200]{0} %param_1.81, f32[200]{0} %broadcast.108)
+  %broadcast.107 = f32[200,256]{1,0} broadcast(f32[200]{0} %multiply.69), dimensions={0}
+  %param_0.72 = f32[200,256]{1,0} parameter(0)
+  %subtract.8 = f32[200,256]{1,0} subtract(f32[200,256]{1,0} %broadcast.107, f32[200,256]{1,0} %param_0.72)
+  %multiply.35 = f32[200,256]{1,0} multiply(f32[200,256]{1,0} %subtract.8, f32[200,256]{1,0} %subtract.8)
+  %constant_35 = f32[] constant(0)
+  ROOT %reduce.2 = f32[200]{0} reduce(f32[200,256]{1,0} %multiply.35, f32[] %constant_35), dimensions={1}, to_apply=%stage_0_fc3_LayerNorm_moments_variance-reduction.198
+}
+
+%fused_computation.12 (param_0.32: f32[200,512], param_1.37: f32[200], param_2.43: f32[], param_3.36: f32[1,512], param_4.53: f32[200]) -> f32[200,512] {
+  %param_0.32 = f32[200,512]{1,0} parameter(0)
+  %param_3.36 = f32[1,512]{1,0} parameter(3)
+  %bitcast.9 = f32[512]{0} bitcast(f32[1,512]{1,0} %param_3.36)
+  %broadcast.50 = f32[200,512]{1,0} broadcast(f32[512]{0} %bitcast.9), dimensions={1}
+  %multiply.42 = f32[200,512]{1,0} multiply(f32[200,512]{1,0} %param_0.32, f32[200,512]{1,0} %broadcast.50)
+  %param_2.43 = f32[] parameter(2)
+  %broadcast.48 = f32[200,512]{1,0} broadcast(f32[] %param_2.43), dimensions={}
+  %constant_37 = f32[] constant(0.5)
+  %broadcast.47 = f32[200,512]{1,0} broadcast(f32[] %constant_37), dimensions={}
+  %param_4.53 = f32[200]{0} parameter(4)
+  %constant_50 = f32[] constant(0.00195312)
+  %broadcast.91 = f32[200]{0} broadcast(f32[] %constant_50), dimensions={}
+  %multiply.63 = f32[200]{0} multiply(f32[200]{0} %param_4.53, f32[200]{0} %broadcast.91)
+  %broadcast.90 = f32[200,512]{1,0} broadcast(f32[200]{0} %multiply.63), dimensions={0}
+  %subtract.10 = f32[200,512]{1,0} subtract(f32[200,512]{1,0} %param_0.32, f32[200,512]{1,0} %broadcast.90)
+  %param_1.37 = f32[200]{0} parameter(1)
+  %broadcast.46 = f32[200,512]{1,0} broadcast(f32[200]{0} %param_1.37), dimensions={0}
+  %multiply.41 = f32[200,512]{1,0} multiply(f32[200,512]{1,0} %subtract.10, f32[200,512]{1,0} %broadcast.46)
+  %multiply.40 = f32[200,512]{1,0} multiply(f32[200,512]{1,0} %broadcast.47, f32[200,512]{1,0} %multiply.41)
+  %tanh.3 = f32[200,512]{1,0} tanh(f32[200,512]{1,0} %multiply.40)
+  %multiply.39 = f32[200,512]{1,0} multiply(f32[200,512]{1,0} %broadcast.47, f32[200,512]{1,0} %tanh.3)
+  %add.15 = f32[200,512]{1,0} add(f32[200,512]{1,0} %broadcast.47, f32[200,512]{1,0} %multiply.39)
+  %subtract.9 = f32[200,512]{1,0} subtract(f32[200,512]{1,0} %broadcast.48, f32[200,512]{1,0} %add.15)
+  %multiply.38 = f32[200,512]{1,0} multiply(f32[200,512]{1,0} %multiply.42, f32[200,512]{1,0} %subtract.9)
+  %multiply.37 = f32[200,512]{1,0} multiply(f32[200,512]{1,0} %add.15, f32[200,512]{1,0} %param_0.32)
+  ROOT %add.14 = f32[200,512]{1,0} add(f32[200,512]{1,0} %multiply.38, f32[200,512]{1,0} %multiply.37)
+}
+
+%fused_computation.13 (param_0.60: f32[200], param_1.70: f32[]) -> f32[200] {
+  %param_0.60 = f32[200]{0} parameter(0)
+  %constant_38 = f32[] constant(0.00195312)
+  %broadcast.71 = f32[200]{0} broadcast(f32[] %constant_38), dimensions={}
+  %multiply.43 = f32[200]{0} multiply(f32[200]{0} %param_0.60, f32[200]{0} %broadcast.71)
+  %param_1.70 = f32[] parameter(1)
+  %broadcast.73 = f32[200]{0} broadcast(f32[] %param_1.70), dimensions={}
+  %add.16 = f32[200]{0} add(f32[200]{0} %multiply.43, f32[200]{0} %broadcast.73)
+  ROOT %rsqrt.8 = f32[200]{0} rsqrt(f32[200]{0} %add.16)
+}
+
+%stage_0_fc2_LayerNorm_moments_variance-reduction.138 (x.139: f32[], y.140: f32[]) -> f32[] {
+  %x.139 = f32[] parameter(0)
+  %y.140 = f32[] parameter(1)
+  ROOT %add.141 = f32[] add(f32[] %x.139, f32[] %y.140)
+}
+
+%fused_computation.14 (param_0.69: f32[200,512], param_1.79: f32[200]) -> f32[200] {
+  %param_1.79 = f32[200]{0} parameter(1)
+  %constant_52 = f32[] constant(0.00195312)
+  %broadcast.97 = f32[200]{0} broadcast(f32[] %constant_52), dimensions={}
+  %multiply.65 = f32[200]{0} multiply(f32[200]{0} %param_1.79, f32[200]{0} %broadcast.97)
+  %broadcast.95 = f32[200,512]{1,0} broadcast(f32[200]{0} %multiply.65), dimensions={0}
+  %param_0.69 = f32[200,512]{1,0} parameter(0)
+  %subtract.11 = f32[200,512]{1,0} subtract(f32[200,512]{1,0} %broadcast.95, f32[200,512]{1,0} %param_0.69)
+  %multiply.44 = f32[200,512]{1,0} multiply(f32[200,512]{1,0} %subtract.11, f32[200,512]{1,0} %subtract.11)
+  %constant_39 = f32[] constant(0)
+  ROOT %reduce.3 = f32[200]{0} reduce(f32[200,512]{1,0} %multiply.44, f32[] %constant_39), dimensions={1}, to_apply=%stage_0_fc2_LayerNorm_moments_variance-reduction.138
+}
+
+%fused_computation.16 (param_0.42: f32[200,1024], param_1.48: f32[200], param_2.40: f32[], param_3.35: f32[1,1024], param_4.51: f32[200]) -> f32[200,1024] {
+  %param_0.42 = f32[200,1024]{1,0} parameter(0)
+  %param_3.35 = f32[1,1024]{1,0} parameter(3)
+  %bitcast.10 = f32[1024]{0} bitcast(f32[1,1024]{1,0} %param_3.35)
+  %broadcast.56 = f32[200,1024]{1,0} broadcast(f32[1024]{0} %bitcast.10), dimensions={1}
+  %multiply.52 = f32[200,1024]{1,0} multiply(f32[200,1024]{1,0} %param_0.42, f32[200,1024]{1,0} %broadcast.56)
+  %param_2.40 = f32[] parameter(2)
+  %broadcast.55 = f32[200,1024]{1,0} broadcast(f32[] %param_2.40), dimensions={}
+  %constant_41 = f32[] constant(0.5)
+  %broadcast.54 = f32[200,1024]{1,0} broadcast(f32[] %constant_41), dimensions={}
+  %param_4.51 = f32[200]{0} parameter(4)
+  %constant_46 = f32[] constant(0.000976562)
+  %broadcast.81 = f32[200]{0} broadcast(f32[] %constant_46), dimensions={}
+  %multiply.59 = f32[200]{0} multiply(f32[200]{0} %param_4.51, f32[200]{0} %broadcast.81)
+  %broadcast.80 = f32[200,1024]{1,0} broadcast(f32[200]{0} %multiply.59), dimensions={0}
+  %subtract.13 = f32[200,1024]{1,0} subtract(f32[200,1024]{1,0} %param_0.42, f32[200,1024]{1,0} %broadcast.80)
+  %param_1.48 = f32[200]{0} parameter(1)
+  %broadcast.53 = f32[200,1024]{1,0} broadcast(f32[200]{0} %param_1.48), dimensions={0}
+  %multiply.51 = f32[200,1024]{1,0} multiply(f32[200,1024]{1,0} %subtract.13, f32[200,1024]{1,0} %broadcast.53)
+  %multiply.50 = f32[200,1024]{1,0} multiply(f32[200,1024]{1,0} %broadcast.54, f32[200,1024]{1,0} %multiply.51)
+  %tanh.4 = f32[200,1024]{1,0} tanh(f32[200,1024]{1,0} %multiply.50)
+  %multiply.49 = f32[200,1024]{1,0} multiply(f32[200,1024]{1,0} %broadcast.54, f32[200,1024]{1,0} %tanh.4)
+  %add.18 = f32[200,1024]{1,0} add(f32[200,1024]{1,0} %broadcast.54, f32[200,1024]{1,0} %multiply.49)
+  %subtract.12 = f32[200,1024]{1,0} subtract(f32[200,1024]{1,0} %broadcast.55, f32[200,1024]{1,0} %add.18)
+  %multiply.48 = f32[200,1024]{1,0} multiply(f32[200,1024]{1,0} %multiply.52, f32[200,1024]{1,0} %subtract.12)
+  %multiply.47 = f32[200,1024]{1,0} multiply(f32[200,1024]{1,0} %add.18, f32[200,1024]{1,0} %param_0.42)
+  ROOT %add.17 = f32[200,1024]{1,0} add(f32[200,1024]{1,0} %multiply.48, f32[200,1024]{1,0} %multiply.47)
+}
+
+%fused_computation.17 (param_0.62: f32[200], param_1.73: f32[]) -> f32[200] {
+  %param_0.62 = f32[200]{0} parameter(0)
+  %constant_42 = f32[] constant(0.000976562)
+  %broadcast.75 = f32[200]{0} broadcast(f32[] %constant_42), dimensions={}
+  %multiply.54 = f32[200]{0} multiply(f32[200]{0} %param_0.62, f32[200]{0} %broadcast.75)
+  %param_1.73 = f32[] parameter(1)
+  %broadcast.76 = f32[200]{0} broadcast(f32[] %param_1.73), dimensions={}
+  %add.19 = f32[200]{0} add(f32[200]{0} %multiply.54, f32[200]{0} %broadcast.76)
+  ROOT %rsqrt.9 = f32[200]{0} rsqrt(f32[200]{0} %add.19)
+}
+
+%stage_0_fc1_LayerNorm_moments_variance-reduction.78 (x.79: f32[], y.80: f32[]) -> f32[] {
+  %x.79 = f32[] parameter(0)
+  %y.80 = f32[] parameter(1)
+  ROOT %add.81 = f32[] add(f32[] %x.79, f32[] %y.80)
+}
+
+%fused_computation.18 (param_0.66: f32[200,1024], param_1.77: f32[200]) -> f32[200] {
+  %param_1.77 = f32[200]{0} parameter(1)
+  %constant_48 = f32[] constant(0.000976562)
+  %broadcast.86 = f32[200]{0} broadcast(f32[] %constant_48), dimensions={}
+  %multiply.61 = f32[200]{0} multiply(f32[200]{0} %param_1.77, f32[200]{0} %broadcast.86)
+  %broadcast.84 = f32[200,1024]{1,0} broadcast(f32[200]{0} %multiply.61), dimensions={0}
+  %param_0.66 = f32[200,1024]{1,0} parameter(0)
+  %subtract.14 = f32[200,1024]{1,0} subtract(f32[200,1024]{1,0} %broadcast.84, f32[200,1024]{1,0} %param_0.66)
+  %multiply.55 = f32[200,1024]{1,0} multiply(f32[200,1024]{1,0} %subtract.14, f32[200,1024]{1,0} %subtract.14)
+  %constant_43 = f32[] constant(0)
+  ROOT %reduce.4 = f32[200]{0} reduce(f32[200,1024]{1,0} %multiply.55, f32[] %constant_43), dimensions={1}, to_apply=%stage_0_fc1_LayerNorm_moments_variance-reduction.78
+}
+
+%fused_computation.21 (param_0.53: f32[200,5244], param_1.60: f32[1,5244]) -> f16[200,5244] {
+  %param_0.53 = f32[200,5244]{1,0} parameter(0)
+  %param_1.60 = f32[1,5244]{1,0} parameter(1)
+  %bitcast.11 = f32[5244]{0} bitcast(f32[1,5244]{1,0} %param_1.60)
+  %broadcast.59 = f32[200,5244]{1,0} broadcast(f32[5244]{0} %bitcast.11), dimensions={1}
+  %multiply.57 = f32[200,5244]{1,0} multiply(f32[200,5244]{1,0} %param_0.53, f32[200,5244]{1,0} %broadcast.59)
+  ROOT %convert.1 = f16[200,5244]{1,0} convert(f32[200,5244]{1,0} %multiply.57)
+}
+
+%stage_0_fc1_LayerNorm_moments_mean-reduction.57 (x.58: f32[], y.59: f32[]) -> f32[] {
+  %x.58 = f32[] parameter(0)
+  %y.59 = f32[] parameter(1)
+  ROOT %add.60 = f32[] add(f32[] %x.58, f32[] %y.59)
+}
+
+%fused_computation.22 (param_0.81: f32[1024], param_1.89: f16[200,1024]) -> (f32[200], f32[200,1024]) {
+  %param_1.89 = f16[200,1024]{1,0} parameter(1)
+  %convert.0.clone.1 = f32[200,1024]{1,0} convert(f16[200,1024]{1,0} %param_1.89)
+  %param_0.81 = f32[1024]{0} parameter(0)
+  %broadcast.58.clone.1 = f32[200,1024]{1,0} broadcast(f32[1024]{0} %param_0.81), dimensions={1}
+  %add.20.clone.1 = f32[200,1024]{1,0} add(f32[200,1024]{1,0} %convert.0.clone.1, f32[200,1024]{1,0} %broadcast.58.clone.1)
+  %constant_66 = f32[] constant(0)
+  %reduce.5 = f32[200]{0} reduce(f32[200,1024]{1,0} %add.20.clone.1, f32[] %constant_66), dimensions={1}, to_apply=%stage_0_fc1_LayerNorm_moments_mean-reduction.57
+  ROOT %tuple = (f32[200]{0}, f32[200,1024]{1,0}) tuple(f32[200]{0} %reduce.5, f32[200,1024]{1,0} %add.20.clone.1)
+}
+
+ENTRY %cluster_6__XlaCompiledKernel_true__XlaNumConstantArgs_1__XlaNumResourceArgs_0_.354 (arg0.1: f32[200,5244], arg1.2: f32[1,5244], arg2.3: f16[5244,1024], arg3.4: f32[1024], arg4.5: f32[1,1024], arg5.6: f32[], arg6.7: f32[], arg7.8: f32[1024,512], arg8.9: f32[512], arg9.10: f32[1,512], arg10.11: f32[512,256], arg11.12: f32[256], arg12.13: f32[1,256], arg13.14: f32[256,128], arg14.15: f32[128], arg15.16: f32[1,128], arg16.17: f32[128,64], arg17.18: f32[64], arg18.19: f32[1,64], arg19.20: f32[64,2], arg20.21: f32[2]) -> f32[200,2] {
+  %arg3.4 = f32[1024]{0} parameter(3), parameter_replication={false}
+  %arg0.1 = f32[200,5244]{1,0} parameter(0), parameter_replication={false}
+  %arg1.2 = f32[1,5244]{1,0} parameter(1), parameter_replication={false}
+  %fusion.21 = f16[200,5244]{1,0} fusion(f32[200,5244]{1,0} %arg0.1, f32[1,5244]{1,0} %arg1.2), kind=kLoop, calls=%fused_computation.21
+  %arg2.3 = f16[5244,1024]{1,0} parameter(2), parameter_replication={false}
+  %custom-call = f16[200,1024]{1,0} custom-call(f16[200,5244]{1,0} %fusion.21, f16[5244,1024]{1,0} %arg2.3), custom_call_target="__cublas$gemm", backend_config="{\"alphaReal\":1,\"dotDimensionNumbers\":{\"lhsContractingDimensions\":[\"1\"],\"rhsContractingDimensions\":[\"0\"]},\"batchSize\":\"1\"}"
+  %fusion.22 = (f32[200]{0}, f32[200,1024]{1,0}) fusion(f32[1024]{0} %arg3.4, f16[200,1024]{1,0} %custom-call), kind=kInput, calls=%fused_computation.22
+  %get-tuple-element.1 = f32[200,1024]{1,0} get-tuple-element((f32[200]{0}, f32[200,1024]{1,0}) %fusion.22), index=1
+  %get-tuple-element = f32[200]{0} get-tuple-element((f32[200]{0}, f32[200,1024]{1,0}) %fusion.22), index=0
+  %fusion.18 = f32[200]{0} fusion(f32[200,1024]{1,0} %get-tuple-element.1, f32[200]{0} %get-tuple-element), kind=kInput, calls=%fused_computation.18
+  %arg5.6 = f32[] parameter(5), parameter_replication={false}
+  %fusion.17 = f32[200]{0} fusion(f32[200]{0} %fusion.18, f32[] %arg5.6), kind=kLoop, calls=%fused_computation.17
+  %arg6.7 = f32[] parameter(6), parameter_replication={false}
+  %arg4.5 = f32[1,1024]{1,0} parameter(4), parameter_replication={false}
+  %fusion.16 = f32[200,1024]{1,0} fusion(f32[200,1024]{1,0} %get-tuple-element.1, f32[200]{0} %fusion.17, f32[] %arg6.7, f32[1,1024]{1,0} %arg4.5, f32[200]{0} %get-tuple-element), kind=kLoop, calls=%fused_computation.16
+  %arg7.8 = f32[1024,512]{1,0} parameter(7), parameter_replication={false}
+  %arg8.9 = f32[512]{0} parameter(8), parameter_replication={false}
+  %broadcast.109 = f32[200,512]{1,0} broadcast(f32[512]{0} %arg8.9), dimensions={1}
+  %custom-call.2 = f32[200,512]{1,0} custom-call(f32[200,1024]{1,0} %fusion.16, f32[1024,512]{1,0} %arg7.8, f32[200,512]{1,0} %broadcast.109), custom_call_target="__cublas$gemm", backend_config="{\"alphaReal\":1,\"beta\":1,\"dotDimensionNumbers\":{\"lhsContractingDimensions\":[\"1\"],\"rhsContractingDimensions\":[\"0\"]},\"batchSize\":\"1\"}"
+  %constant_55 = f32[] constant(0)
+  %reduce.121 = f32[200]{0} reduce(f32[200,512]{1,0} %custom-call.2, f32[] %constant_55), dimensions={1}, to_apply=%stage_0_fc2_LayerNorm_moments_mean-reduction.117
+  %fusion.14 = f32[200]{0} fusion(f32[200,512]{1,0} %custom-call.2, f32[200]{0} %reduce.121), kind=kInput, calls=%fused_computation.14
+  %fusion.13 = f32[200]{0} fusion(f32[200]{0} %fusion.14, f32[] %arg5.6), kind=kLoop, calls=%fused_computation.13
+  %arg9.10 = f32[1,512]{1,0} parameter(9), parameter_replication={false}
+  %fusion.12 = f32[200,512]{1,0} fusion(f32[200,512]{1,0} %custom-call.2, f32[200]{0} %fusion.13, f32[] %arg6.7, f32[1,512]{1,0} %arg9.10, f32[200]{0} %reduce.121), kind=kLoop, calls=%fused_computation.12
+  %arg10.11 = f32[512,256]{1,0} parameter(10), parameter_replication={false}
+  %arg11.12 = f32[256]{0} parameter(11), parameter_replication={false}
+  %broadcast.169 = f32[200,256]{1,0} broadcast(f32[256]{0} %arg11.12), dimensions={1}
+  %custom-call.4 = f32[200,256]{1,0} custom-call(f32[200,512]{1,0} %fusion.12, f32[512,256]{1,0} %arg10.11, f32[200,256]{1,0} %broadcast.169), custom_call_target="__cublas$gemm", backend_config="{\"alphaReal\":1,\"beta\":1,\"dotDimensionNumbers\":{\"lhsContractingDimensions\":[\"1\"],\"rhsContractingDimensions\":[\"0\"]},\"batchSize\":\"1\"}"
+  %reduce.181 = f32[200]{0} reduce(f32[200,256]{1,0} %custom-call.4, f32[] %constant_55), dimensions={1}, to_apply=%stage_0_fc3_LayerNorm_moments_mean-reduction.177
+  %fusion.10 = f32[200]{0} fusion(f32[200,256]{1,0} %custom-call.4, f32[200]{0} %reduce.181), kind=kInput, calls=%fused_computation.10
+  %fusion.9 = f32[200]{0} fusion(f32[200]{0} %fusion.10, f32[] %arg5.6), kind=kLoop, calls=%fused_computation.9
+  %arg12.13 = f32[1,256]{1,0} parameter(12), parameter_replication={false}
+  %fusion.8 = f32[200,256]{1,0} fusion(f32[200,256]{1,0} %custom-call.4, f32[200]{0} %fusion.9, f32[] %arg6.7, f32[1,256]{1,0} %arg12.13, f32[200]{0} %reduce.181), kind=kLoop, calls=%fused_computation.8
+  %arg13.14 = f32[256,128]{1,0} parameter(13), parameter_replication={false}
+  %arg14.15 = f32[128]{0} parameter(14), parameter_replication={false}
+  %broadcast.229 = f32[200,128]{1,0} broadcast(f32[128]{0} %arg14.15), dimensions={1}
+  %custom-call.6 = f32[200,128]{1,0} custom-call(f32[200,256]{1,0} %fusion.8, f32[256,128]{1,0} %arg13.14, f32[200,128]{1,0} %broadcast.229), custom_call_target="__cublas$gemm", backend_config="{\"alphaReal\":1,\"beta\":1,\"dotDimensionNumbers\":{\"lhsContractingDimensions\":[\"1\"],\"rhsContractingDimensions\":[\"0\"]},\"batchSize\":\"1\"}"
+  %reduce.241 = f32[200]{0} reduce(f32[200,128]{1,0} %custom-call.6, f32[] %constant_55), dimensions={1}, to_apply=%stage_0_fc4_LayerNorm_moments_mean-reduction.237
+  %fusion.6 = f32[200]{0} fusion(f32[200,128]{1,0} %custom-call.6, f32[200]{0} %reduce.241), kind=kInput, calls=%fused_computation.6
+  %fusion.5 = f32[200]{0} fusion(f32[200]{0} %fusion.6, f32[] %arg5.6), kind=kLoop, calls=%fused_computation.5
+  %arg15.16 = f32[1,128]{1,0} parameter(15), parameter_replication={false}
+  %fusion.4 = f32[200,128]{1,0} fusion(f32[200,128]{1,0} %custom-call.6, f32[200]{0} %fusion.5, f32[] %arg6.7, f32[1,128]{1,0} %arg15.16, f32[200]{0} %reduce.241), kind=kLoop, calls=%fused_computation.4
+  %arg16.17 = f32[128,64]{1,0} parameter(16), parameter_replication={false}
+  %arg17.18 = f32[64]{0} parameter(17), parameter_replication={false}
+  %broadcast.289 = f32[200,64]{1,0} broadcast(f32[64]{0} %arg17.18), dimensions={1}
+  %custom-call.8 = f32[200,64]{1,0} custom-call(f32[200,128]{1,0} %fusion.4, f32[128,64]{1,0} %arg16.17, f32[200,64]{1,0} %broadcast.289), custom_call_target="__cublas$gemm", backend_config="{\"alphaReal\":1,\"beta\":1,\"dotDimensionNumbers\":{\"lhsContractingDimensions\":[\"1\"],\"rhsContractingDimensions\":[\"0\"]},\"batchSize\":\"1\"}"
+  %reduce.301 = f32[200]{0} reduce(f32[200,64]{1,0} %custom-call.8, f32[] %constant_55), dimensions={1}, to_apply=%stage_0_fc5_LayerNorm_moments_mean-reduction.297
+  %fusion.2 = f32[200]{0} fusion(f32[200,64]{1,0} %custom-call.8, f32[200]{0} %reduce.301), kind=kInput, calls=%fused_computation.2
+  %fusion.1 = f32[200]{0} fusion(f32[200]{0} %fusion.2, f32[] %arg5.6), kind=kLoop, calls=%fused_computation.1
+  %arg18.19 = f32[1,64]{1,0} parameter(18), parameter_replication={false}
+  %fusion = f32[200,64]{1,0} fusion(f32[200,64]{1,0} %custom-call.8, f32[200]{0} %fusion.1, f32[] %arg6.7, f32[1,64]{1,0} %arg18.19, f32[200]{0} %reduce.301), kind=kLoop, calls=%fused_computation
+  %arg19.20 = f32[64,2]{1,0} parameter(19), parameter_replication={false}
+  %arg20.21 = f32[2]{0} parameter(20), parameter_replication={false}
+  %broadcast.349 = f32[200,2]{1,0} broadcast(f32[2]{0} %arg20.21), dimensions={1}
+  ROOT %custom-call.10 = f32[200,2]{1,0} custom-call(f32[200,64]{1,0} %fusion, f32[64,2]{1,0} %arg19.20, f32[200,2]{1,0} %broadcast.349), custom_call_target="__cublas$gemm", backend_config="{\"alphaReal\":1,\"beta\":1,\"dotDimensionNumbers\":{\"lhsContractingDimensions\":[\"1\"],\"rhsContractingDimensions\":[\"0\"]},\"batchSize\":\"1\"}"
+}
+

@@ -1,0 +1,109 @@
+HloModule cluster_1__XlaCompiledKernel_true__XlaNumConstantArgs_32__XlaNumResourceArgs_0_.66
+
+%fused_computation (param_0.37: f16[200,1040]) -> f32[200,14,5,4] {
+  %param_0.37 = f16[200,1040]{1,0} parameter(0)
+  %slice.32 = f16[200,800]{1,0} slice(f16[200,1040]{1,0} %param_0.37), slice={[0:200], [0:800]}
+  %bitcast.25 = f16[200,4,200]{2,1,0} bitcast(f16[200,800]{1,0} %slice.32)
+  %slice.31 = f16[200,4,180]{2,1,0} slice(f16[200,4,200]{2,1,0} %bitcast.25), slice={[0:200], [0:4], [0:180]}
+  %bitcast.24 = f16[200,4,9,5,4]{4,3,2,1,0} bitcast(f16[200,4,180]{2,1,0} %slice.31)
+  %slice.9 = f16[200,4,2,5,4]{4,3,2,1,0} slice(f16[200,4,9,5,4]{4,3,2,1,0} %bitcast.24), slice={[0:200], [0:4], [7:9], [0:5], [0:4]}
+  %bitcast.13 = f16[200,8,5,4]{3,2,1,0} bitcast(f16[200,4,2,5,4]{4,3,2,1,0} %slice.9)
+  %slice.46 = f16[200,240]{1,0} slice(f16[200,1040]{1,0} %param_0.37), slice={[0:200], [800:1040]}
+  %bitcast.35 = f16[200,2,6,5,4]{4,3,2,1,0} bitcast(f16[200,240]{1,0} %slice.46)
+  %slice.7 = f16[200,2,3,5,4]{4,3,2,1,0} slice(f16[200,2,6,5,4]{4,3,2,1,0} %bitcast.35), slice={[0:200], [0:2], [3:6], [0:5], [0:4]}
+  %bitcast.12 = f16[200,6,5,4]{3,2,1,0} bitcast(f16[200,2,3,5,4]{4,3,2,1,0} %slice.7)
+  %concatenate.1 = f16[200,14,5,4]{3,2,1,0} concatenate(f16[200,8,5,4]{3,2,1,0} %bitcast.13, f16[200,6,5,4]{3,2,1,0} %bitcast.12), dimensions={1}
+  ROOT %convert.1 = f32[200,14,5,4]{3,2,1,0} convert(f16[200,14,5,4]{3,2,1,0} %concatenate.1)
+}
+
+%fused_computation.1 (param_0.39: f16[200,1040]) -> f32[200,30,5,4] {
+  %param_0.39 = f16[200,1040]{1,0} parameter(0)
+  %slice.37 = f16[200,800]{1,0} slice(f16[200,1040]{1,0} %param_0.39), slice={[0:200], [0:800]}
+  %bitcast.29 = f16[200,4,200]{2,1,0} bitcast(f16[200,800]{1,0} %slice.37)
+  %slice.36 = f16[200,4,180]{2,1,0} slice(f16[200,4,200]{2,1,0} %bitcast.29), slice={[0:200], [0:4], [0:180]}
+  %bitcast.28 = f16[200,4,9,5,4]{4,3,2,1,0} bitcast(f16[200,4,180]{2,1,0} %slice.36)
+  %slice.12 = f16[200,4,6,5,4]{4,3,2,1,0} slice(f16[200,4,9,5,4]{4,3,2,1,0} %bitcast.28), slice={[0:200], [0:4], [0:6], [0:5], [0:4]}
+  %bitcast.15 = f16[200,24,5,4]{3,2,1,0} bitcast(f16[200,4,6,5,4]{4,3,2,1,0} %slice.12)
+  %slice.48 = f16[200,240]{1,0} slice(f16[200,1040]{1,0} %param_0.39), slice={[0:200], [800:1040]}
+  %bitcast.37 = f16[200,2,6,5,4]{4,3,2,1,0} bitcast(f16[200,240]{1,0} %slice.48)
+  %slice.11 = f16[200,2,3,5,4]{4,3,2,1,0} slice(f16[200,2,6,5,4]{4,3,2,1,0} %bitcast.37), slice={[0:200], [0:2], [0:3], [0:5], [0:4]}
+  %bitcast.14 = f16[200,6,5,4]{3,2,1,0} bitcast(f16[200,2,3,5,4]{4,3,2,1,0} %slice.11)
+  %concatenate.2 = f16[200,30,5,4]{3,2,1,0} concatenate(f16[200,24,5,4]{3,2,1,0} %bitcast.15, f16[200,6,5,4]{3,2,1,0} %bitcast.14), dimensions={1}
+  ROOT %convert.2 = f32[200,30,5,4]{3,2,1,0} convert(f16[200,30,5,4]{3,2,1,0} %concatenate.2)
+}
+
+%fused_computation.3 (param_0.9: f32[16,200,24]) -> f32[4,200,1,24] {
+  %param_0.9 = f32[16,200,24]{2,1,0} parameter(0)
+  %slice.15 = f32[4,200,24]{2,1,0} slice(f32[16,200,24]{2,1,0} %param_0.9), slice={[8:12], [0:200], [0:24]}
+  ROOT %bitcast.17 = f32[4,200,1,24]{3,2,1,0} bitcast(f32[4,200,24]{2,1,0} %slice.15)
+}
+
+%fused_computation.4 (param_0.35: f16[200,1040]) -> f32[200,4,5,4] {
+  %param_0.35 = f16[200,1040]{1,0} parameter(0)
+  %slice.43 = f16[200,800]{1,0} slice(f16[200,1040]{1,0} %param_0.35), slice={[0:200], [0:800]}
+  %bitcast.33 = f16[200,4,200]{2,1,0} bitcast(f16[200,800]{1,0} %slice.43)
+  %slice.42 = f16[200,4,180]{2,1,0} slice(f16[200,4,200]{2,1,0} %bitcast.33), slice={[0:200], [0:4], [0:180]}
+  %bitcast.32 = f16[200,4,9,5,4]{4,3,2,1,0} bitcast(f16[200,4,180]{2,1,0} %slice.42)
+  %slice.17 = f16[200,4,1,5,4]{4,3,2,1,0} slice(f16[200,4,9,5,4]{4,3,2,1,0} %bitcast.32), slice={[0:200], [0:4], [6:7], [0:5], [0:4]}
+  %convert.3 = f32[200,4,1,5,4]{4,3,2,1,0} convert(f16[200,4,1,5,4]{4,3,2,1,0} %slice.17)
+  ROOT %bitcast.18 = f32[200,4,5,4]{3,2,1,0} bitcast(f32[200,4,1,5,4]{4,3,2,1,0} %convert.3)
+}
+
+%fused_computation.6 (param_0.18: f32[16,24], param_1.14: f32[200,384], param_2: f32[200,384]) -> f32[16,200,24] {
+  %param_1.14 = f32[200,384]{1,0} parameter(1)
+  %param_2 = f32[200,384]{1,0} parameter(2)
+  %add.5 = f32[200,384]{1,0} add(f32[200,384]{1,0} %param_1.14, f32[200,384]{1,0} %param_2)
+  %reshape.6 = f32[200,16,24]{2,0,1} reshape(f32[200,384]{1,0} %add.5)
+  %bitcast.21 = f32[16,200,24]{2,1,0} bitcast(f32[200,16,24]{2,0,1} %reshape.6)
+  %param_0.18 = f32[16,24]{1,0} parameter(0)
+  %broadcast.0 = f32[16,200,24]{2,1,0} broadcast(f32[16,24]{1,0} %param_0.18), dimensions={0,2}
+  ROOT %add.4 = f32[16,200,24]{2,1,0} add(f32[16,200,24]{2,1,0} %bitcast.21, f32[16,200,24]{2,1,0} %broadcast.0)
+}
+
+%fused_computation.10 (param_0.26: f16[200,1852]) -> (f32[200,16], f32[200,16], f32[200,16], f32[200,16]) {
+  %param_0.26 = f16[200,1852]{1,0} parameter(0)
+  %convert.8 = f32[200,1852]{1,0} convert(f16[200,1852]{1,0} %param_0.26)
+  %slice.27 = f32[200,16]{1,0} slice(f32[200,1852]{1,0} %convert.8), slice={[0:200], [96:112]}
+  %slice.26.clone.1 = f32[200,16]{1,0} slice(f32[200,1852]{1,0} %convert.8), slice={[0:200], [80:96]}
+  %slice.24.clone.1 = f32[200,16]{1,0} slice(f32[200,1852]{1,0} %convert.8), slice={[0:200], [160:176]}
+  %slice.22.clone.1 = f32[200,16]{1,0} slice(f32[200,1852]{1,0} %convert.8), slice={[0:200], [144:160]}
+  ROOT %tuple.2 = (f32[200,16]{1,0}, f32[200,16]{1,0}, f32[200,16]{1,0}, f32[200,16]{1,0}) tuple(f32[200,16]{1,0} %slice.27, f32[200,16]{1,0} %slice.26.clone.1, f32[200,16]{1,0} %slice.24.clone.1, f32[200,16]{1,0} %slice.22.clone.1)
+}
+
+%fused_computation.11 (param_0.28: f16[200,1852]) -> f32[200,32] {
+  %param_0.28 = f16[200,1852]{1,0} parameter(0)
+  %convert.9 = f32[200,1852]{1,0} convert(f16[200,1852]{1,0} %param_0.28)
+  ROOT %slice.28 = f32[200,32]{1,0} slice(f32[200,1852]{1,0} %convert.9), slice={[0:200], [48:80]}
+}
+
+ENTRY %cluster_1__XlaCompiledKernel_true__XlaNumConstantArgs_32__XlaNumResourceArgs_0_.66 (arg0.1: f16[200,1852], arg1.2: f16[200,1040]) -> (f32[200,96], f32[16,200,24], f32[200,4,5,4], f32[4,200,1,24], f32[200,30,5,4], f32[200,14,5,4], f32[200,1852]) {
+  %arg0.1 = f16[200,1852]{1,0} parameter(0), parameter_replication={false}
+  %fusion.11 = f32[200,32]{1,0} fusion(f16[200,1852]{1,0} %arg0.1), kind=kLoop, calls=%fused_computation.11
+  %fusion.10 = (f32[200,16]{1,0}, f32[200,16]{1,0}, f32[200,16]{1,0}, f32[200,16]{1,0}) fusion(f16[200,1852]{1,0} %arg0.1), kind=kLoop, calls=%fused_computation.10
+  %get-tuple-element = f32[200,16]{1,0} get-tuple-element((f32[200,16]{1,0}, f32[200,16]{1,0}, f32[200,16]{1,0}, f32[200,16]{1,0}) %fusion.10), index=0
+  %get-tuple-element.1 = f32[200,16]{1,0} get-tuple-element((f32[200,16]{1,0}, f32[200,16]{1,0}, f32[200,16]{1,0}, f32[200,16]{1,0}) %fusion.10), index=1
+  %get-tuple-element.2 = f32[200,16]{1,0} get-tuple-element((f32[200,16]{1,0}, f32[200,16]{1,0}, f32[200,16]{1,0}, f32[200,16]{1,0}) %fusion.10), index=2
+  %get-tuple-element.3 = f32[200,16]{1,0} get-tuple-element((f32[200,16]{1,0}, f32[200,16]{1,0}, f32[200,16]{1,0}, f32[200,16]{1,0}) %fusion.10), index=3
+  %concatenate = f32[200,96]{1,0} concatenate(f32[200,32]{1,0} %fusion.11, f32[200,16]{1,0} %get-tuple-element, f32[200,16]{1,0} %get-tuple-element.1, f32[200,16]{1,0} %get-tuple-element.2, f32[200,16]{1,0} %get-tuple-element.3), dimensions={1}
+  %constant_2 = f32[16,24]{1,0} constant({...})
+  %constant_6 = f32[16,384]{1,0} constant({...})
+  %constant_3 = f32[32,384]{1,0} constant({...})
+  %constant_4 = f32[16,384]{1,0} constant({...})
+  %custom-call.1 = f32[200,384]{1,0} custom-call(f32[200,16]{1,0} %get-tuple-element, f32[16,384]{1,0} %constant_4), custom_call_target="__cublas$gemm", backend_config="{\"alphaReal\":1,\"dotDimensionNumbers\":{\"lhsContractingDimensions\":[\"1\"],\"rhsContractingDimensions\":[\"0\"]},\"batchSize\":\"1\"}"
+  %custom-call.2 = f32[200,384]{1,0} custom-call(f32[200,32]{1,0} %fusion.11, f32[32,384]{1,0} %constant_3, f32[200,384]{1,0} %custom-call.1), custom_call_target="__cublas$gemm", backend_config="{\"alphaReal\":1,\"beta\":1,\"dotDimensionNumbers\":{\"lhsContractingDimensions\":[\"1\"],\"rhsContractingDimensions\":[\"0\"]},\"batchSize\":\"1\"}"
+  %constant_5 = f32[16,384]{1,0} constant({...})
+  %custom-call.3 = f32[200,384]{1,0} custom-call(f32[200,16]{1,0} %get-tuple-element.1, f32[16,384]{1,0} %constant_5), custom_call_target="__cublas$gemm", backend_config="{\"alphaReal\":1,\"dotDimensionNumbers\":{\"lhsContractingDimensions\":[\"1\"],\"rhsContractingDimensions\":[\"0\"]},\"batchSize\":\"1\"}"
+  %add.1 = f32[200,384]{1,0} add(f32[200,384]{1,0} %custom-call.2, f32[200,384]{1,0} %custom-call.3)
+  %custom-call.5 = f32[200,384]{1,0} custom-call(f32[200,16]{1,0} %get-tuple-element.2, f32[16,384]{1,0} %constant_6, f32[200,384]{1,0} %add.1), custom_call_target="__cublas$gemm", backend_config="{\"alphaReal\":1,\"beta\":1,\"dotDimensionNumbers\":{\"lhsContractingDimensions\":[\"1\"],\"rhsContractingDimensions\":[\"0\"]},\"batchSize\":\"1\"}"
+  %constant_7 = f32[16,384]{1,0} constant({...})
+  %custom-call.6 = f32[200,384]{1,0} custom-call(f32[200,16]{1,0} %get-tuple-element.3, f32[16,384]{1,0} %constant_7), custom_call_target="__cublas$gemm", backend_config="{\"alphaReal\":1,\"dotDimensionNumbers\":{\"lhsContractingDimensions\":[\"1\"],\"rhsContractingDimensions\":[\"0\"]},\"batchSize\":\"1\"}"
+  %fusion.6 = f32[16,200,24]{2,1,0} fusion(f32[16,24]{1,0} %constant_2, f32[200,384]{1,0} %custom-call.5, f32[200,384]{1,0} %custom-call.6), kind=kLoop, calls=%fused_computation.6
+  %arg1.2 = f16[200,1040]{1,0} parameter(1), parameter_replication={false}
+  %fusion.4 = f32[200,4,5,4]{3,2,1,0} fusion(f16[200,1040]{1,0} %arg1.2), kind=kLoop, calls=%fused_computation.4
+  %fusion.3 = f32[4,200,1,24]{3,2,1,0} fusion(f32[16,200,24]{2,1,0} %fusion.6), kind=kLoop, calls=%fused_computation.3
+  %fusion.1 = f32[200,30,5,4]{3,2,1,0} fusion(f16[200,1040]{1,0} %arg1.2), kind=kLoop, calls=%fused_computation.1
+  %fusion = f32[200,14,5,4]{3,2,1,0} fusion(f16[200,1040]{1,0} %arg1.2), kind=kLoop, calls=%fused_computation
+  %convert.5 = f32[200,1852]{1,0} convert(f16[200,1852]{1,0} %arg0.1)
+  ROOT %tuple.65 = (f32[200,96]{1,0}, f32[16,200,24]{2,1,0}, f32[200,4,5,4]{3,2,1,0}, f32[4,200,1,24]{3,2,1,0}, f32[200,30,5,4]{3,2,1,0}, f32[200,14,5,4]{3,2,1,0}, f32[200,1852]{1,0}) tuple(f32[200,96]{1,0} %concatenate, f32[16,200,24]{2,1,0} %fusion.6, f32[200,4,5,4]{3,2,1,0} %fusion.4, f32[4,200,1,24]{3,2,1,0} %fusion.3, f32[200,30,5,4]{3,2,1,0} %fusion.1, f32[200,14,5,4]{3,2,1,0} %fusion, f32[200,1852]{1,0} %convert.5)
+}
+

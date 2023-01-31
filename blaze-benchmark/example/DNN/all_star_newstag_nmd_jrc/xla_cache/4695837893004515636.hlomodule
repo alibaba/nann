@@ -1,0 +1,33 @@
+HloModule cluster_2__XlaCompiledKernel_true__XlaNumConstantArgs_9__XlaNumResourceArgs_0_.23
+
+%fused_computation (param_0.3: f16[1,4500], param_1.6: f16[1,18000]) -> f32[1,30,150,5] {
+  %param_1.6 = f16[1,18000]{1,0} parameter(1)
+  %bitcast.17 = f16[4,6,150,5]{3,0,2,1} bitcast(f16[1,18000]{1,0} %param_1.6)
+  %copy.7 = f16[4,6,150,5]{3,2,1,0} copy(f16[4,6,150,5]{3,0,2,1} %bitcast.17)
+  %bitcast.16 = f16[24,150,5]{2,1,0} bitcast(f16[4,6,150,5]{3,2,1,0} %copy.7)
+  %param_0.3 = f16[1,4500]{1,0} parameter(0)
+  %bitcast.15 = f16[2,3,150,5]{3,0,2,1} bitcast(f16[1,4500]{1,0} %param_0.3)
+  %copy.6 = f16[2,3,150,5]{3,2,1,0} copy(f16[2,3,150,5]{3,0,2,1} %bitcast.15)
+  %bitcast.14 = f16[6,150,5]{2,1,0} bitcast(f16[2,3,150,5]{3,2,1,0} %copy.6)
+  %concatenate.0 = f16[30,150,5]{2,1,0} concatenate(f16[24,150,5]{2,1,0} %bitcast.16, f16[6,150,5]{2,1,0} %bitcast.14), dimensions={0}
+  %convert.4 = f32[30,150,5]{2,1,0} convert(f16[30,150,5]{2,1,0} %concatenate.0)
+  ROOT %bitcast.13 = f32[1,30,150,5]{3,2,1,0} bitcast(f32[30,150,5]{2,1,0} %convert.4)
+}
+
+%fused_computation.1 (param_0.7: f16[1,1000]) -> f32[1,4,50,5] {
+  %param_0.7 = f16[1,1000]{1,0} parameter(0)
+  %convert.5 = f32[1,1000]{1,0} convert(f16[1,1000]{1,0} %param_0.7)
+  %bitcast.19 = f32[1,50,4,5]{3,2,1,0} bitcast(f32[1,1000]{1,0} %convert.5)
+  %copy.8 = f32[1,50,4,5]{3,1,2,0} copy(f32[1,50,4,5]{3,2,1,0} %bitcast.19)
+  ROOT %bitcast.18 = f32[1,4,50,5]{3,2,1,0} bitcast(f32[1,50,4,5]{3,1,2,0} %copy.8)
+}
+
+ENTRY %cluster_2__XlaCompiledKernel_true__XlaNumConstantArgs_9__XlaNumResourceArgs_0_.23 (arg0.1: f16[1,1000], arg1.2: f16[1,18000], arg2.3: f16[1,4500]) -> (f32[1,4,50,5], f32[1,30,150,5]) {
+  %arg0.1 = f16[1,1000]{1,0} parameter(0), parameter_replication={false}
+  %fusion.1 = f32[1,4,50,5]{3,2,1,0} fusion(f16[1,1000]{1,0} %arg0.1), kind=kLoop, calls=%fused_computation.1
+  %arg2.3 = f16[1,4500]{1,0} parameter(2), parameter_replication={false}
+  %arg1.2 = f16[1,18000]{1,0} parameter(1), parameter_replication={false}
+  %fusion = f32[1,30,150,5]{3,2,1,0} fusion(f16[1,4500]{1,0} %arg2.3, f16[1,18000]{1,0} %arg1.2), kind=kLoop, calls=%fused_computation
+  ROOT %tuple.22 = (f32[1,4,50,5]{3,2,1,0}, f32[1,30,150,5]{3,2,1,0}) tuple(f32[1,4,50,5]{3,2,1,0} %fusion.1, f32[1,30,150,5]{3,2,1,0} %fusion)
+}
+

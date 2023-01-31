@@ -1,0 +1,3 @@
+[submodule "src/high_service"]
+	path = src/high_service
+	url = http://gitlab.alibaba-inc.com/alimamacv/high_service.git
