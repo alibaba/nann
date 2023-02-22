@@ -11,7 +11,7 @@ Briefly speaking, key features of NANN can be categorized into model training, p
 ### Performance Optimization
 
 - High-Efficient Retrieval -- We reinvent the HNSW search process with TensorFlow Custom Ops. The reinvented HNSW is more efficient than the off-the-shelf version in Faiss in terms of online retrieval.
-- Runtime Optimization -- We support GPU Multi-Streaming, which greatly enhances parallelism.
+- Runtime Optimization -- We support GPU Multi-Streaming with Multi-Contexts, which greatly enhances parallelism.
 - Compilation Optimization -- We support XLA and accelerate its Just-In-Time (JIT) process; we also extend the XLA application to our large-scale retrieval scenarios where the number of samples that are propagated through the networks is always dynamic.
 - Graph Level Optimization -- We identify some common model structures in the fields of recommendation, search, and advertising and provide graph-level optimizations based on TensorFlow Grappler.
 ### User-Friendliness
