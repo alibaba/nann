@@ -25,7 +25,7 @@ Briefly speaking, key features of NANN can be categorized into model training, p
 git clone git@gitlab.alibaba-inc.com:alimama-displayads-match-public/NANN.git --recursive
 ```
 ### Enter Docker
-`docker pull rihan19920210/nann_devel:10.2-cudnn7-devel-ubuntu18.04`
+`docker pull alinann/nann_devel:10.2-cudnn7-devel-ubuntu18.04`
 
 | tag | TensorFlow | Python | CUDA | OS | Bazel |
 | --- | --- | --- | --- | --- | --- |
@@ -36,7 +36,7 @@ The docker is built from nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04 with necessar
 sudo yum -y install systemd-devel systemd-libs libseccomp device-mapper-libs
 sudo mknod /dev/nvidia-modeset c 195 254
 
-DOCKER_PATH=rihan19920210/nann_devel:10.2-cudnn7-devel-ubuntu18.04
+DOCKER_PATH=alinann/nann_devel:10.2-cudnn7-devel-ubuntu18.04
 ## pay attention to the nvidia-driver version, here is 460.73.01
 sudo docker run -ti  --net=host --volume $HOME:$HOME -w $HOME  --volume=nvidia_driver_460.73.01:/usr/local/nvidia:ro --device=/dev/nvidiactl --device=/dev/nvidia-uvm --device=/dev/nvidia-uvm-tools --device=/dev/nvidia0 --device=/dev/nvidia1 --name=tf_whl_open_source_nann $DOCKER_PATH /bin/bash
 ```
@@ -179,7 +179,7 @@ Model Serving with Docker
 ```bash
 docker run -p 8501:8501 -p 8500:8500 \
   --mount type=bind,source=${output_root}/export/nann,target=/models/nann \
-  -e MODEL_NAME=nann -t rihan19920210/nann_serving
+  -e MODEL_NAME=nann -t alinann/nann_serving
 ```
 A Smoking Test
 tensorflow-serving-api==1.15.0
