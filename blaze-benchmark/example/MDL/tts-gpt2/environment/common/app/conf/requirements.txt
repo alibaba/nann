@@ -1,2 +1,0 @@
-supervisor
-hsfpy3
