@@ -22,7 +22,7 @@ Briefly speaking, key features of NANN can be categorized into model training, p
 ## Installation
 ### Code Preparation
 ```bash
-git clone git@gitlab.alibaba-inc.com:alimama-displayads-match-public/NANN.git --recursive
+git clone git@github.com:alibaba/nann.git 
 ```
 ### Enter Docker
 `docker pull alinann/nann_devel:10.2-cudnn7-devel-ubuntu18.04`
