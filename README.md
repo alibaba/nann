@@ -44,8 +44,6 @@ sudo docker run -ti  --net=host --volume $HOME:$HOME -w $HOME  --volume=nvidia_d
 ```bash
 cd tensorflow
 
-git checkout blaze/open_source_nann
-
 ./configure # only cuda support is needed
 
 ## build whl package for python frontend
@@ -62,7 +60,6 @@ pip install /tmp/tensorflow_pkg/tensorflow-1.15.5-cp37-cp37m-linux_x86_64.whl
 
 # build blaze-benchmark, depend on Tensorflow so files
 cd blaze-benchmark
-git checkout open_source_nann
 ./Build.sh
 
 ```
