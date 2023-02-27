@@ -1,40 +1,54 @@
-[中文版](README-cn.md)
+[English Version](README.md)
 
-## Introduction
-NANN is a flexible, high-performance framework for large-scale retrieval problems based on TensorFlow.
-## Background
-NANN has been deeply cultivated and widely applied since 2021 in Alibaba, which supports many businesses such as Taobao display advertising,  Taobao search advertising, and Shenma search. 
-NANN aims to solve the large-scale retrieval problem by integrating the post-training index with arbitrarily advanced models. Model-based and heuristic methods are provided to ensure that arbitrarily advanced models can still maintain their capability during large-scale retrieval. Also, NANN includes in-depth performance optimizations for GPU and CPU, which guarantee the inference performance. Moreover, NANN lays emphasis on user-friendliness, especially for TensorFlow users. 
-## Key features
-Briefly speaking, key features of NANN can be categorized into model training, performance optimization, and user-friendliness.
-### Model Training
+## 项目简介
 
-- Arbitrarily Advanced Models. -- Model training is decoupled with index building, which can include arbitrarily advanced models, and meanwhile, avoid costly training budgets.
-- Adversarial Attacks  -- Adversarial training is resorted to ensure arbitrarily advanced models can still take effect in large-scale retrieval scenarios. 
-### Performance Optimization
+NANN (**N**eural **A**pproximate **N**earest **N**eighbor Search，又名“二向箔”)是一个基于纯TensorFlow的灵活、高性能的大规模检索框架。
 
-- High-Efficient Retrieval -- We reinvent the HNSW search process with TensorFlow Custom Ops. The reinvented HNSW is more efficient than the off-the-shelf version in Faiss in terms of online retrieval.
-- Runtime Optimization -- We support GPU Multi-Streaming with Multi-Contexts, which greatly enhances parallelism.
-- Compilation Optimization -- We support XLA and accelerate its Just-In-Time (JIT) process; we also extend the XLA application to our large-scale retrieval scenarios where the number of samples that are propagated through the networks is always dynamic.
-- Graph Level Optimization -- We identify some common model structures in the fields of recommendation, search, and advertising and provide graph-level optimizations based on TensorFlow Grappler.
-### User-Friendliness
 
-- TensorFlow Only --   NANN is entirely based on TensorFlow ecosystem for both the backend and the frontend.  
-- Model Inference and Retrieval Decoupling -- Post-training index enable users to focus on deep models. No extra attention needed to be paid to the retrieval process.
-- Benchmarking --  We provide a handy benchmarking tool that can be used to profile the inference performance in terms of latency, throughput, etc.  
-## Installation
-### Code Preparation
+## 背景
+NANN是一种任意神经网络相似性度量下的近似近邻检索算法，于2021年在阿里巴巴内被提出并进行了深度优化，后在淘宝展示广告、神马搜索等众多业务上得到了广泛的应用。
+NANN对GPU和CPU上的推理性能进行了深度优化，使其能服务于搜索、推荐、广告等对精度和性能有极高要求的场景。
+此外，NANN基于原生TensorFlow，易于使用和部署。
+
+## 主要优点
+简单地说，NANN主要优点可以分为模型训练、性能优化和用户友好性三方面。以下逐一介绍：
+
+### 模型训练
+
+- 任意复杂模型：模型训练与索引构建解耦，因此对模型结构几乎没有任何限制，也避免了索引和模型训练绑定带来的高额训练负担。
+- 对抗训练：我们采用对抗训练来保证复杂模型下的优越检索性能。
+
+### 性能优化
+
+- 高效检索：我们使用 TensorFlow Custom Ops 实现了HNSW 检索过程。就在线检索而言，重写后的 HNSW 检索比 Faiss 原生版本更加高效。
+- 运行时优化：我们支持 GPU Multi-Streaming with Multi-Contexts，这极大地增强了并行性。
+- 编译优化：我们支持 XLA 并加速了其JIT 过程； 此外，我们还将 XLA 应用到了大规模检索场景，其中batch-size始终是动态的。
+- 图级优化：我们针对推荐、搜索和广告领域中常用的一些常见的模型结构，基于 TensorFlow Grappler 提供了一些图级优化。
+
+### 用户友好性
+
+- 原生TensorFlow：NANN 的后端服务和前端实现完全基于 TensorFlow 生态系统。
+- 模型推理和检索解耦：训练-检索解耦使得用户能专注优化深度模型，无需额外考虑检索流程。
+- 性能测试：我们提供了一个简单的基准测试工具，可用于分析延迟、吞吐量等推理性能。
+
+## 安装
+
+### 代码准备
+
 ```bash
 git clone git@github.com:alibaba/nann.git 
 ```
-### Enter Docker
+
+### 进入Docker
+
 `docker pull alinann/nann_devel:10.2-cudnn7-devel-ubuntu18.04`
 
 | tag | TensorFlow | Python | CUDA | OS | Bazel |
 | --- | --- | --- | --- | --- | --- |
 | 10.2-cudnn7-devel-ubuntu18.0 | 1.15.5 | 3.7.4 | 10.2 | Ubuntu18.04 | 0.24.1 |
 
-The docker is built from nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04 with necessary dependencies for TensorFlow runtime and compilation. Besides, we also install Faiss and its dependencies in the conda environment located in /opt/conda. 
+该docker镜像基于 `nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04` 构建，在`/opt/conda`路径下安装了TensorFlow runtime和编译的必要依赖，也包含`Faiss`等相关依赖包。
+
 ```bash
 sudo yum -y install systemd-devel systemd-libs libseccomp device-mapper-libs
 sudo mknod /dev/nvidia-modeset c 195 254
@@ -43,7 +57,8 @@ DOCKER_PATH=alinann/nann_devel:10.2-cudnn7-devel-ubuntu18.04
 ## pay attention to the nvidia-driver version, here is 460.73.01
 sudo docker run -ti  --net=host --volume $HOME:$HOME -w $HOME  --volume=nvidia_driver_460.73.01:/usr/local/nvidia:ro --device=/dev/nvidiactl --device=/dev/nvidia-uvm --device=/dev/nvidia-uvm-tools --device=/dev/nvidia0 --device=/dev/nvidia1 --name=tf_whl_open_source_nann $DOCKER_PATH /bin/bash
 ```
-### Build From Source
+
+### 从源码编译Tensorflow
 ```bash
 cd tensorflow
 
@@ -66,19 +81,23 @@ cd blaze-benchmark
 ./Build.sh
 
 ```
-## Usage
-A Demo from Model Training to Model Benchmarking
-### Data Preparation
-We use [UserBehavior](https://tianchi.aliyun.com/dataset/dataDetail?dataId=649) dataset for demonstration.
+## 模型训练和部署
+
+以下内容对NANN算法的训练、索引结构构建、效果及在线性能评测、部署等流程提供了详细的demo。
+
+### demo数据集准备
+
+本demo基于 [UserBehavior](https://tianchi.aliyun.com/dataset/dataDetail?dataId=649) 数据集。
 ```bash
 cd NANN_impls;
 export PYTHONPATH=${PYTHONPATH}:$(pwd);
-# convert data to tfrecord, takes around 10h.
+# 将数据集转为tfrecord格式，大约需要10小时
 python nann/data_provider/convert_UB_to_tfrecord.py -i path/to/UserBehavior.csv -o ./data
-
 ```
-### Model Training
-Model training is implemented with [tf.distribute.MirroredStrategy](https://www.tensorflow.org/api_docs/python/tf/distribute/MirroredStrategy). 
+### 模型训练
+
+我们基于 [tf.distribute.MirroredStrategy](https://www.tensorflow.org/api_docs/python/tf/distribute/MirroredStrategy)实现了单机多卡并行训练。
+
 ```bash
 #The eps controls the scale for Fast Gradient Signed Method (FGSM) attack. 
 #num_neg is the number of negative samples for every positive sample.
@@ -88,39 +107,42 @@ num_neg=200
 output_root=$(pwd)/output/adv${eps}_bs${batch_size}_neg${num_neg}
 python main.py --job-type train --adv-eps ${eps} --num-neg ${num_neg} --batch-size ${batch_size} --output-root ${output_root}
 ```
-### Target Embedding Extraction
-After Model Training, we extract the target embedding by partially propagating the network. The target embedding will be used for the HNSW index building and online deployment.
-After extraction, `item_ids.npy, item_embs.npy`will be saved in `${output_root}/embeddings`directory
+
+### Target embedding 提取
+
+模型训练完毕后，我们可以提取Target embedding用于构建HNSW索引和在线部署。 `item_ids.npy, item_embs.npy`  将保存在 `${output_root}/embeddings` 目录下。
 ```bash
 python main.py --job-type extract_feature --output-root ${output_root}
 ```
-### Build Index
-We build the post-training index (HNSW in this case) based on target embedding. The index-related files (in numpy npy format) will be saved in `${output_root}/index`
+### 索引构建
+
+基于上述target embedding构建HNSW索引，保存在 `${output_root}/index` 目录下。
+
 ```
 python nann/delivery/build_hnsw_index.py -i ${output_root}/embeddings/item_embs.npy -o ${output_root}/index
 ```
-### Model Evaluation
-Recall with HNSW
+### 离线评测
+
+测试HNSW检索召回率：
 ```bash
 python main.py --job-type test --output-root ${output_root}
 ```
 
-Recall without HNSW but in a brute-force way
+测试全量打分召回率，用于评估模型打分召回的天花板：
 ```
 python main.py --job-type test_all --output-root ${output_root}
 ```
 
-### Model Rewrite for Online Deployment
-In this stage, we will generate several [GraphDef](https://www.tensorflow.org/api_docs/python/tf/compat/v1/GraphDef) protobufs, which are the protocols for online serving.
+### 用于在线模型部署的模型重写
 
-- exec.pb (binary format)/ exec.pbtxt (text format)
-The graph_def that takes charge of the whole picture, i.e. the overall process of model feedforward and retrieval.
-- frozen_graph.pb 
-The graph_def that includes the operations for the deep model; frozen_graph.pb will be used in `tf.blaze_xla_op`,i.e. a Custom Op, located in exec.pb.
+本阶段生成几个 [GraphDef](https://www.tensorflow.org/api_docs/python/tf/compat/v1/GraphDef) protobufs 用于在线部署：
+
+- exec.pb (二值格式)/ exec.pbtxt (文本格式)：储存模型打分和检索流程。
+- frozen_graph.pb：储存模型打分过程，包含模型结构和模型参数。该文件将在`exec.pb`中以 `tf.blaze_xla_op` （我们实现的一个custom op）的形式被调用。
+
 ```bash
 cd NANN_impls
 
-#set python path
 export PYTHONPATH=$PYTHONPATH:nann
 
 # export the modified ckpt for online inference, 
@@ -133,18 +155,20 @@ python nann/delivery/convert_meta.py --model_dir ${output_root}/export --output_
 # generate exec.meta.pb, only need the signature_def which contains the tensor names of model I/O
 python nann/delivery/build_opt_graph.py --model-dir ${output_root}/export --index-dir ${output_root}/index --item-embs-dir ${output_root}/embeddings --output-dir ${output_root}/export
 ```
-The following script is to verify the correctness of exec.pb and frozen_graph.pb by running one "step" of TensorFlow computation, and executing every operation.
+
+可通过以下脚本来验证上述生成文件的正确性：
 ```bash
 ## exec.meta.pb is only for signature_def, which is used to feed and fetch model I/O
 python nann/delivery/NANN_inference_demo.py --graph-file ${output_root}/export/exec.pb --meta-path ${output_root}/export/exec.meta.pb
 ```
-### Model Benchmarking
-We provide a handy benchmarking tool, called blaze-benchmark, to profiling the inference performance.
+### 性能评测
+我们提供了一个简单的性能评测工具`blaze-benchmark`用于分析推理性能：
 
-- gen_runmeta.py
-The script to generate the mock data for model inputs.
-- gen_benchmark_conf.py
-The script to generate config file that is needed by the tool. 
+- `gen_runmeta.py`：用于生成输入模型的mock数据。
+- `gen_benchmark_conf.py`：用于生成性能评测所需的配置文件。
+
+使用方式如下：
+
 ```bash
 cd NANN_impls
 nann_impl_dir=`pwd`
@@ -171,20 +195,22 @@ cd ${output_root}/export
 TF_CPP_MIN_VLOG_LEVEL=0 TF_XLA_CUBIN_CACHE_DIR=./cubin_cache TF_XLA_PTX_CACHE_DIR=./xla_cache `dirname $nann_impl_dir`/blaze-benchmark/build/benchmark/benchmark benchmark_conf
 ```
 
-### Model Deployment
-We deploy NANN with TensorFlow Serving for demonstration.
-Export model as SavedModel Format
+### 模型部署
+我们基于 TensorFlow Serving 提供了一个简单的demo。
+
+将模型导出为SavedModel格式：
 ```bash
 python nann/delivery/pb_to_saved_model.py --model-path ${output_root}/export/exec.pb --meta-path ${output_root}/export/exec.meta.pb --export-dir ${output_root}/export/nann/1
 ```
-Model Serving with Docker
+
+基于Docker起模型服务进程：
 ```bash
 docker run -p 8501:8501 -p 8500:8500 \
   --mount type=bind,source=${output_root}/export/nann,target=/models/nann \
   -e MODEL_NAME=nann -t alinann/nann_serving
 ```
-A Smoking Test
-tensorflow-serving-api==1.15.0
+
+简单的冒烟测试代码如下（`tensorflow-serving-api==1.15.0`）：
 ```python
 from tensorflow_serving.apis import predict_pb2
 from tensorflow_serving.apis import prediction_service_pb2_grpc
@@ -204,10 +230,11 @@ grpc_request.inputs['level_topn'].CopyFrom(tf.make_tensor_proto(level_topn, shap
 result = stub.Predict(grpc_request,10)
 print(result.outputs['top_k'])
 ```
-## Community
 
-- Please see [Contributing](CONTRIBUTING.md) Guide before your first contribution
-- Please Cite [NANN](https://dl.acm.org/doi/abs/10.1145/3511808.3557098#sec-ref) in your applications if it helps
+## 参与共建
+
+- 请参考 [贡献指南](CONTRIBUTING.md)。
+- 如果本工作对您有帮助，请考虑引用 [NANN](https://dl.acm.org/doi/abs/10.1145/3511808.3557098#sec-ref)。
 ```
 article{chen2022approximate,
   title={Approximate Nearest Neighbor Search under Neural Similarity Metric for Large-Scale Recommendation},
@@ -218,8 +245,7 @@ article{chen2022approximate,
 ```
 
 
-## Code of Conduct
+## 行为准则
 
-Alibaba has adopted a Code of Conduct that we expect project participants to adhere to.
-
-Please refer to [Alibaba Open Source Code of Conduct](CODE_OF_CONDUCT.md) ([中文版](CODE_OF_CONDUCT_zh.md)).
+阿里巴巴已经制定了一套行为准则，我们希望项目参与者能够遵守。
+详情请参阅[阿里巴巴开源行为准则](CODE_OF_CONDUCT_zh.md) ([English Version](CODE_OF_CONDUCT.md)).
