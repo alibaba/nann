@@ -203,7 +203,7 @@ print(result.outputs['top_k'])
 ```
 ## Community
 
-- Please see Contributing Guide before your first contribution
+- Please see [Contributing](CONTRIBUTING.md) Guide before your first contribution
 - Please Cite [NANN](https://dl.acm.org/doi/abs/10.1145/3511808.3557098#sec-ref) in your applications if it helps
 ```
 article{chen2022approximate,
@@ -213,3 +213,10 @@ article{chen2022approximate,
   year={2022}
 }
 ```
+
+
+## Code of Conduct
+
+Alibaba has adopted a Code of Conduct that we expect project participants to adhere to.
+
+Please refer to [Alibaba Open Source Code of Conduct](CODE_OF_CONDUCT.md) ([中文版](CODE_OF_CONDUCT_zh.md)).
