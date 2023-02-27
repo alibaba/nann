@@ -68,8 +68,10 @@ A Demo from Model Training to Model Benchmarking
 ### Data Preparation
 We use [UserBehavior](https://tianchi.aliyun.com/dataset/dataDetail?dataId=649) dataset for demonstration.
 ```bash
+cd NANN_impls;
+export PYTHONPATH=${PYTHONPATH}:$(pwd);
 # convert data to tfrecord, takes around 10h.
-python convert_UB_to_tfrecord.py -i path/to/UserBehavior.csv -o ./data
+python nann/data_provider/convert_UB_to_tfrecord.py -i path/to/UserBehavior.csv -o ./data
 
 ```
 ### Model Training
