@@ -85,27 +85,38 @@ cd blaze-benchmark
 
 以下内容对NANN算法的训练、索引结构构建、效果及在线性能评测、部署等流程提供了详细的demo。
 
-### demo数据集准备
+### 数据集准备 + 模型训练
 
-本demo基于 [UserBehavior](https://tianchi.aliyun.com/dataset/dataDetail?dataId=649) 数据集。
+本demo基于 [UserBehavior](https://tianchi.aliyun.com/dataset/dataDetail?dataId=649) 数据集训练和测试，并基于[tf.distribute.MirroredStrategy](https://www.tensorflow.org/api_docs/python/tf/distribute/MirroredStrategy)实现了单机多卡并行训练。
+
+- 选项1：下载原始数据集，并使用如下脚本将数据集转为tfrecord格式（大约需要10小时）、训练模型，模型文件将保存在`${output_root}/model`目录下：
 ```bash
 cd NANN_impls;
+
+# 数据集格式转化
 export PYTHONPATH=${PYTHONPATH}:$(pwd);
-# 将数据集转为tfrecord格式，大约需要10小时
 python nann/data_provider/convert_UB_to_tfrecord.py -i path/to/UserBehavior.csv -o ./data
-```
-### 模型训练
 
-我们基于 [tf.distribute.MirroredStrategy](https://www.tensorflow.org/api_docs/python/tf/distribute/MirroredStrategy)实现了单机多卡并行训练。
-
-```bash
-#The eps controls the scale for Fast Gradient Signed Method (FGSM) attack. 
-#num_neg is the number of negative samples for every positive sample.
-eps=3e-5
+# 训练模型
+eps=3e-5  # adv-eps 控制对抗训练过程中扰动向量的大小，为0时不施加对抗扰动；
 batch_size=800
-num_neg=200
+num_neg=200  # 控制采样负样本的数量；
 output_root=$(pwd)/output/adv${eps}_bs${batch_size}_neg${num_neg}
 python main.py --job-type train --adv-eps ${eps} --num-neg ${num_neg} --batch-size ${batch_size} --output-root ${output_root}
+```
+
+- 选项2：为了方便大家走通流程，我们提供了预训练模型和转化后的测试数据集（[Google Drive](https://drive.google.com/drive/folders/1HADhv3k8WVkv01qrsNoEcf__FJYC4Tdr?usp=sharing)），可以直接使用：
+
+```bash
+cd NANN_impls;
+
+# 转化后的测试数据集
+tar xvf UserBehavior_tfrecords.tar ./
+
+# 预训练模型
+output_root=$(pwd)/output/pretrained
+mkdir -p ${output_root}
+tar xvf nann_ub_ckpt_adv3e-5_bs800_neg200.tar -C ${output_root}
 ```
 
 ### Target embedding 提取

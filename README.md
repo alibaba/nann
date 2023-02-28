@@ -68,26 +68,41 @@ cd blaze-benchmark
 ```
 ## Usage
 A Demo from Model Training to Model Benchmarking
-### Data Preparation
-We use [UserBehavior](https://tianchi.aliyun.com/dataset/dataDetail?dataId=649) dataset for demonstration.
+### Data Preparation and Model Training
+
+We use [UserBehavior](https://tianchi.aliyun.com/dataset/dataDetail?dataId=649) dataset for demonstration. And model training is implemented with [tf.distribute.MirroredStrategy](https://www.tensorflow.org/api_docs/python/tf/distribute/MirroredStrategy). 
+
+- Option 1: Download the original UserBehavior dataset from [here](https://tianchi.aliyun.com/dataset/dataDetail?dataId=649). Then convert to tfrecord format (takes around 10h) and training the model using the follwoing scripts:
+  
 ```bash
 cd NANN_impls;
+
+# convert to tfrecord
 export PYTHONPATH=${PYTHONPATH}:$(pwd);
-# convert data to tfrecord, takes around 10h.
 python nann/data_provider/convert_UB_to_tfrecord.py -i path/to/UserBehavior.csv -o ./data
 
-```
-### Model Training
-Model training is implemented with [tf.distribute.MirroredStrategy](https://www.tensorflow.org/api_docs/python/tf/distribute/MirroredStrategy). 
-```bash
-#The eps controls the scale for Fast Gradient Signed Method (FGSM) attack. 
-#num_neg is the number of negative samples for every positive sample.
-eps=3e-5
+# model training
+eps=3e-5  # controls the scale for Fast Gradient Signed Method (FGSM) attack. 
 batch_size=800
-num_neg=200
+num_neg=200  # num_neg is the number of negative samples for every positive sample.
 output_root=$(pwd)/output/adv${eps}_bs${batch_size}_neg${num_neg}
 python main.py --job-type train --adv-eps ${eps} --num-neg ${num_neg} --batch-size ${batch_size} --output-root ${output_root}
 ```
+
+- Option 2: We also provide the pretrained checkpoint and converted test dataset on [Google Drive](https://drive.google.com/drive/folders/1HADhv3k8WVkv01qrsNoEcf__FJYC4Tdr?usp=sharing), you can download them and skip the dataset convertion and training stage for a fast demostraion.
+
+```bash
+cd NANN_impls;
+
+# converted test dataset
+tar xvf UserBehavior_tfrecords.tar ./
+
+# pretrained model
+output_root=$(pwd)/output/pretrained
+mkdir -p ${output_root}
+tar xvf nann_ub_ckpt_adv3e-5_bs800_neg200.tar -C ${output_root}
+```
+
 ### Target Embedding Extraction
 After Model Training, we extract the target embedding by partially propagating the network. The target embedding will be used for the HNSW index building and online deployment.
 After extraction, `item_ids.npy, item_embs.npy`will be saved in `${output_root}/embeddings`directory
