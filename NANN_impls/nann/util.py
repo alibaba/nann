@@ -8,7 +8,7 @@ from tensorflow_core.python.framework import meta_graph
 
 def fast_argtopk(arr, k):
   indices = np.argpartition(-arr, k)[:k]
-  return indices[np.argsort(arr[indices])]
+  return indices[np.argsort(-arr[indices])]
 
 
 def calc_pr(ground_truth, retrievals):
