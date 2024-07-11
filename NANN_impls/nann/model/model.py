@@ -351,7 +351,7 @@ class Model:
     results = self.enter_points
     scores = self.get_scores(results, user_embedding)
     # use the topk nodes as enter points for the next level
-    results, scores = self.top_k(results, scores, self.top_k_per_level[0])
+    results, scores = self.top_k(results, scores, self.top_k_per_level[self.start_level])
 
     for level in range(self.start_level - 1, -1, -1):
       results, scores = self.search_level(user_embedding, results, scores, level)
