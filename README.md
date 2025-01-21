@@ -225,9 +225,10 @@ print(result.outputs['top_k'])
 - Please Cite [NANN](https://dl.acm.org/doi/abs/10.1145/3511808.3557098#sec-ref) in your applications if it helps
 ```
 article{chen2022approximate,
-  title={Approximate Nearest Neighbor Search under Neural Similarity Metric for Large-Scale Recommendation},
+  title={Approximate nearest neighbor search under neural similarity metric for large-scale recommendation},
   author={Chen, Rihan and Liu, Bin and Zhu, Han and Wang, Yaoxuan and Li, Qi and Ma, Buting and Hua, Qingbo and Jiang, Jun and Xu, Yunlong and Deng, Hongbo and others},
-  journal={arXiv preprint arXiv:2202.10226},
+  booktitle={Proceedings of the 31st ACM International Conference on Information \& Knowledge Management},
+  pages={3013--3022},
   year={2022}
 }
 ```
